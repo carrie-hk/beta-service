@@ -2,37 +2,39 @@ package db
 
 import (
 	"beta_service/models"
+	"database/sql"
 	"fmt"
-
-	"github.com/jmoiron/sqlx"
 )
 
-func NewUserStore(db *sqlx.DB) *UserStore {
+func NewUserStore(db *sql.DB) *UserStore {
 	return &UserStore{
 		DB: db,
 	}
 }
 
 type UserStore struct {
-	*sqlx.DB
+	*sql.DB
 }
 
 func (s *UserStore) User(Email string) (models.User, error) {
-	var u models.User
-	err := s.Get(&u, "SELECT * from customers WHERE email = $1", Email)
+	u, err := s.Query("SELECT * from customers WHERE email = $1", Email)
 	if err != nil {
 		return models.User{}, fmt.Errorf("error returning asset: %w", err)
 	}
-	return u, nil
+
+	print(u)
+
+	//convert sql.rows to models.User
+	return models.User{}, nil
 }
 
 func (s *UserStore) Users() ([]models.User, error) {
-	var uu []models.User
-	err := s.Select(&uu, "SELECT * from customers")
-	if err != nil {
-		return []models.User{}, fmt.Errorf("error returning asset: %w", err)
-	}
-	return uu, nil
+	// var uu []models.User
+	// err := s.Query(&uu, "SELECT * from customers")
+	// if err != nil {
+	// 	return []models.User{}, fmt.Errorf("error returning asset: %w", err)
+	// }
+	return []models.User{}, nil
 }
 
 func (s *UserStore) CreateUser(u *models.User) error {

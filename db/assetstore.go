@@ -2,45 +2,49 @@ package db
 
 import (
 	"beta_service/models"
+	"database/sql"
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/jmoiron/sqlx"
 )
 
-func NewAssetStore(db *sqlx.DB) *AssetStore {
+func NewAssetStore(db *sql.DB) *AssetStore {
 	return &AssetStore{
 		DB: db,
 	}
 }
 
 type AssetStore struct {
-	*sqlx.DB
+	*sql.DB
 }
 
 func (s *AssetStore) Asset(id uuid.UUID) (models.Asset, error) {
-	var a models.Asset
-	err := s.Get(&a, "SELECT * from assets WHERE id = $1", id)
+	// var a models.Asset
+	a, err := s.Query("SELECT * from AXU.whisky_bottles WHERE id = $1", id)
 	if err != nil {
 		return models.Asset{}, fmt.Errorf("error returning asset: %w", err)
 	}
-	return a, nil
+
+	print(a)
+	return models.Asset{}, nil
 }
 
 func (s *AssetStore) Assets() ([]models.Asset, error) {
-	var aa []models.Asset
-	err := s.Select(&aa, "SELECT * from assets")
+	// var aa []models.Asset
+	aa, err := s.Query("SELECT * from AXU.whisky_bottles")
 	if err != nil {
-		return []models.Asset{}, fmt.Errorf("error returning asset: %w", err)
+		return nil, fmt.Errorf("error returning asset: %w", err)
 	}
-	return aa, nil
+	print(aa)
+	return []models.Asset{}, nil
 }
 
 func (s *AssetStore) FeaturedAssets(Featured bool) ([]models.Asset, error) {
-	var fa []models.Asset
-	err := s.Get(&fa, "SELECT * from assets WHERE featured = $1", Featured)
+	// var fa []models.Asset
+	fa, err := s.Query("SELECT * from AXU.whisky_bottles WHERE featured = $1", Featured)
 	if err != nil {
 		return []models.Asset{}, fmt.Errorf("error returning asset: %w", err)
 	}
-	return fa, nil
+	print(fa)
+	return []models.Asset{}, nil
 }
