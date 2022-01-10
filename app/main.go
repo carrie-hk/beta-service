@@ -52,13 +52,15 @@ func main() {
 		sig := <-shutdown
 		switch sig {
 		case os.Interrupt:
+			log.Print("Server interrupted")
 			os.Exit(0)
 		case syscall.SIGINT:
+			log.Print("Server Cancelled")
 			os.Exit(0)
 		}
 	}()
 
-	log.Print("startup", "status", "api router started", "host", &s.Addr)
+	log.Print("Server Running and Accepting Requests")
 	log.Fatal(s.ListenAndServe())
 
 }
