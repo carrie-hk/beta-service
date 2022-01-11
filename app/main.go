@@ -2,38 +2,31 @@ package main
 
 import (
 	"beta_service/db"
-	"beta_service/handlers"
+	"beta_service/web"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/gorilla/mux"
 )
 
 func main() {
 
-	// Open database connection
-	database, err := db.Open()
-	log.Print("Database Opened")
+	//Initialize database connection and model stores
+	store, err := db.NewStore()
 	if err != nil {
-		print(err)
+		log.Fatal(err)
 	}
 
-	defer database.Close()
-
-	ah := handlers.NewAssetHandler(database)
-	uh := handlers.NewUserHandler(database)
-
-	r := mux.NewRouter()
-	r.HandleFunc("/assets", ah.HandleGetAssets).Methods("GET")
-	r.HandleFunc("/", ah.HandleGetFeaturedAssets).Methods("GET")
-	r.HandleFunc("/kycform", uh.HandleCreateUser).Methods("POST")
+	//Initialize router/mutex/handler for models
+	router, err := web.NewHandler(store)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	s := &http.Server{
-		Handler:      r,
+		Handler:      router.Router,
 		Addr:         "127.0.0.1:5000",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
