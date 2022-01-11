@@ -24,12 +24,13 @@ func main() {
 
 	defer database.Close()
 
-	h := handlers.NewHandler(database)
+	ah := handlers.NewAssetHandler(database)
+	uh := handlers.NewUserHandler(database)
 
 	r := mux.NewRouter()
-	r.HandleFunc("/assets", h.HandleGetAssets).Methods("GET")
-	r.HandleFunc("/", h.HandleGetFeaturedAssets).Methods("GET")
-	r.HandleFunc("/kycform", h.HandleCreateUser).Methods("POST")
+	r.HandleFunc("/assets", ah.HandleGetAssets).Methods("GET")
+	r.HandleFunc("/", ah.HandleGetFeaturedAssets).Methods("GET")
+	r.HandleFunc("/kycform", uh.HandleCreateUser).Methods("POST")
 
 	s := &http.Server{
 		Handler:      r,
