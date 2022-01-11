@@ -2,12 +2,11 @@ package db
 
 import (
 	"beta_service/models"
-	"database/sql"
 	"fmt"
 	"log"
 
 	"github.com/go-sql-driver/mysql"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
 type Store struct {
@@ -15,7 +14,7 @@ type Store struct {
 	models.AssetStore
 }
 
-func Open() (*sql.DB, error) {
+func Open() (*sqlx.DB, error) {
 
 	cfg := mysql.Config{
 		User:                 "dbuser",
@@ -25,7 +24,7 @@ func Open() (*sql.DB, error) {
 		AllowNativePasswords: true,
 	}
 
-	db, err := sql.Open("mysql", cfg.FormatDSN())
+	db, err := sqlx.Open("mysql", cfg.FormatDSN())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,7 +34,7 @@ func Open() (*sql.DB, error) {
 	return db, nil
 }
 
-func NewStore(db *sql.DB) *Store {
+func NewStore(db *sqlx.DB) *Store {
 	return &Store{
 		UserStore:  NewUserStore(db),
 		AssetStore: NewAssetStore(db),

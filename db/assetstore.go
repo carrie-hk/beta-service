@@ -2,49 +2,37 @@ package db
 
 import (
 	"beta_service/models"
-	"database/sql"
-	"fmt"
+	"log"
 
-	"github.com/google/uuid"
+	"github.com/jmoiron/sqlx"
 )
 
-func NewAssetStore(db *sql.DB) *AssetStore {
+func NewAssetStore(db *sqlx.DB) *AssetStore {
 	return &AssetStore{
 		DB: db,
 	}
 }
 
 type AssetStore struct {
-	*sql.DB
+	*sqlx.DB
 }
 
-func (s *AssetStore) Asset(id uuid.UUID) (models.Asset, error) {
-	// var a models.Asset
-	a, err := s.Query("SELECT * from AXU.whisky_bottles WHERE id = $1", id)
+func (s *AssetStore) Assets() []models.Asset {
+	var aa []models.Asset
+	err := s.Select(&aa, "SELECT * from AXU.whisky_bottles")
 	if err != nil {
-		return models.Asset{}, fmt.Errorf("error returning asset: %w", err)
+		log.Println("error selecting asset", err)
+		return []models.Asset{}
 	}
-
-	print(a)
-	return models.Asset{}, nil
+	return aa
 }
 
-func (s *AssetStore) Assets() ([]models.Asset, error) {
-	// var aa []models.Asset
-	aa, err := s.Query("SELECT * from AXU.whisky_bottles")
+func (s *AssetStore) FeaturedAssets() []models.Asset {
+	var fa []models.Asset
+	err := s.Select(&fa, "SELECT * from AXU.whisky_bottles WHERE `Bottle ID`=2")
 	if err != nil {
-		return nil, fmt.Errorf("error returning asset: %w", err)
+		log.Println("error selecting featured asset", err)
+		return []models.Asset{}
 	}
-	print(aa)
-	return []models.Asset{}, nil
-}
-
-func (s *AssetStore) FeaturedAssets(Featured bool) ([]models.Asset, error) {
-	// var fa []models.Asset
-	fa, err := s.Query("SELECT * from AXU.whisky_bottles WHERE featured = $1", Featured)
-	if err != nil {
-		return []models.Asset{}, fmt.Errorf("error returning asset: %w", err)
-	}
-	print(fa)
-	return []models.Asset{}, nil
+	return fa
 }

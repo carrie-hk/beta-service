@@ -3,7 +3,6 @@ package main
 import (
 	"beta_service/db"
 	"beta_service/handlers"
-	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -28,14 +27,14 @@ func main() {
 	h := handlers.NewHandler(database)
 
 	r := mux.NewRouter()
-	r.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
-		// an example API handler
-		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
-	})
+	// r.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
+	// 	// an example API handler
+	// 	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+	// }
 
 	r.HandleFunc("/assets", h.HandleGetAssets).Methods("GET")
-	// r.HandleFunc("/assets", h.HandleGetAssets).Methods("GET")
-	// r.HandleFunc("/kycform", handlers.h.handleUserForm).Methods("POST")
+	r.HandleFunc("/", h.HandleGetFeaturedAssets).Methods("GET")
+	r.HandleFunc("/kycform", h.HandleCreateUser).Methods("POST")
 
 	s := &http.Server{
 		Handler:      r,
