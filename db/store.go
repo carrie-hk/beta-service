@@ -6,11 +6,15 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
 
-//Think this open function should be in a different file
-//Credentials should stay in env file
-func Open() (*sqlx.DB, error) {
+type Store struct {
+	*AssetStore
+	*UserStore
+}
+
+func NewStore() (*Store, error) {
 
 	cfg := mysql.Config{
 		User:                 "dbuser",
@@ -27,5 +31,9 @@ func Open() (*sqlx.DB, error) {
 	if err := db.Ping(); err != nil {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
-	return db, nil
+
+	return &Store{
+		AssetStore: &AssetStore{DB: db},
+		UserStore:  &UserStore{DB: db},
+	}, nil
 }

@@ -18,9 +18,9 @@ type Asset struct {
 	Size          sql.NullInt32   `db:"Size"`
 	YearBottled   sql.NullInt32   `db:"Year Bottled"`
 	CaskType      sql.NullString  `db:"Cask Type"`
-	BottleNum     sql.NullInt32   `db:"Bottle Num"`
-	CaskNum       sql.NullInt32   `db:"Cask Num"`
-	SerialNum     sql.NullInt32   `db:"Serial Num"`
+	BottleNum     sql.NullString  `db:"Bottle Num"`
+	CaskNum       sql.NullString  `db:"Cask Num"`
+	SerialNum     sql.NullString  `db:"Serial Num"`
 	Grade         sql.NullString  `db:"Grade"`
 	Packaging     sql.NullString  `db:"Packaging"`
 	Series        sql.NullString  `db:"Series"`
@@ -34,9 +34,11 @@ type Asset struct {
 	PriceRealized sql.NullInt32   `db:"Price Realized"`
 	BaxusRev      sql.NullInt32   `db:"BAXUS Rev"`
 	COGS          sql.NullInt32   `db:"COGS"`
+	Box           sql.NullInt16   `db:"Box"`
 }
 
 type AssetStore interface {
-	Assets() []Asset
-	FeaturedAssets() []Asset
+	Assets() ([]Asset, error)
+	FeaturedAssets() ([]Asset, error)
+	TestAssets() ([]Asset, error)
 }

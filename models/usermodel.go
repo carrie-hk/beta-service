@@ -22,5 +22,5 @@ type User struct {
 }
 
 type UserStore interface {
-	CreateUser(u User) bool
+	CreateUser(u User) error
 }
