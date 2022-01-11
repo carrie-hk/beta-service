@@ -27,11 +27,6 @@ func main() {
 	h := handlers.NewHandler(database)
 
 	r := mux.NewRouter()
-	// r.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
-	// 	// an example API handler
-	// 	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
-	// }
-
 	r.HandleFunc("/assets", h.HandleGetAssets).Methods("GET")
 	r.HandleFunc("/", h.HandleGetFeaturedAssets).Methods("GET")
 	r.HandleFunc("/kycform", h.HandleCreateUser).Methods("POST")

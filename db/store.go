@@ -14,6 +14,8 @@ type Store struct {
 	models.AssetStore
 }
 
+//Think this open function should be in a different file
+//Credentials should stay in env file
 func Open() (*sqlx.DB, error) {
 
 	cfg := mysql.Config{
