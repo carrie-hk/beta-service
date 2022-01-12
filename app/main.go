@@ -2,34 +2,40 @@ package main
 
 import (
 	"beta_service/db"
-	"beta_service/web"
+	"beta_service/handlers"
+	"beta_service/routers"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
 
-	//Initialize database connection and model stores
-	store, err := db.NewStore()
-	if err != nil {
-		log.Fatal(err)
-	}
+	// Initialize database connection and model stores
+	dbAccess, err := db.NewDbAccess()
+	logFatal(err)
 
-	//Initialize handlers for models
-	handlers, err := web.NewHandler(store)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// Create a router
+	router := mux.NewRouter()
 
-	//Initialize routers for handlers
-	router, err := web.Routers(handlers)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// Initialize handlers for models
+	assetHandler, err := handlers.NewAssetHandler(dbAccess)
+	logFatal(err)
+
+	userHandler, err := handlers.NewUserHandler(dbAccess)
+	logFatal(err)
+
+	// Initialize subrouters for handlers
+	router, err = routers.NewAssetRouter(router, assetHandler)
+	logFatal(err)
+
+	router, err = routers.NewUserRouter(router, userHandler)
+	logFatal(err)
 
 	s := &http.Server{
 		Handler:      router,
@@ -57,4 +63,10 @@ func main() {
 	log.Print("Server Running and Accepting Requests")
 	log.Fatal(s.ListenAndServe())
 
+}
+
+func logFatal(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }

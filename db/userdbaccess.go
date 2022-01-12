@@ -7,11 +7,11 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type UserStore struct {
+type UserDbAccess struct {
 	*sqlx.DB
 }
 
-func (s *UserStore) CreateUser(u models.User) error {
+func (s *UserDbAccess) CreateUser(u models.User) error {
 
 	_, err := s.NamedExec(`INSERT INTO KYC.customers (firstName,lastName, phoneNumber, streetAddrA, 
 		streetAddrB, city, email, state, country, zipcode, birthDay, birthMonth, birthYear, title) 

@@ -1,4 +1,4 @@
-package web
+package handlers
 
 import (
 	"beta_service/db"
@@ -9,7 +9,11 @@ import (
 )
 
 type AssetHandler struct {
-	store *db.Store
+	dbAccess *db.DbAccess
+}
+
+func NewAssetHandler(dbAccess *db.DbAccess) (*AssetHandler, error) {
+	return &AssetHandler{dbAccess: dbAccess}, nil
 }
 
 func (h *AssetHandler) HandleTestGetAssets() http.HandlerFunc {
@@ -17,7 +21,7 @@ func (h *AssetHandler) HandleTestGetAssets() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		log.Print("Directed to HandleTestGetAssets()")
 
-		assets, err := h.store.AssetStore.TestAssets()
+		assets, err := h.dbAccess.AssetDbAccess.TestAssets()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			log.Println("Error getting assets from database")
@@ -34,12 +38,12 @@ func (h *AssetHandler) HandleTestGetAssets() http.HandlerFunc {
 }
 
 //This function returns all of the assets in the AXU.whisky_bottles
-func (h *AssetHandler) HandleGetAssets() http.HandlerFunc {
+func (h *AssetHandler) HandleGetAllAssets() http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		log.Print("Directed to HandleGetAssets()")
+		log.Print("Directed to HandleGetAllAssets()")
 
-		assets, err := h.store.AssetStore.Assets()
+		assets, err := h.dbAccess.AssetDbAccess.Assets()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			log.Println(err)
@@ -61,7 +65,7 @@ func (h *AssetHandler) HandleGetFeaturedAssets() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		log.Print("Directed to HandleGetFeaturedAssets()")
 
-		assets, err := h.store.AssetStore.FeaturedAssets()
+		assets, err := h.dbAccess.AssetDbAccess.FeaturedAssets()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			log.Println(err)

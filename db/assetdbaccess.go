@@ -7,11 +7,11 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type AssetStore struct {
+type AssetDbAccess struct {
 	*sqlx.DB
 }
 
-func (s *AssetStore) Assets() ([]models.Asset, error) {
+func (s *AssetDbAccess) Assets() ([]models.Asset, error) {
 	var aa []models.Asset
 	err := s.Select(&aa, "SELECT * from AXU.whisky_bottles")
 	if err != nil {
@@ -21,7 +21,7 @@ func (s *AssetStore) Assets() ([]models.Asset, error) {
 	return aa, nil
 }
 
-func (s *AssetStore) FeaturedAssets() ([]models.Asset, error) {
+func (s *AssetDbAccess) FeaturedAssets() ([]models.Asset, error) {
 	var fa []models.Asset
 	err := s.Select(&fa, "SELECT * from AXU.whisky_bottles WHERE `Bottle ID`=2")
 	if err != nil {
@@ -31,7 +31,7 @@ func (s *AssetStore) FeaturedAssets() ([]models.Asset, error) {
 	return fa, nil
 }
 
-func (s *AssetStore) TestAssets() ([]models.Asset, error) {
+func (s *AssetDbAccess) TestAssets() ([]models.Asset, error) {
 	var fa []models.Asset
 	err := s.Select(&fa, "SELECT Age, from AXU.whisky_bottles WHERE `Bottle ID`=1")
 	if err != nil {

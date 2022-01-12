@@ -8,12 +8,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type Store struct {
-	*AssetStore
-	*UserStore
+type DbAccess struct {
+	*AssetDbAccess
+	*UserDbAccess
 }
 
-func NewStore() (*Store, error) {
+func NewDbAccess() (*DbAccess, error) {
 
 	//I need to put into an env file
 	cfg := mysql.Config{
@@ -32,8 +32,8 @@ func NewStore() (*Store, error) {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
 
-	return &Store{
-		AssetStore: &AssetStore{DB: db},
-		UserStore:  &UserStore{DB: db},
+	return &DbAccess{
+		AssetDbAccess: &AssetDbAccess{DB: db},
+		UserDbAccess:  &UserDbAccess{DB: db},
 	}, nil
 }

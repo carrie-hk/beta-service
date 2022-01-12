@@ -1,4 +1,4 @@
-package web
+package handlers
 
 import (
 	"beta_service/db"
@@ -11,7 +11,11 @@ import (
 )
 
 type UserHandler struct {
-	store *db.Store
+	dbAccess *db.DbAccess
+}
+
+func NewUserHandler(dbAccess *db.DbAccess) (*UserHandler, error) {
+	return &UserHandler{dbAccess: dbAccess}, nil
 }
 
 //This function parses the KYC form and creates a new user
@@ -31,7 +35,7 @@ func (h *UserHandler) HandleCreateUser() http.HandlerFunc {
 		if err != nil {
 			log.Println(w, "DecodeForm err: %v", err)
 		}
-		err = h.store.UserStore.CreateUser(user)
+		err = h.dbAccess.UserDbAccess.CreateUser(user)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			log.Println("Error getting assets from database")
