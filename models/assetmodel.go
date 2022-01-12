@@ -37,7 +37,7 @@ type Asset struct {
 	Box           sql.NullInt16   `db:"Box"`
 }
 
-type AssetStore interface {
+type AssetRequests interface {
 	Assets() ([]Asset, error)
 	FeaturedAssets() ([]Asset, error)
 	TestAssets() ([]Asset, error)

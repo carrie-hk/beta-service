@@ -6,27 +6,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 type AssetHandler struct {
-	router *mux.Router
-	store  *db.Store
-}
-
-func NewAssetHandler(store *db.Store, router *mux.Router) *AssetHandler {
-	h := &AssetHandler{
-		router: router,
-		store:  store,
-	}
-
-	//creation of the SubRouters for the asset model
-	subrouter := router.PathPrefix("/").Subrouter()
-	subrouter.HandleFunc("/assets", h.HandleGetAssets())
-	subrouter.HandleFunc("/", h.HandleGetFeaturedAssets())
-
-	return h
+	store *db.Store
 }
 
 func (h *AssetHandler) HandleTestGetAssets() http.HandlerFunc {

@@ -21,6 +21,6 @@ type User struct {
 	Title       sql.NullString `schema:"title"`
 }
 
-type UserStore interface {
+type UserRequests interface {
 	CreateUser(u User) error
 }

@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -16,6 +15,7 @@ type Store struct {
 
 func NewStore() (*Store, error) {
 
+	//I need to put into an env file
 	cfg := mysql.Config{
 		User:                 "dbuser",
 		Passwd:               "dbuserdbuser",
@@ -26,7 +26,7 @@ func NewStore() (*Store, error) {
 
 	db, err := sqlx.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		log.Fatal(err)
+		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
 	if err := db.Ping(); err != nil {
 		return nil, fmt.Errorf("error connecting to database: %w", err)

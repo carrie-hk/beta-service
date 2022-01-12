@@ -7,25 +7,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
 )
 
 type UserHandler struct {
-	router *mux.Router
-	store  *db.Store
-}
-
-func NewUserHandler(store *db.Store, router *mux.Router) *UserHandler {
-	h := &UserHandler{
-		router: router,
-		store:  store,
-	}
-
-	subrouter := router.PathPrefix("/redeem").Subrouter()
-	subrouter.HandleFunc("/kycform", h.HandleCreateUser())
-
-	return h
+	store *db.Store
 }
 
 //This function parses the KYC form and creates a new user
@@ -38,6 +24,7 @@ func (h *UserHandler) HandleCreateUser() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			log.Println(w, "ParseForm() err: %v", err)
 		}
+
 		decoder := schema.NewDecoder()
 		var user models.User
 		err = decoder.Decode(user, r.PostForm)
