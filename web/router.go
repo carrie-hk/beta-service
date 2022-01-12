@@ -1,12 +1,10 @@
-package main
+package web
 
 import (
-	"beta_service/web"
-
 	"github.com/gorilla/mux"
 )
 
-func Routers(handlers *web.Handler) (*mux.Router, error) {
+func Routers(handlers *Handler) (*mux.Router, error) {
 
 	router := mux.NewRouter()
 

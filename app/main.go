@@ -26,7 +26,7 @@ func main() {
 	}
 
 	//Initialize routers for handlers
-	router, err := Routers(handlers)
+	router, err := web.Routers(handlers)
 	if err != nil {
 		log.Fatal(err)
 	}
