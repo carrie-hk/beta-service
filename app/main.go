@@ -19,14 +19,20 @@ func main() {
 		log.Fatal(err)
 	}
 
-	//Initialize router/mutex/handler for models
-	router, err := web.NewHandler(store)
+	//Initialize handlers for models
+	handlers, err := web.NewHandler(store)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//Initialize routers for handlers
+	router, err := Routers(handlers)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	s := &http.Server{
-		Handler:      router.Router,
+		Handler:      router,
 		Addr:         "127.0.0.1:5000",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
