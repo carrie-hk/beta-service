@@ -1,21 +1,21 @@
 package db
 
 import (
-	"beta_service/models"
 	"fmt"
-	"log"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
 
-type Store struct {
-	models.UserStore
-	models.AssetStore
+type DbAccess struct {
+	*AssetDbAccess
+	*UserDbAccess
 }
 
-func Open() (*sqlx.DB, error) {
+func NewDbAccess() (*DbAccess, error) {
 
+	//I need to put into an env file
 	cfg := mysql.Config{
 		User:                 "dbuser",
 		Passwd:               "dbuserdbuser",
@@ -26,17 +26,14 @@ func Open() (*sqlx.DB, error) {
 
 	db, err := sqlx.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		log.Fatal(err)
+		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
 	if err := db.Ping(); err != nil {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
-	return db, nil
-}
 
-func NewStore(db *sqlx.DB) *Store {
-	return &Store{
-		UserStore:  NewUserStore(db),
-		AssetStore: NewAssetStore(db),
-	}
+	return &DbAccess{
+		AssetDbAccess: &AssetDbAccess{DB: db},
+		UserDbAccess:  &UserDbAccess{DB: db},
+	}, nil
 }

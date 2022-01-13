@@ -3,6 +3,7 @@ package main
 import (
 	"beta_service/db"
 	"beta_service/handlers"
+	"beta_service/routers"
 	"log"
 	"net/http"
 	"os"
@@ -15,29 +16,29 @@ import (
 
 func main() {
 
-	// Open database connection
-	database, err := db.Open()
-	log.Print("Database Opened")
-	if err != nil {
-		print(err)
-	}
+	// Initialize database connection and model stores
+	dbAccess, err := db.NewDbAccess()
+	logFatal(err)
 
-	defer database.Close()
+	// Create a router
+	router := mux.NewRouter()
 
-	h := handlers.NewHandler(database)
+	// Initialize handlers for models
+	assetHandler, err := handlers.NewAssetHandler(dbAccess)
+	logFatal(err)
 
-	r := mux.NewRouter()
-	// r.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
-	// 	// an example API handler
-	// 	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
-	// }
+	userHandler, err := handlers.NewUserHandler(dbAccess)
+	logFatal(err)
 
-	r.HandleFunc("/assets", h.HandleGetAssets).Methods("GET")
-	r.HandleFunc("/", h.HandleGetFeaturedAssets).Methods("GET")
-	r.HandleFunc("/kycform", h.HandleCreateUser).Methods("POST")
+	// Initialize subrouters for handlers
+	router, err = routers.NewAssetRouter(router, assetHandler)
+	logFatal(err)
+
+	router, err = routers.NewUserRouter(router, userHandler)
+	logFatal(err)
 
 	s := &http.Server{
-		Handler:      r,
+		Handler:      router,
 		Addr:         "127.0.0.1:5000",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
@@ -62,4 +63,10 @@ func main() {
 	log.Print("Server Running and Accepting Requests")
 	log.Fatal(s.ListenAndServe())
 
+}
+
+func logFatal(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
