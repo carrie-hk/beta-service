@@ -39,7 +39,7 @@ func main() {
 
 	s := &http.Server{
 		Handler:      router,
-		Addr:         "127.0.0.1:5000",
+		Addr:         ":5000",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
@@ -60,7 +60,7 @@ func main() {
 		}
 	}()
 
-	log.Print("Server Running and Accepting Requests")
+	log.Print("Server Running and Accepting Requests", s.Addr)
 	log.Fatal(s.ListenAndServe())
 
 }
