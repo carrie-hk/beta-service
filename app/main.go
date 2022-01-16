@@ -4,6 +4,7 @@ import (
 	"beta_service/db"
 	"beta_service/handlers"
 	"beta_service/routers"
+	"crypto/tls"
 	"log"
 	"net/http"
 	"os"
@@ -37,9 +38,23 @@ func main() {
 	router, err = routers.NewUserRouter(router, userHandler)
 	logFatal(err)
 
+	tls_cfg := &tls.Config{
+		MinVersion:               tls.VersionTLS12,
+		CurvePreferences:         []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
+		PreferServerCipherSuites: true,
+		CipherSuites: []uint16{
+			tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+			tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_RSA_WITH_AES_256_CBC_SHA,
+			tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, // Need this for HTTP/2
+		},
+	}
+
 	s := &http.Server{
 		Handler:      router,
 		Addr:         "127.0.0.1:5000",
+		TLSConfig:    tls_cfg,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
@@ -61,7 +76,9 @@ func main() {
 	}()
 
 	log.Print("Server Running and Accepting Requests")
-	log.Fatal(s.ListenAndServe())
+	// For production, we will need to use a more appropriate certificate-keypair combination obtained from Let's Encrypt through Github
+	// For now, since we're using a self-signed certificate, we must use curl with the -k flag in order to complete the request
+	log.Fatal(s.ListenAndServeTLS("server.rsa.crt", "server.rsa.key"))
 
 }
 
