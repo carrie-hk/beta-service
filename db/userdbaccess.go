@@ -13,7 +13,7 @@ type UserDbAccess struct {
 
 func (s *UserDbAccess) CreateUser(u models.User) error {
 
-	_, err := s.NamedExec(`INSERT INTO KYC.customers (firstName,lastName, phoneNumber, streetAddrA, 
+	_, err := s.NamedExec(`INSERT INTO KYC.customers (firstName, lastName, phoneNumber, streetAddrA, 
 		streetAddrB, city, email, state, country, zipcode, birthDay, birthMonth, birthYear, title) 
 		VALUES (:firstName, :lastName, :phoneNumber, :streetAddrA, :streetAddrB, :city, :email,
 		:state, :country, :zipcode, :birthDay, :birthMonth, :birthYear, :title )`,

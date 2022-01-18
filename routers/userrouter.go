@@ -9,5 +9,5 @@ import (
 func NewUserRouter(router *gin.RouterGroup, userHandler *handlers.UserHandler) {
 
 	// Create router for inserting information into KYC form
-	router.GET("/userinfo", userHandler.HandleCreateUser)
+	router.POST("/userinfo", userHandler.HandleCreateUser)
 }
