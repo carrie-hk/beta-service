@@ -12,7 +12,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -21,9 +21,6 @@ func main() {
 	dbAccess, err := db.NewDbAccess()
 	logFatal(err)
 
-	// Create a router
-	router := mux.NewRouter()
-
 	// Initialize handlers for models
 	assetHandler, err := handlers.NewAssetHandler(dbAccess)
 	logFatal(err)
@@ -31,12 +28,12 @@ func main() {
 	userHandler, err := handlers.NewUserHandler(dbAccess)
 	logFatal(err)
 
-	// Initialize subrouters for handlers
-	router, err = routers.NewAssetRouter(router, assetHandler)
-	logFatal(err)
+	// Create a router
+	router := gin.Default()
 
-	router, err = routers.NewUserRouter(router, userHandler)
-	logFatal(err)
+	// Initialize router groups for handlers
+	routers.NewAssetRouter(router.Group("/assets"), assetHandler)
+	routers.NewUserRouter(router.Group("/redeem"), userHandler)
 
 	/*** DeBugging Server ***/
 	devServer := &http.Server{

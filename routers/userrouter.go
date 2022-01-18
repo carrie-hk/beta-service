@@ -3,15 +3,11 @@ package routers
 import (
 	"beta_service/handlers"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func NewUserRouter(router *mux.Router, userHandler *handlers.UserHandler) (*mux.Router, error) {
+func NewUserRouter(router *gin.RouterGroup, userHandler *handlers.UserHandler) {
 
-	// Create Subrouter for the user model
-	userRouter := router.PathPrefix("/redeem").Subrouter()
-
-	userRouter.HandleFunc("/userinfo", userHandler.HandleCreateUser())
-
-	return router, nil
+	// Create router for inserting information into KYC form
+	router.GET("/userinfo", userHandler.HandleCreateUser)
 }
