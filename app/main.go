@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 	"time"
 
@@ -37,13 +38,36 @@ func main() {
 	router, err = routers.NewUserRouter(router, userHandler)
 	logFatal(err)
 
-	s := &http.Server{
+	/*** DeBugging Server ***/
+	devServer := &http.Server{
 		Handler:      router,
-		Addr:         ":5000",
+		Addr:         ":5050",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	log.Print("Server Open")
+
+	/*** Production Server ***/
+	prodServer := &http.Server{
+		Handler:      router,
+		Addr:         ":5004",
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+
+	wg := new(sync.WaitGroup)
+	wg.Add(3)
+
+	go func() {
+		log.Print("Debugging Server Running and Accepting Requests", devServer.Addr)
+		log.Fatal(devServer.ListenAndServe())
+		wg.Done()
+	}()
+
+	go func() {
+		log.Print("Production Server Running and Accepting Requests", prodServer.Addr)
+		log.Fatal(prodServer.ListenAndServe())
+		wg.Done()
+	}()
 
 	// Listen for interrupt or terminal signal from the OS (e.g. Command+C)
 	shutdown := make(chan os.Signal, 2)
@@ -60,9 +84,7 @@ func main() {
 		}
 	}()
 
-	log.Print("Server Running and Accepting Requests", s.Addr)
-	log.Fatal(s.ListenAndServe())
-
+	wg.Wait()
 }
 
 func logFatal(err error) {

@@ -18,5 +18,5 @@ COPY . ./
 RUN go build ./app/main.go
 
 #exposes port 5000 to listen on
-EXPOSE 5000
+EXPOSE 5004
 CMD ["./main"]
