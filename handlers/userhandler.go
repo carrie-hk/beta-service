@@ -3,7 +3,6 @@ package handlers
 import (
 	"beta_service/db"
 	"beta_service/models"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,10 +18,8 @@ func NewUserHandler(dbAccess *db.DbAccess) (*UserHandler, error) {
 
 //This function parses the KYC form and creates a new user
 func (h *UserHandler) HandleCreateUser(ctx *gin.Context) {
-	log.Print("Directed to Handle Create User")
 
 	var user models.User
-
 	err := ctx.BindJSON(&user)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
