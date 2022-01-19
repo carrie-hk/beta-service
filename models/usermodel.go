@@ -1,24 +1,26 @@
 package models
 
-import (
-	"database/sql"
-)
-
 type User struct {
-	FirstName   sql.NullString `schema:"firstName"`
-	LastName    sql.NullString `schema:"lastName"`
-	PhoneNumber sql.NullString `schema:"phoneNumber"`
-	StreetAddrA sql.NullString `schema:"streetAddrA"`
-	StreetAddrB sql.NullString `schema:"streetAddrB"`
-	City        sql.NullString `schema:"city"`
-	Email       sql.NullString `schema:"email"`
-	State       sql.NullString `schema:"state"`
-	Country     sql.NullString `schema:"country"`
-	Zipcode     sql.NullInt32  `schema:"zipcode"`
-	BirthDay    sql.NullInt32  `schema:"birthDay"`
-	BirthMonth  sql.NullInt32  `schema:"birthMonth"`
-	BirthYear   sql.NullInt32  `schema:"birthYear"`
-	Title       sql.NullString `schema:"title"`
+	FirstName       string `db:"firstName"`
+	LastName        string `db:"lastName"`
+	PhoneNumber     string `db:"phoneNumber"`
+	Email           string `db:"email"`
+	StreetAddrAShip string `db:"streetAddrA_ship"`
+	StreetAddrBShip string `db:"streetAddrB_ship"`
+	CityShip        string `db:"city_ship"`
+	StateShip       string `db:"state_ship"`
+	CountryShip     string `db:"country_ship"`
+	ZipcodeShip     int32  `db:"zipcode_ship"`
+	StreetAddrABill string `db:"streetAddrA_bill"`
+	StreetAddrBBill string `db:"streetAddrB_bill"`
+	CityBill        string `db:"city_bill"`
+	StateBill       string `db:"state_bill"`
+	CountryBill     string `db:"country_bill"`
+	ZipcodeBill     int32  `db:"zipcode_bill"`
+	BirthDay        int32  `db:"birthDay"`
+	BirthMonth      int32  `db:"birthMonth"`
+	BirthYear       int32  `db:"birthYear"`
+	Title           string `db:"title"`
 }
 
 type UserRequests interface {

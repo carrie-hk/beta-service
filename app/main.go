@@ -9,10 +9,11 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 	"time"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -21,9 +22,6 @@ func main() {
 	dbAccess, err := db.NewDbAccess()
 	logFatal(err)
 
-	// Create a router
-	router := mux.NewRouter()
-
 	// Initialize handlers for models
 	assetHandler, err := handlers.NewAssetHandler(dbAccess)
 	logFatal(err)
@@ -31,12 +29,12 @@ func main() {
 	userHandler, err := handlers.NewUserHandler(dbAccess)
 	logFatal(err)
 
-	// Initialize subrouters for handlers
-	router, err = routers.NewAssetRouter(router, assetHandler)
-	logFatal(err)
+	// Create a router
+	router := gin.Default()
 
-	router, err = routers.NewUserRouter(router, userHandler)
-	logFatal(err)
+	// Initialize router groups for handlers
+	routers.NewAssetRouter(router.Group("/assets"), assetHandler)
+	routers.NewUserRouter(router.Group("/redeem"), userHandler)
 
 	tls_cfg := &tls.Config{
 		MinVersion:               tls.VersionTLS12,
@@ -51,14 +49,40 @@ func main() {
 		},
 	}
 
-	s := &http.Server{
+	/*** DeBugging Server ***/
+	devServer := &http.Server{
 		Handler:      router,
-		Addr:         "127.0.0.1:5000",
-		TLSConfig:    tls_cfg,
+		Addr:         ":5050",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
+		TLSConfig:    tls_cfg,
 	}
-	log.Print("Server Open")
+
+	/*** Production Server ***/
+	prodServer := &http.Server{
+		Handler:      router,
+		Addr:         ":5004",
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+		TLSConfig:    tls_cfg,
+	}
+
+	wg := new(sync.WaitGroup)
+	wg.Add(3)
+
+	// For production, we will need to use a more appropriate certificate-keypair combination obtained from Let's Encrypt through Github
+	// For now, since we're using a self-signed certificate, we must use curl with the -k flag in order to complete the request
+	go func() {
+		log.Print("Debugging Server Running and Accepting Requests", devServer.Addr)
+		log.Fatal(devServer.ListenAndServeTLS("server.rsa.crt", "server.rsa.key"))
+		wg.Done()
+	}()
+
+	go func() {
+		log.Print("Production Server Running and Accepting Requests", prodServer.Addr)
+		log.Fatal(prodServer.ListenAndServeTLS("server.rsa.crt", "server.rsa.key"))
+		wg.Done()
+	}()
 
 	// Listen for interrupt or terminal signal from the OS (e.g. Command+C)
 	shutdown := make(chan os.Signal, 2)
@@ -76,10 +100,8 @@ func main() {
 	}()
 
 	log.Print("Server Running and Accepting Requests")
-	// For production, we will need to use a more appropriate certificate-keypair combination obtained from Let's Encrypt through Github
-	// For now, since we're using a self-signed certificate, we must use curl with the -k flag in order to complete the request
-	log.Fatal(s.ListenAndServeTLS("server.rsa.crt", "server.rsa.key"))
 
+	wg.Wait()
 }
 
 func logFatal(err error) {
