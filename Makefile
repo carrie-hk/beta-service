@@ -1,5 +1,5 @@
 build:
-	docker build -t beta_service .    
+	docker build -t cahk/betaservice .    
 
 start:
-	docker run -d -p 5001:5004 beta_service
+	docker run -d -p 5001:5004 cahk/betaservice

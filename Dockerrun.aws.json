@@ -1,0 +1,11 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "cahk/betaservice"
+    },
+    "Ports": [
+        {"ContainerPort": 5004,
+        "HostPort":5001
+    }
+    ]
+}
