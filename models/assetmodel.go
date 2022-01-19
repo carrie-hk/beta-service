@@ -4,7 +4,7 @@ import "database/sql"
 
 type Asset struct {
 	Name          sql.NullString  `db:"Name"`
-	Files         sql.NullString  `db:"Files"`
+	Files         sql.NullString  `db:"HTML5 Files"`
 	Link          sql.NullString  `db:"Link"`
 	Price         sql.NullString  `db:"Price"`
 	Status        sql.NullString  `db:"Status"`
