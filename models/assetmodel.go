@@ -5,7 +5,7 @@ import "database/sql"
 type Asset struct {
 	Name          sql.NullString  `db:"Name"`
 	Files         sql.NullString  `db:"HTML5 Files"`
-	Link          sql.NullString  `db:"Link"`
+	Link          sql.NullString  `db:"MP4 Link"`
 	Price         sql.NullString  `db:"Price"`
 	Status        sql.NullString  `db:"Status"`
 	BottleID      sql.NullInt32   `db:"Bottle ID"`
@@ -35,6 +35,7 @@ type Asset struct {
 	BaxusRev      sql.NullInt32   `db:"BAXUS Rev"`
 	COGS          sql.NullInt32   `db:"COGS"`
 	Box           sql.NullInt16   `db:"Box"`
+	Issues        sql.NullString  `db:"Issues"`
 }
 
 type AssetRequests interface {
