@@ -3,18 +3,12 @@ package routers
 import (
 	"beta_service/handlers"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func NewAssetRouter(router *mux.Router, assetHandler *handlers.AssetHandler) (*mux.Router, error) {
+func NewAssetRouter(router *gin.RouterGroup, assetHandler *handlers.AssetHandler) {
 
-	// Create Subrouter for the asset model and assign function handlers for paths
-	assetRouter := router.PathPrefix("/assets").Subrouter()
-
-	assetRouter.HandleFunc("/all", assetHandler.HandleGetAllAssets())
-	assetRouter.HandleFunc("/featured", assetHandler.HandleGetFeaturedAssets())
-
-	return router, nil
+	// Create routers for returning all the assets and a subset of assets
+	router.GET("/all", assetHandler.HandleGetAllAssets)
+	router.GET("/featured", assetHandler.HandleGetFeaturedAssets)
 }
-
-// (*mux.Router, error)
