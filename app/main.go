@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	cors "github.com/rs/cors/wrapper/gin"
 )
 
 func main() {
@@ -30,6 +31,14 @@ func main() {
 
 	// Create a router
 	router := gin.Default()
+
+	// Add CORS handling for the router
+	router.Use(
+		cors.New(cors.Options{
+			AllowedOrigins: []string{""},
+			Debug:          true,
+		}),
+	)
 
 	// Initialize router groups for handlers
 	routers.NewAssetRouter(router.Group("/assets"), assetHandler)
