@@ -1,7 +1,4 @@
 version: "3.9"
 services:
-  web:
-    build: .
-
-    ports:
-      - "5001:5004"
+  betaservice:
+    image: cahk/betaservice

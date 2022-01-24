@@ -36,6 +36,7 @@ type Asset struct {
 	COGS          sql.NullInt32   `db:"COGS"`
 	Box           sql.NullInt16   `db:"Box"`
 	Issues        sql.NullString  `db:"Issues"`
+	ShelfLoc      sql.NullString  `db:"Shelf Loc"`
 }
 
 type AssetRequests interface {
