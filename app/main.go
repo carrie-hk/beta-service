@@ -3,6 +3,7 @@ package main
 import (
 	"beta_service/db"
 	"beta_service/handlers"
+	"beta_service/middlewares"
 	"beta_service/routers"
 	"log"
 	"net/http"
@@ -13,7 +14,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	cors "github.com/rs/cors/wrapper/gin"
 )
 
 func main() {
@@ -32,12 +32,10 @@ func main() {
 	// Create a router
 	router := gin.Default()
 
-	// Add CORS handling for the router
+	// Add security middleware to the router
 	router.Use(
-		cors.New(cors.Options{
-			AllowedOrigins: []string{""},
-			Debug:          true,
-		}),
+		middlewares.CorsMiddleware,
+		//middlewares.SecureFunc,
 	)
 
 	// Initialize router groups for handlers

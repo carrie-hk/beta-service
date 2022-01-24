@@ -6,6 +6,7 @@ require github.com/jmoiron/sqlx v1.3.4
 
 require (
 	github.com/rs/cors v1.8.1 // indirect
+	github.com/unrolled/secure v1.0.9 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 )
