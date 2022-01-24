@@ -61,7 +61,7 @@ func main() {
 	/*** Production Server ***/
 	prodServer := &http.Server{
 		Handler:      router,
-		Addr:         ":5004",
+		Addr:         ":443",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 		TLSConfig:    tls_cfg,
