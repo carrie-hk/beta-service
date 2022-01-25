@@ -74,13 +74,13 @@ func main() {
 	// For now, since we're using a self-signed certificate, we must use curl with the -k flag in order to complete the request
 	go func() {
 		log.Print("Debugging Server Running and Accepting Requests", devServer.Addr)
-		log.Fatal(devServer.ListenAndServeTLS("server.rsa.crt", "server.rsa.key"))
+		log.Fatal(devServer.ListenAndServeTLS("../server.rsa.crt", "../server.rsa.key"))
 		wg.Done()
 	}()
 
 	go func() {
 		log.Print("Production Server Running and Accepting Requests", prodServer.Addr)
-		log.Fatal(prodServer.ListenAndServeTLS("server.rsa.crt", "server.rsa.key"))
+		log.Fatal(prodServer.ListenAndServeTLS("../server.rsa.crt", "../server.rsa.key"))
 		wg.Done()
 	}()
 
