@@ -23,7 +23,7 @@ func (s *AssetDbAccess) Assets() ([]models.Asset, error) {
 
 func (s *AssetDbAccess) FeaturedAssets() ([]models.Asset, error) {
 	var fa []models.Asset
-	err := s.Select(&fa, "SELECT * from AXU.whisky_bottles WHERE `Bottle ID`=2")
+	err := s.Select(&fa, "SELECT * from AXU.whisky_bottles WHERE `Featured`=1")
 	if err != nil {
 		log.Println("error selecting featured asset", err)
 		return []models.Asset{}, err

@@ -5,7 +5,6 @@ import (
 	"beta_service/handlers"
 	"beta_service/middlewares"
 	"beta_service/routers"
-	"crypto/tls"
 	"log"
 	"net/http"
 	"os"
@@ -43,26 +42,12 @@ func main() {
 	routers.NewAssetRouter(router.Group("/assets"), assetHandler)
 	routers.NewUserRouter(router.Group("/redeem"), userHandler)
 
-	tls_cfg := &tls.Config{
-		MinVersion:               tls.VersionTLS12,
-		CurvePreferences:         []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
-		PreferServerCipherSuites: true,
-		CipherSuites: []uint16{
-			tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-			tls.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-			tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
-			tls.TLS_RSA_WITH_AES_256_CBC_SHA,
-			tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, // Need this for HTTP/2
-		},
-	}
-
 	/*** DeBugging Server ***/
 	devServer := &http.Server{
 		Handler:      router,
 		Addr:         ":5050",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
-		TLSConfig:    tls_cfg,
 	}
 
 	/*** Production Server ***/
@@ -71,7 +56,6 @@ func main() {
 		Addr:         ":443",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
-		TLSConfig:    tls_cfg,
 	}
 
 	wg := new(sync.WaitGroup)
@@ -81,13 +65,13 @@ func main() {
 	// For now, since we're using a self-signed certificate, we must use curl with the -k flag in order to complete the request
 	go func() {
 		log.Print("Debugging Server Running and Accepting Requests", devServer.Addr)
-		log.Fatal(devServer.ListenAndServeTLS("../server.rsa.crt", "../server.rsa.key"))
+		log.Fatal(devServer.ListenAndServe())
 		wg.Done()
 	}()
 
 	go func() {
 		log.Print("Production Server Running and Accepting Requests", prodServer.Addr)
-		log.Fatal(prodServer.ListenAndServeTLS("../server.rsa.crt", "../server.rsa.key"))
+		log.Fatal(prodServer.ListenAndServe())
 		wg.Done()
 	}()
 
