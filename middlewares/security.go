@@ -7,13 +7,13 @@ import (
 )
 
 var CORS_Middleware = cors.New(cors.Config{
-	AllowOrigins:     []string{"https://localhost:3000"},
+	AllowOrigins:     []string{"http://localhost:3000"},
 	AllowMethods:     []string{"GET", "POST"},
 	AllowHeaders:     []string{"Content-Type"},
 	ExposeHeaders:    []string{"Content-Length"},
 	AllowCredentials: true,
 	AllowOriginFunc: func(origin string) bool {
-		return origin == "https://localhost:3000"
+		return origin == "http://localhost:3000"
 	},
 	MaxAge: 12 * time.Hour,
 })
