@@ -34,8 +34,7 @@ func main() {
 
 	// Add security middleware to the router
 	router.Use(
-		middlewares.CorsMiddleware,
-		//middlewares.SecureFunc,
+		middlewares.CORS_Middleware,
 	)
 
 	// Initialize router groups for handlers
