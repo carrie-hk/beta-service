@@ -41,6 +41,7 @@ func main() {
 	// Add security middleware to the router
 	router.Use(
 		middlewares.CORS_Middleware,
+		gin.Logger(),
 	)
 
 	// Initialize router groups for handlers
