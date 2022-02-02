@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"beta_service/db"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,7 +29,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 	} else {
-		ctx.JSON(http.StatusOK, gin.H{"Message": "Succesfully returned all assets"})
+		log.Print("Message successful")
 	}
 
 	ctx.JSON(http.StatusOK, nil)
@@ -47,7 +48,7 @@ func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 	} else {
-		ctx.JSON(http.StatusOK, gin.H{"Message": "Succesfully returned featured assets"})
+		log.Print("Message successful")
 	}
 
 	ctx.JSON(http.StatusOK, nil)

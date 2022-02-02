@@ -39,6 +39,8 @@ type Asset struct {
 	ShelfLoc      sql.NullString  `db:"Shelf Loc"`
 	S3            sql.NullString  `db:"S3"`
 	Featured      sql.NullBool    `db:"Featured"`
+	MSRP          sql.NullInt32   `db:"MSRP"`
+	AnnualizedRet sql.NullInt32   `db:"Annualized_return"`
 }
 
 type AssetRequests interface {
