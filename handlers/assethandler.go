@@ -32,7 +32,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 		log.Print("Message successful")
 	}
 
-	ctx.JSON(http.StatusOK, nil)
+	log.Print(http.StatusOK, nil)
 }
 
 //This function returns a featured subset of the bottles
@@ -51,5 +51,5 @@ func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 		log.Print("Message successful")
 	}
 
-	ctx.JSON(http.StatusOK, nil)
+	log.Print(http.StatusOK, nil)
 }
