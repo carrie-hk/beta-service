@@ -21,7 +21,7 @@ func main() {
 
 	err := godotenv.Load("env.list")
 	if os.IsNotExist(err) {
-		log.Fatal(".env file does not exist")
+		log.Fatal("environment file does not exist")
 	}
 
 	// Initialize database connection and model stores
@@ -39,9 +39,15 @@ func main() {
 	router := gin.Default()
 
 	// Add security middleware to the router
+	CORS_Middleware := middlewares.NewCorsMiddleware(os.Getenv("BAXUS_ORIGIN_1"))
+
 	router.Use(
+<<<<<<< HEAD
 		middlewares.CORS_Middleware,
 		gin.Logger(),
+=======
+		CORS_Middleware,
+>>>>>>> a864d8d2b3afe2536b84c9faf0c12c143dfc2255
 	)
 
 	// Initialize router groups for handlers
