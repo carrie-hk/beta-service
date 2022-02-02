@@ -39,8 +39,10 @@ func main() {
 	router := gin.Default()
 
 	// Add security middleware to the router
+	CORS_Middleware := middlewares.NewCorsMiddleware(os.Getenv("BAXUS_ORIGIN_1"))
+
 	router.Use(
-		middlewares.CORS_Middleware,
+		CORS_Middleware,
 	)
 
 	// Initialize router groups for handlers
