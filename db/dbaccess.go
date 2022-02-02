@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -15,12 +16,11 @@ type DbAccess struct {
 
 func NewDbAccess() (*DbAccess, error) {
 
-	//I need to put into an env file
 	cfg := mysql.Config{
-		User:                 "dbuser",
-		Passwd:               "dbuserdbuser",
-		Net:                  "tcp",
-		Addr:                 "baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306",
+		User:                 os.Getenv("DB_USER"),
+		Passwd:               os.Getenv("DB_PASSWORD"),
+		Net:                  os.Getenv("DB_NET"),
+		Addr:                 os.Getenv("DB_ADDR"),
 		AllowNativePasswords: true,
 	}
 

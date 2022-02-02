@@ -13,9 +13,15 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+
+	err := godotenv.Load("env.list")
+	if os.IsNotExist(err) {
+		log.Fatal(".env file does not exist")
+	}
 
 	// Initialize database connection and model stores
 	dbAccess, err := db.NewDbAccess()
@@ -35,18 +41,9 @@ func main() {
 	routers.NewAssetRouter(router.Group("/assets"), assetHandler)
 	routers.NewUserRouter(router.Group("/redeem"), userHandler)
 
-	/*** DeBugging Server ***/
-	devServer := &http.Server{
+	server := &http.Server{
 		Handler:      router,
-		Addr:         ":5050",
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-
-	/*** Production Server ***/
-	prodServer := &http.Server{
-		Handler:      router,
-		Addr:         ":443",
+		Addr:         os.Getenv("SERVER_PORT"),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
@@ -54,17 +51,9 @@ func main() {
 	wg := new(sync.WaitGroup)
 	wg.Add(3)
 
-	// For production, we will need to use a more appropriate certificate-keypair combination obtained from Let's Encrypt through Github
-	// For now, since we're using a self-signed certificate, we must use curl with the -k flag in order to complete the request
 	go func() {
-		log.Print("Debugging Server Running and Accepting Requests", devServer.Addr)
-		log.Fatal(devServer.ListenAndServe())
-		wg.Done()
-	}()
-
-	go func() {
-		log.Print("Production Server Running and Accepting Requests", prodServer.Addr)
-		log.Fatal(prodServer.ListenAndServe())
+		log.Print("Server Running and Accepting Requests", server.Addr)
+		log.Fatal(server.ListenAndServe())
 		wg.Done()
 	}()
 
