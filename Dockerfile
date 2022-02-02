@@ -9,7 +9,6 @@ WORKDIR /app
 COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
-COPY ./server.rsa.crt ./
 COPY . ./
 
 #creates executable main file
