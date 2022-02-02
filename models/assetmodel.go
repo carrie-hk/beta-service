@@ -1,46 +1,44 @@
 package models
 
-import "database/sql"
-
 type Asset struct {
-	Name          sql.NullString  `db:"Name"`
-	Files         sql.NullString  `db:"HTML5 Files"`
-	Link          sql.NullString  `db:"MP4 Link"`
-	Price         sql.NullString  `db:"Price"`
-	Status        sql.NullString  `db:"Status"`
-	BottleID      sql.NullInt32   `db:"Bottle ID"`
-	People        sql.NullString  `db:"People"`
-	Description   sql.NullString  `db:"Description"`
-	Age           sql.NullInt32   `db:"Age"`
-	YearDistilled sql.NullString  `db:"Year Distilled"`
-	Distillery    sql.NullString  `db:"Distillery"`
-	Bottler       sql.NullString  `db:"Bottler"`
-	Size          sql.NullInt32   `db:"Size"`
-	YearBottled   sql.NullInt32   `db:"Year Bottled"`
-	CaskType      sql.NullString  `db:"Cask Type"`
-	BottleNum     sql.NullString  `db:"Bottle Num"`
-	CaskNum       sql.NullString  `db:"Cask Num"`
-	SerialNum     sql.NullString  `db:"Serial Num"`
-	Grade         sql.NullString  `db:"Grade"`
-	Packaging     sql.NullString  `db:"Packaging"`
-	Series        sql.NullString  `db:"Series"`
-	Spirit        sql.NullString  `db:"Spirit"`
-	Country       sql.NullString  `db:"Country"`
-	OgCaskYield   sql.NullString  `db:"Original Cask Yield"`
-	Region        sql.NullString  `db:"Region"`
-	ABV           sql.NullFloat64 `db:"ABV"`
-	ASCNum        sql.NullInt32   `db:"ASC Token #"`
-	Dropbox       sql.NullString  `db:"Dropbox"`
-	PriceRealized sql.NullInt32   `db:"Price Realized"`
-	BaxusRev      sql.NullInt32   `db:"BAXUS Rev"`
-	COGS          sql.NullInt32   `db:"COGS"`
-	Box           sql.NullInt16   `db:"Box"`
-	Issues        sql.NullString  `db:"Issues"`
-	ShelfLoc      sql.NullString  `db:"Shelf Loc"`
-	S3            sql.NullString  `db:"S3"`
-	Featured      sql.NullBool    `db:"Featured"`
-	MSRP          sql.NullInt32   `db:"MSRP"`
-	AnnualizedRet sql.NullInt32   `db:"Annualized_return"`
+	Name          *string  `db:"Name"`
+	Files         *string  `db:"HTML5 Files"`
+	Link          *string  `db:"MP4 Link"`
+	Price         *string  `db:"Price"`
+	Status        *string  `db:"Status"`
+	BottleID      *int64   `db:"Bottle ID"`
+	People        *string  `db:"People"`
+	Description   *string  `db:"Description"`
+	Age           *int64   `db:"Age"`
+	YearDistilled *string  `db:"Year Distilled"`
+	Distillery    *string  `db:"Distillery"`
+	Bottler       *string  `db:"Bottler"`
+	Size          *int64   `db:"Size"`
+	YearBottled   *int64   `db:"Year Bottled"`
+	CaskType      *string  `db:"Cask Type"`
+	BottleNum     *string  `db:"Bottle Num"`
+	CaskNum       *string  `db:"Cask Num"`
+	SerialNum     *string  `db:"Serial Num"`
+	Grade         *string  `db:"Grade"`
+	Packaging     *string  `db:"Packaging"`
+	Series        *string  `db:"Series"`
+	Spirit        *string  `db:"Spirit"`
+	Country       *string  `db:"Country"`
+	OgCaskYield   *string  `db:"Original Cask Yield"`
+	Region        *string  `db:"Region"`
+	ABV           *float64 `db:"ABV"`
+	ASCNum        *int64   `db:"ASC Token #"`
+	Dropbox       *string  `db:"Dropbox"`
+	PriceRealized *int64   `db:"Price Realized"`
+	BaxusRev      *int64   `db:"BAXUS Rev"`
+	COGS          *int64   `db:"COGS"`
+	Box           *int64   `db:"Box"`
+	Issues        *string  `db:"Issues"`
+	ShelfLoc      *string  `db:"Shelf Loc"`
+	S3            *string  `db:"S3"`
+	Featured      *bool    `db:"Featured"`
+	MSRP          *int64   `db:"MSRP"`
+	AnnualizedRet *int64   `db:"Annualized_return"`
 }
 
 type AssetRequests interface {
