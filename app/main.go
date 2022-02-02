@@ -19,7 +19,7 @@ import (
 
 func main() {
 
-	err := godotenv.Load("env.list")
+	err := godotenv.Load("../env.list")
 	if os.IsNotExist(err) {
 		log.Fatal("environment file does not exist")
 	}
