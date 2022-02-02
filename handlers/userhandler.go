@@ -20,7 +20,7 @@ func NewUserHandler(dbAccess *db.DbAccess) (*UserHandler, error) {
 func (h *UserHandler) HandleCreateUser(ctx *gin.Context) {
 
 	var user models.User
-	err := ctx.BindJSON(&user)
+	err := ctx.ShouldBindJSON(&user)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 	} else {

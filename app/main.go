@@ -3,6 +3,7 @@ package main
 import (
 	"beta_service/db"
 	"beta_service/handlers"
+	"beta_service/middlewares"
 	"beta_service/routers"
 	"log"
 	"net/http"
@@ -36,6 +37,11 @@ func main() {
 
 	// Create a router
 	router := gin.Default()
+
+	// Add security middleware to the router
+	router.Use(
+		middlewares.CORS_Middleware,
+	)
 
 	// Initialize router groups for handlers
 	routers.NewAssetRouter(router.Group("/assets"), assetHandler)
