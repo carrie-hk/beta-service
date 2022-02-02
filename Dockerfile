@@ -9,6 +9,7 @@ WORKDIR /app
 COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
+COPY env.list ./
 COPY . ./
 
 #creates executable main file

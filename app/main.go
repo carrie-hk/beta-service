@@ -17,9 +17,10 @@ import (
 )
 
 func main() {
-	err := godotenv.Load("../.env")
-	if err != nil {
-		log.Fatal("Error loading .env file")
+
+	err := godotenv.Load("env.list")
+	if os.IsNotExist(err) {
+		log.Fatal(".env file does not exist")
 	}
 
 	// Initialize database connection and model stores
