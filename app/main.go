@@ -21,7 +21,7 @@ func main() {
 
 	err := godotenv.Load("env.list")
 	if os.IsNotExist(err) {
-		log.Fatal(".env file does not exist")
+		log.Fatal("environment file does not exist")
 	}
 
 	// Initialize database connection and model stores
