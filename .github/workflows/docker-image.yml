@@ -22,6 +22,7 @@ jobs:
           echo DB_NET=\"tcp\" >> env.list \n
           echo DB_ADDR=\"baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306\" >> env.list \n
           cat env.list \n
+          pwd \n
   
   build-image:
     runs-on: ubuntu-latest
