@@ -14,14 +14,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Create env file
       run: |
-          touch env.list \
-          echo SERVER_PORT=":443" >> env.list \
-          echo BAXUS_ORIGIN_1="http://localhost:3000" >> env.list \
-          echo DB_USER="dbuser" >> env.list \
-          echo DB_PASSWORD="dbuserdbuser" >> env.list \
-          echo DB_NET="tcp" >> env.list \
-          echo DB_ADDR="baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306" >> env.list \
-          cat env.list \
+          touch env.list \n
+          echo SERVER_PORT=":443" >> env.list \n
+          echo BAXUS_ORIGIN_1=\"http://localhost:3000\" >> env.list \n
+          echo DB_USER=\"dbuser\" >> env.list \n
+          echo DB_PASSWORD=\"dbuserdbuser\" >> env.list \n
+          echo DB_NET=\"tcp\" >> env.list \n
+          echo DB_ADDR=\"baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306\" >> env.list \n
+          cat env.list \n
   
   build-image:
     runs-on: ubuntu-latest
