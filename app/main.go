@@ -42,12 +42,7 @@ func main() {
 	CORS_Middleware := middlewares.NewCorsMiddleware(os.Getenv("BAXUS_ORIGIN_1"))
 
 	router.Use(
-<<<<<<< HEAD
-		middlewares.CORS_Middleware,
-		gin.Logger(),
-=======
 		CORS_Middleware,
->>>>>>> a864d8d2b3afe2536b84c9faf0c12c143dfc2255
 	)
 
 	// Initialize router groups for handlers
