@@ -8,11 +8,8 @@ on:
 
 jobs:
 
-
-  build:
-
+  build-env:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Create env file
@@ -25,6 +22,10 @@ jobs:
           echo DB_NET="tcp" >> env.list
           echo DB_ADDR="baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306" >> env.list
           cat env.list
-
+  
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker buildx build --platform=linux/amd64 -t betaservice . --file Dockerfile
