@@ -13,8 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Create env file
-        run: |
-          touch env.list
+        run: >
+          touch env.list \
           echo SERVER_PORT=":443" >> env.list
           echo BAXUS_ORIGIN_1="http://localhost:3000" >> env.list
           echo DB_USER="dbuser" >> env.list
