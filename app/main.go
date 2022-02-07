@@ -39,7 +39,7 @@ func main() {
 	router := gin.Default()
 
 	// Add security middleware to the router
-	CORS_Middleware := middlewares.NewCorsMiddleware(os.Getenv("BAXUS_ORIGIN_1"))
+	CORS_Middleware := middlewares.NewCorsMiddleware([]string{os.Getenv("BAXUS_ORIGIN_1"), os.Getenv("BAXUS_ORIGIN_2"), os.Getenv("BAXUS_ORIGIN_3")})
 
 	router.Use(
 		CORS_Middleware,
@@ -51,7 +51,7 @@ func main() {
 
 	server := &http.Server{
 		Handler:      router,
-		Addr:         os.Getenv("SERVER_PORT"),
+		Addr:         os.Getenv("LOCAL_SERVER_PORT"),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
