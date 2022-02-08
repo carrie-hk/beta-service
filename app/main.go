@@ -5,6 +5,7 @@ import (
 	"beta_service/handlers"
 	"beta_service/middlewares"
 	"beta_service/routers"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -19,9 +20,26 @@ import (
 
 func main() {
 
-	err := godotenv.Load("env.list")
-	if os.IsNotExist(err) {
-		log.Fatal("environment file does not exist")
+	// Specify a build mode
+	switch os.Args[1] {
+
+	case "dev", "-dev":
+		fmt.Println("Building in Development mode")
+		err := godotenv.Load("env.dev")
+		if os.IsNotExist(err) {
+			log.Fatal("environment file does not exist")
+		}
+
+	case "prod", "-prod":
+		fmt.Println("Building in Production mode")
+		err := godotenv.Load("env.prod")
+		if os.IsNotExist(err) {
+			log.Fatal("environment file does not exist")
+		}
+
+	default:
+		fmt.Println("Please specify a build")
+		os.Exit(1)
 	}
 
 	// Initialize database connection and model stores
@@ -40,7 +58,7 @@ func main() {
 
 	router.Use(
 		// Using the hard-coded CORS function in middlewares instead of the CORS object provided by gin-contrib/cors
-		middlewares.CORS_Middleware(),
+		middlewares.CORS_Middleware(os.Getenv("BAXUS_ORIGIN")),
 	)
 
 	// Initialize router groups for handlers
@@ -49,7 +67,7 @@ func main() {
 
 	server := &http.Server{
 		Handler:      router,
-		Addr:         os.Getenv("LOCAL_SERVER_PORT"),
+		Addr:         os.Getenv("SERVER_PORT"),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
