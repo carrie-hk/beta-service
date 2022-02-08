@@ -21,9 +21,8 @@ env_variables:
 
 # Development origin
 #  BAXUS_ORIGIN: "http://localhost:3000"
-
 # Production origin 
-  BAXUS_ORIGIN: "https://61feb139b19bda6bf8bd849a--baxus-netlify.netlify.app/"
+  BAXUS_ORIGIN: "https://www.baxus.co"
 
   DB_USER: "dbuser"
   DB_PASSWORD: "dbuserdbuser"
