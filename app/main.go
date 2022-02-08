@@ -5,7 +5,6 @@ import (
 	"beta_service/handlers"
 	"beta_service/middlewares"
 	"beta_service/routers"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -15,32 +14,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-
-	// Specify a build mode
-	switch os.Args[1] {
-
-	case "dev", "-dev":
-		fmt.Println("Building in Development mode")
-		err := godotenv.Load("env.dev")
-		if os.IsNotExist(err) {
-			log.Fatal("environment file does not exist")
-		}
-
-	case "prod", "-prod":
-		fmt.Println("Building in Production mode")
-		err := godotenv.Load("env.prod")
-		if os.IsNotExist(err) {
-			log.Fatal("environment file does not exist")
-		}
-
-	default:
-		fmt.Println("Please specify a build")
-		os.Exit(1)
-	}
 
 	// Initialize database connection and model stores
 	dbAccess, err := db.NewDbAccess()

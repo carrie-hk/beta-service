@@ -15,3 +15,17 @@
 runtime: go115
 
 main: ./app
+
+env_variables:
+  SERVER_PORT: ":8080"
+
+# Development origin
+#  BAXUS_ORIGIN: "http://localhost:3000"
+
+# Production origin 
+  BAXUS_ORIGIN: "https://61feb139b19bda6bf8bd849a--baxus-netlify.netlify.app/"
+
+  DB_USER: "dbuser"
+  DB_PASSWORD: "dbuserdbuser"
+  DB_NET: "tcp"
+  DB_ADDR: "baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306"
