@@ -44,7 +44,6 @@ func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 		return
 	}
 
-	ctx.Header("Access-Control-Allow-Origin", "https://61feb139b19bda6bf8bd849a--baxus-netlify.netlify.app/")
 	ctx.IndentedJSON(http.StatusOK, assets)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
