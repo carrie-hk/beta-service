@@ -38,13 +38,9 @@ func main() {
 	// Create a router
 	router := gin.Default()
 
-	// Add security middleware to the router
-	// CORS_Middleware := middlewares.NewCorsMiddleware([]string{os.Getenv("BAXUS_ORIGIN_1"), os.Getenv("BAXUS_ORIGIN_2"), os.Getenv("BAXUS_ORIGIN_3")})
-
 	router.Use(
-		// CORS_Middleware,
-		/// Using the hard-coded CORS function in middlewares instead of the CORS object provided by gin-contrib/cors
-		middlewares.CORS(),
+		// Using the hard-coded CORS function in middlewares instead of the CORS object provided by gin-contrib/cors
+		middlewares.CORS_Middleware(),
 	)
 
 	// Initialize router groups for handlers
