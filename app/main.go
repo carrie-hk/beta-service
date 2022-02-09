@@ -5,6 +5,7 @@ import (
 	"beta_service/handlers"
 	"beta_service/middlewares"
 	"beta_service/routers"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -19,10 +20,8 @@ import (
 
 func main() {
 
-	err := godotenv.Load("env.list")
-	if os.IsNotExist(err) {
-		log.Fatal("environment file does not exist")
-	}
+	// Enable use of .env file if running with "local" flag
+	parseBuildArgs()
 
 	// Initialize database connection and model stores
 	dbAccess, err := db.NewDbAccess()
@@ -38,11 +37,9 @@ func main() {
 	// Create a router
 	router := gin.Default()
 
-	// Add security middleware to the router
-	CORS_Middleware := middlewares.NewCorsMiddleware(os.Getenv("BAXUS_ORIGIN_1"))
-
 	router.Use(
-		CORS_Middleware,
+		// Using the hard-coded CORS function in middlewares instead of the CORS object provided by gin-contrib/cors
+		middlewares.CORS_Middleware(os.Getenv("BAXUS_ORIGIN")),
 	)
 
 	// Initialize router groups for handlers
@@ -83,6 +80,23 @@ func main() {
 	log.Print("Server Running and Accepting Requests")
 
 	wg.Wait()
+}
+
+func parseBuildArgs() {
+	numArgs := len(os.Args[1:])
+	if numArgs == 1 {
+		switch os.Args[1] {
+		case "local", "-local":
+			err := godotenv.Load(".env")
+			if os.IsExist(err) {
+				fmt.Println("Error loading .env file")
+			}
+		default:
+			break
+		}
+	} else if numArgs > 1 {
+		fmt.Println("Invalid command line arguments")
+	}
 }
 
 func logFatal(err error) {
