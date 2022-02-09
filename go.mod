@@ -5,6 +5,8 @@ go 1.17
 require github.com/jmoiron/sqlx v1.3.4
 
 require (
+	github.com/rs/cors v1.8.1 // indirect
+	github.com/rs/cors/wrapper/gin v0.0.0-20211222042454-bf1dbac76afe // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 )
