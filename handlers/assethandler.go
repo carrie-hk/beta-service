@@ -20,11 +20,12 @@ func NewAssetHandler(dbAccess *db.DbAccess) (*AssetHandler, error) {
 //This function returns all of the assets in the AXU.whisky_bottles
 func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 
-	pageIndex, err := strconv.Atoi(ctx.Query("pageIdx"))
+	pageSize, err := strconv.Atoi(ctx.Query("pageSize"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
 	}
-	pageSize, err := strconv.Atoi(ctx.Query("pageSize"))
+
+	pageIndex, err := strconv.Atoi(ctx.Query("pageIdx"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
 	}

@@ -13,7 +13,7 @@ type AssetDbAccess struct {
 
 func (s *AssetDbAccess) AllAssets(pageSize int, pageIndex int) ([]models.Asset, error) {
 	var aa []models.Asset
-	query := "SELECT * from AXU.whisky_bottles WHERE id < $1 ORDER BY id DESC LIMIT $2"
+	query := "SELECT * from AXU.whisky_bottles WHERE id < $1 ORDER BY id DESC LIMIT 51"
 
 	err := s.Select(&aa, query, pageSize, pageIndex)
 	if err != nil {
