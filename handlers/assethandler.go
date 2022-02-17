@@ -24,8 +24,12 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
 	}
+	pageSize, err := strconv.Atoi(ctx.Query("pageSize"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+	}
 
-	assets, err := h.dbAccess.AssetDbAccess.AllAssets(pageIndex)
+	assets, err := h.dbAccess.AssetDbAccess.AllAssets(pageIndex, pageSize)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
