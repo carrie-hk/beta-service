@@ -11,13 +11,16 @@ type AssetDbAccess struct {
 	*sqlx.DB
 }
 
-func (s *AssetDbAccess) Assets() ([]models.Asset, error) {
+func (s *AssetDbAccess) AllAssets(index int) ([]models.Asset, error) {
 	var aa []models.Asset
-	err := s.Select(&aa, "SELECT * from AXU.whisky_bottles")
+	query := "SELECT * from AXU.whisky_bottles WHERE id < $1 ORDER BY id DESC"
+
+	err := s.Select(&aa, query, index)
 	if err != nil {
 		log.Println("error selecting asset", err)
 		return []models.Asset{}, err
 	}
+
 	return aa, nil
 }
 

@@ -4,6 +4,7 @@ import (
 	"beta_service/db"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +20,12 @@ func NewAssetHandler(dbAccess *db.DbAccess) (*AssetHandler, error) {
 //This function returns all of the assets in the AXU.whisky_bottles
 func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 
-	assets, err := h.dbAccess.AssetDbAccess.Assets()
+	pageIndex, err := strconv.Atoi(ctx.Query("pageIdx"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	assets, err := h.dbAccess.AssetDbAccess.AllAssets(pageIndex)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
