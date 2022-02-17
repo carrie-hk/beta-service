@@ -30,7 +30,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	assets, err := h.dbAccess.AssetDbAccess.GetAllAssets(pageSize, pageIndex)
+	assets, err := h.dbAccess.AssetDbAccess.GetAllAssets(pageIndex, pageSize)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
