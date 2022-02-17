@@ -11,7 +11,7 @@ type AssetDbAccess struct {
 	*sqlx.DB
 }
 
-func (s *AssetDbAccess) AllAssets(pageSize int, pageIndex int) ([]models.Asset, error) {
+func (s *AssetDbAccess) GetAllAssets(pageSize int, pageIndex int) ([]models.Asset, error) {
 	var aa []models.Asset
 	query := "SELECT * from AXU.whisky_bottles WHERE `Bottle ID` < ? ORDER BY 'Bottle ID' DESC LIMIT ?"
 
@@ -24,7 +24,7 @@ func (s *AssetDbAccess) AllAssets(pageSize int, pageIndex int) ([]models.Asset, 
 	return aa, nil
 }
 
-func (s *AssetDbAccess) FeaturedAssets() ([]models.Asset, error) {
+func (s *AssetDbAccess) GetFeaturedAssets() ([]models.Asset, error) {
 	var fa []models.Asset
 	query := "SELECT * from AXU.whisky_bottles WHERE `Featured`=1"
 
