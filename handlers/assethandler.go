@@ -30,7 +30,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	assets, err := h.dbAccess.AssetDbAccess.AllAssets(pageSize, pageIndex)
+	assets, err := h.dbAccess.AssetDbAccess.GetAllAssets(pageSize, pageIndex)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
@@ -49,7 +49,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 //This function returns a featured subset of the bottles
 func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 
-	assets, err := h.dbAccess.AssetDbAccess.FeaturedAssets()
+	assets, err := h.dbAccess.AssetDbAccess.GetFeaturedAssets()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return

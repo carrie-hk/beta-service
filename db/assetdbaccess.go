@@ -26,17 +26,9 @@ func (s *AssetDbAccess) AllAssets(pageSize int, pageIndex int) ([]models.Asset, 
 
 func (s *AssetDbAccess) FeaturedAssets() ([]models.Asset, error) {
 	var fa []models.Asset
-	err := s.Select(&fa, "SELECT * from AXU.whisky_bottles WHERE `Featured`=1")
-	if err != nil {
-		log.Println("error selecting featured asset", err)
-		return []models.Asset{}, err
-	}
-	return fa, nil
-}
+	query := "SELECT * from AXU.whisky_bottles WHERE `Featured`=1"
 
-func (s *AssetDbAccess) TestAssets() ([]models.Asset, error) {
-	var fa []models.Asset
-	err := s.Select(&fa, "SELECT Age, from AXU.whisky_bottles WHERE `Bottle ID`=1")
+	err := s.Select(&fa, query)
 	if err != nil {
 		log.Println("error selecting featured asset", err)
 		return []models.Asset{}, err
