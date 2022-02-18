@@ -4,6 +4,7 @@ import (
 	"beta_service/db"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +20,17 @@ func NewAssetHandler(dbAccess *db.DbAccess) (*AssetHandler, error) {
 //This function returns all of the assets in the AXU.whisky_bottles
 func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 
-	assets, err := h.dbAccess.AssetDbAccess.Assets()
+	pageSize, err := strconv.Atoi(ctx.Query("pageSize"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	pageIndex, err := strconv.Atoi(ctx.Query("pageIdx"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	assets, err := h.dbAccess.AssetDbAccess.GetAllAssets(pageIndex, pageSize)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
@@ -38,7 +49,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 //This function returns a featured subset of the bottles
 func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 
-	assets, err := h.dbAccess.AssetDbAccess.FeaturedAssets()
+	assets, err := h.dbAccess.AssetDbAccess.GetFeaturedAssets()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return

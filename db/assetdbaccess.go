@@ -11,29 +11,24 @@ type AssetDbAccess struct {
 	*sqlx.DB
 }
 
-func (s *AssetDbAccess) Assets() ([]models.Asset, error) {
+func (s *AssetDbAccess) GetAllAssets(pageIndex int, pageSize int) ([]models.Asset, error) {
 	var aa []models.Asset
-	err := s.Select(&aa, "SELECT * from AXU.whisky_bottles")
+	query := "SELECT * from AXU.whisky_bottles WHERE `Bottle ID` > ? ORDER BY 'Bottle ID' DESC LIMIT ?"
+
+	err := s.Select(&aa, query, pageIndex, pageSize)
 	if err != nil {
 		log.Println("error selecting asset", err)
 		return []models.Asset{}, err
 	}
+
 	return aa, nil
 }
 
-func (s *AssetDbAccess) FeaturedAssets() ([]models.Asset, error) {
+func (s *AssetDbAccess) GetFeaturedAssets() ([]models.Asset, error) {
 	var fa []models.Asset
-	err := s.Select(&fa, "SELECT * from AXU.whisky_bottles WHERE `Featured`=1")
-	if err != nil {
-		log.Println("error selecting featured asset", err)
-		return []models.Asset{}, err
-	}
-	return fa, nil
-}
+	query := "SELECT * from AXU.whisky_bottles WHERE `Featured`=1"
 
-func (s *AssetDbAccess) TestAssets() ([]models.Asset, error) {
-	var fa []models.Asset
-	err := s.Select(&fa, "SELECT Age, from AXU.whisky_bottles WHERE `Bottle ID`=1")
+	err := s.Select(&fa, query)
 	if err != nil {
 		log.Println("error selecting featured asset", err)
 		return []models.Asset{}, err
