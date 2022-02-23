@@ -1,0 +1,23 @@
+name: Deploy beta-service to production
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-database-with-liquibase:
+    name: Build DB with Liquibase 
+    build:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Build database with Liquibase
+        - uses: actions/checkout@v2
+        - uses: liquibase/liquibase-github-action@v3
+          with:
+            operation: 'update'
+            classpath: '../db_changelogs/'
+            changeLogFile: 'changelog_master.xml'
+            username: ${{ secrets.DB_USERNAME }}
+            password: ${{ secrets.DB_PASSWORD }}
+            url: ${{ secrets.DB_URL }}
+            tag: 
