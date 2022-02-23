@@ -12,6 +12,9 @@ It is up to each developer to label each changeset with the correct Changeset ID
 
 Violators will be thrown in the rancor pit
 
+Additionally, the DATABASECHANGELOG, the table in the database that keeps the record of all changes made with Liquibase,
+keeps track of changesets using this ID scheme 
+
 */
 
 
