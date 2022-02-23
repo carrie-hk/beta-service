@@ -9,12 +9,12 @@ each changeset uses the following attribute nomenclature:
 [Liquibase ID]:[Changeset ID]
 
 Your Liquibase ID will be unique, thus ensuring that you won't conflict with another developer
-It is up to each developer to label each changeset with the correct Changeset ID!
+It is up to each developer to label each changeset with the correct Changeset ID! Violators will be thrown in the rancor pit
 
-Violators will be thrown in the rancor pit
-
-Additionally, the DATABASECHANGELOG, the table in the database that keeps the record of all changes made with Liquibase,
+Additionally, the DATABASECHANGELOG, the tracking table in the database that keeps the record of all changes made with Liquibase,
 keeps track of changesets using these attributes
+
+Each changeset should be atomic - i.e. one single change to the database schema - this makes debugging easier
 
 */
 
