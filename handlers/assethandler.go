@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"beta_service/db"
+	"beta_service/db_access"
 	"log"
 	"net/http"
 
@@ -9,10 +9,10 @@ import (
 )
 
 type AssetHandler struct {
-	dbAccess *db.DbAccess
+	dbAccess *db_access.DbAccess
 }
 
-func NewAssetHandler(dbAccess *db.DbAccess) (*AssetHandler, error) {
+func NewAssetHandler(dbAccess *db_access.DbAccess) (*AssetHandler, error) {
 	return &AssetHandler{dbAccess: dbAccess}, nil
 }
 

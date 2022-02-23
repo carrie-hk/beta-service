@@ -1,7 +1,7 @@
 package main
 
 import (
-	"beta_service/db"
+	"beta_service/db_access"
 	"beta_service/handlers"
 	"beta_service/middlewares"
 	"beta_service/routers"
@@ -24,7 +24,7 @@ func main() {
 	parseBuildArgs()
 
 	// Initialize database connection and model stores
-	dbAccess, err := db.NewDbAccess()
+	dbAccess, err := db_access.NewDbAccess()
 	logFatal(err)
 
 	// Initialize handlers for models

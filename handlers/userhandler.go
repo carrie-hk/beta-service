@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"beta_service/db"
+	"beta_service/db_access"
 	"beta_service/models"
 	"net/http"
 
@@ -9,10 +9,10 @@ import (
 )
 
 type UserHandler struct {
-	dbAccess *db.DbAccess
+	dbAccess *db_access.DbAccess
 }
 
-func NewUserHandler(dbAccess *db.DbAccess) (*UserHandler, error) {
+func NewUserHandler(dbAccess *db_access.DbAccess) (*UserHandler, error) {
 	return &UserHandler{dbAccess: dbAccess}, nil
 }
 
