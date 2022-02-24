@@ -1,13 +1,12 @@
-name: Deploy beta-service to production
+name: Deploy beta-service to Production
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build-database-with-liquibase:
     name: Build DB with Liquibase 
-    build:
+    build-env:
       runs-on: ubuntu-latest
       steps:
       - name: Build database with Liquibase
