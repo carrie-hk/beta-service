@@ -7,10 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  # Both the building of the DB with Liquibase and the deployment to App Engine will be 
-  # contained in one single job
-  # This is because the deployment to App Engine 
+
   build:
+  
     runs-on: ubuntu-latest
     steps:
 
