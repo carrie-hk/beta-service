@@ -17,7 +17,8 @@ jobs:
       # Check out the main branch in the runner
       - name: Checking out the main branch
         uses: actions/checkout@v2
-        run: echo "Successfully checked out master branch"
+        
+      - run: echo "Successfully checked out master branch"
 
     # Build the database using the latest master changelog 
       - name: Building the database from the Liquibase changelog
@@ -30,4 +31,5 @@ jobs:
           password: ${{ secrets.DB_PASSWORD }}
           url: ${{ secrets.DB_URL }}
           tag: 
-        run: echo "Successfully built production database"
+        
+      - run: echo "Successfully built production database"
