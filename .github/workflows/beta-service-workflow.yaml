@@ -28,7 +28,19 @@ jobs:
           changeLogFile: 'changelog_master.xml'
           username: ${{ secrets.DB_USERNAME }}
           password: ${{ secrets.DB_PASSWORD }}
-          url: ${{ secrets.DB_URL }}
-          tag: 
+          url: ${{ secrets.DB_URL }} 
         
       - run: echo "Successfully built production database"
+
+      - name: Updating latest database version tag
+        uses: liquibase/liquibase-github-action@v3
+          with:
+            operation: 'tag'
+            classpath: '../db_changelogs/'
+            changeLogFile: 'changelog_master.xml'
+            username: ${{ secrets.DB_USERNAME }}
+            password: ${{ secrets.DB_PASSWORD }}
+            url: ${{ secrets.DB_URL }}
+            tag: 'version1'
+
+      - run: echo "Successfully updated version tag"
