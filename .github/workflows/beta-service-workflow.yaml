@@ -1,16 +1,26 @@
 name: Deploy beta-service to Production
+
+# Will run whenever a commit is pushed to main
+# This should only be from the staging branch!
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build-database-with-liquibase:
-    name: Build DB with Liquibase 
-    build-env:
-      runs-on: ubuntu-latest
-      steps:
-      - name: Build database with Liquibase
+  # Both the building of the DB with Liquibase and the deployment to App Engine will be 
+  # contained in one single job
+  # This is because the deployment to App Engine 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Check out the main branch in the runner
+      - name: Checking out the main branch
         - uses: actions/checkout@v2
+        - run: echo "Successfully checked out master branch"
+
+    # Build the database using the latest master changelog 
+      - name: Building the database from the Liquibase changelog
         - uses: liquibase/liquibase-github-action@v3
           with:
             operation: 'update'
@@ -20,3 +30,4 @@ jobs:
             password: ${{ secrets.DB_PASSWORD }}
             url: ${{ secrets.DB_URL }}
             tag: 
+        - run: echo "Successfully built production database"
