@@ -2,6 +2,7 @@ package db_access
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -13,15 +14,15 @@ type DbAccess struct {
 	*UserDbAccess
 }
 
-func NewDbAccess(cfg mysql.Config) (*DbAccess, error) {
+func NewDbAccess() (*DbAccess, error) {
 
-	// cfg := mysql.Config{
-	// 	User:                 os.Getenv("DB_USERNAME"),
-	// 	Passwd:               os.Getenv("DB_PASSWORD"),
-	// 	Net:                  os.Getenv("DB_NET"),
-	// 	Addr:                 os.Getenv("DB_ADDR"),
-	// 	AllowNativePasswords: true,
-	// }
+	cfg := mysql.Config{
+		User:                 os.Getenv("DB_USERNAME"),
+		Passwd:               os.Getenv("DB_PASSWORD"),
+		Net:                  os.Getenv("DB_NET"),
+		Addr:                 os.Getenv("DB_ADDR"),
+		AllowNativePasswords: true,
+	}
 
 	db, err := sqlx.Open("mysql", cfg.FormatDSN())
 	if err != nil {
