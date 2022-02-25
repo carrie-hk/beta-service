@@ -17,7 +17,7 @@ type DbAccess struct {
 func NewDbAccess() (*DbAccess, error) {
 
 	cfg := mysql.Config{
-		User:                 os.Getenv("DB_USER"),
+		User:                 os.Getenv("DB_USERNAME"),
 		Passwd:               os.Getenv("DB_PASSWORD"),
 		Net:                  os.Getenv("DB_NET"),
 		Addr:                 os.Getenv("DB_ADDR"),

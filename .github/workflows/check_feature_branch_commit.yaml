@@ -1,4 +1,4 @@
-name: Perform Checks on Committed Go Code
+name: Compile, test, and lint committed Go code
 
 on:
   push:
