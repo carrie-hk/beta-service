@@ -1,25 +1,36 @@
 package handlers
 
 import (
-	"beta_service/db"
+	"beta_service/db_access"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 type AssetHandler struct {
-	dbAccess *db.DbAccess
+	dbAccess *db_access.DbAccess
 }
 
-func NewAssetHandler(dbAccess *db.DbAccess) (*AssetHandler, error) {
+func NewAssetHandler(dbAccess *db_access.DbAccess) (*AssetHandler, error) {
 	return &AssetHandler{dbAccess: dbAccess}, nil
 }
 
 //This function returns all of the assets in the AXU.whisky_bottles
 func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 
-	assets, err := h.dbAccess.AssetDbAccess.Assets()
+	pageSize, err := strconv.Atoi(ctx.Query("pageSize"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	pageIndex, err := strconv.Atoi(ctx.Query("pageIdx"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	assets, err := h.dbAccess.AssetDbAccess.GetAllAssets(pageIndex, pageSize)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
@@ -38,7 +49,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 //This function returns a featured subset of the bottles
 func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 
-	assets, err := h.dbAccess.AssetDbAccess.FeaturedAssets()
+	assets, err := h.dbAccess.AssetDbAccess.GetFeaturedAssets()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
