@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
 
@@ -24,7 +25,14 @@ func main() {
 	parseBuildArgs()
 
 	// Initialize database connection and model stores
-	dbAccess, err := db_access.NewDbAccess()
+	cfg := mysql.Config{
+		User:                 os.Getenv("DB_USERNAME"),
+		Passwd:               os.Getenv("DB_PASSWORD"),
+		Net:                  os.Getenv("DB_NET"),
+		Addr:                 os.Getenv("DB_ADDR"),
+		AllowNativePasswords: true,
+	}
+	dbAccess, err := db_access.NewDbAccess(cfg)
 	logFatal(err)
 
 	// Initialize handlers for models
