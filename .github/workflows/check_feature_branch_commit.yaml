@@ -10,12 +10,19 @@ jobs:
       ubuntu-latest
 
     env:
-      SERVER_PORT: ":8080" #${{ secrets.DEV_SERVER_PORT }}
-      BAXUS_ORIGIN: "http://locahost:3000" #${{ secrets.DEV_BAXUS_ORIGIN }}
-      DB_USER: "dbuser" #${{ secrets.DEV_DB_USERNAME }}
-      DB_PASSWORD: "dbuserdbuser" #${{ secrets.DEV_DB_PASSWORD }}
-      DB_NET: "tcp" #${{ secrets.DEV_DB_NET }}
-      DB_ADDR: "baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306" #${{ secrets.DEV_DB_ADDR }}
+      SERVER_PORT: ${{ secrets.DEV_SERVER_PORT }}
+      BAXUS_ORIGIN: ${{ secrets.DEV_BAXUS_ORIGIN }}
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          DB_USER: ${{ secrets.DEV_DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
+          DB_NET: ${{ secrets.DEV_DB_NET }}
+          DB_ADDR: ${{ secrets.DEV_DB_ADDR }}
+        ports:
+        - 32574:3306
     
     steps:
       - name: Checkout repo 
@@ -27,6 +34,8 @@ jobs:
           go-version: '1.16.1'
 
       - name: Run Go code
+        env:
+          PORT: ${{ job.services.mysql.ports[3306] }}
         run: go run app/main.go
 
       - name: Lint Go code
