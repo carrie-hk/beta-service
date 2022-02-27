@@ -18,7 +18,7 @@ jobs:
       DB_ADDR: ${{ secrets.DEV_DB_ADDR }}
     
     steps:
-      - name: Checkout repo
+      - name: Checkout repo 
         uses: actions/checkout@v2
 
       - name: Set up Go environment
