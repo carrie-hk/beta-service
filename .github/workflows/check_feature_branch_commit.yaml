@@ -36,4 +36,4 @@ jobs:
       #     version: latest
 
       - name: Printing environment variables
-        run: echo "URL: $DB_ADDR, PASS: $DB_PASSWORD"
+        run: echo "URL $DB_ADDR, PASS $DB_PASSWORD"
