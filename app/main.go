@@ -20,6 +20,9 @@ import (
 func main() {
 
 	err := godotenv.Load(".env")
+	if err == nil {
+		log.Print("Building locally...")
+	}
 
 	// Initialize database connection and model stores
 	dbAccess, err := db_access.NewDbAccess()
@@ -78,13 +81,6 @@ func main() {
 	log.Print("Server Running and Accepting Requests")
 
 	wg.Wait()
-}
-
-func checkForEnv() {
-	_, err := os.Stat(".env")
-	if err == nil {
-		godotenv.Load(".env")
-	}
 }
 
 func logFatal(err error) {
