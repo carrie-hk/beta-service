@@ -32,7 +32,7 @@ jobs:
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -h baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+          mysql -h baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com -u${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }}
 
       - name: Set up Go environment
         uses: actions/setup-go@v2
