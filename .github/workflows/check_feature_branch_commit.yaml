@@ -12,7 +12,7 @@ jobs:
     env:
       SERVER_PORT: ${{ secrets.DEV_SERVER_PORT }}
       BAXUS_ORIGIN: ${{ secrets.DEV_BAXUS_ORIGIN }}
-      DB_USER: ${{ secrets.DEV_DB_USERNAME }}
+      DB_USERNAME: ${{ secrets.DEV_DB_USERNAME }}
       DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
       DB_NET_TYPE: ${{ secrets.DEV_DB_NET_TYPE }}
       DB_NET_ADDR: ${{ secrets.DEV_DB_NET_ADDR }}
