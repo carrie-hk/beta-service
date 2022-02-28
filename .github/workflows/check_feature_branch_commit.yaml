@@ -21,8 +21,9 @@ jobs:
           DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
           DB_NET: ${{ secrets.DEV_DB_NET }}
           DB_ADDR: ${{ secrets.DEV_DB_ADDR }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
         ports:
-        - 3306
+        - 3306:3306
     
     steps:
       - name: Checkout repo 
