@@ -5,7 +5,6 @@ import (
 	"beta_service/handlers"
 	"beta_service/middlewares"
 	"beta_service/routers"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -21,7 +20,8 @@ import (
 func main() {
 
 	// Enable use of .env file if running with "local" flag
-	parseBuildArgs()
+	// parseBuildArgs()
+	godotenv.Load(".env")
 
 	// Initialize database connection and model stores
 	dbAccess, err := db_access.NewDbAccess()
@@ -80,23 +80,6 @@ func main() {
 	log.Print("Server Running and Accepting Requests")
 
 	wg.Wait()
-}
-
-func parseBuildArgs() {
-	numArgs := len(os.Args[1:])
-	if numArgs == 1 {
-		switch os.Args[1] {
-		case "local", "-local":
-			err := godotenv.Load(".env")
-			if os.IsExist(err) {
-				fmt.Println("Error loading .env file")
-			}
-		default:
-			break
-		}
-	} else if numArgs > 1 {
-		fmt.Println("Invalid command line arguments")
-	}
 }
 
 func logFatal(err error) {

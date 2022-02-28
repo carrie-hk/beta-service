@@ -36,12 +36,12 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 		return
 	}
 
-	ctx.IndentedJSON(http.StatusOK, assets)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, err.Error())
-	} else {
-		log.Print("Message successful")
-	}
+	ctx.JSON(http.StatusOK, assets)
+	// if err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, err.Error())
+	// } else {
+	// 	log.Print("Message successful")
+	// }
 
 	log.Print(http.StatusOK, nil)
 }
