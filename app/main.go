@@ -19,6 +19,7 @@ import (
 
 func main() {
 
+	// Temporary janky-ass workaround so a linter doesn't throw an error
 	err := godotenv.Load(".env")
 	if err == nil {
 		log.Print("Building locally...")

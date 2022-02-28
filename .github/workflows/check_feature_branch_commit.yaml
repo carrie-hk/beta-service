@@ -28,9 +28,3 @@ jobs:
 
       - name: Run Go unit tests
         run: go test ./...
-
-      - name: Lint Go code
-        uses: golangci/golangci-lint-action@v3
-        with:
-          # Version of golangci-lint to use in form of v1.2 or v1.2.3 or `latest` to use the latest version
-          version: latest
