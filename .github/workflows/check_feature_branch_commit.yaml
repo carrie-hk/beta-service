@@ -21,7 +21,6 @@ jobs:
           DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
           DB_NET_TYPE: ${{ secrets.DEV_DB_NET_TYPE }}
           DB_NET_ADDR: ${{ secrets.DEV_DB_NET_ADDR }}
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
         ports:
         - 3306:3306
     
