@@ -31,8 +31,8 @@ jobs:
 
       - name: Set up MySQL
         run: |
-        sudo /etc/init.d/mysql start
-        mysql -h ${{ env.DB_NET_ADDR }} -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+          sudo /etc/init.d/mysql start
+          mysql -h ${{ env.DB_NET_ADDR }} -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
 
       - name: Set up Go environment
         uses: actions/setup-go@v2
