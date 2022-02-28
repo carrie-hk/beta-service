@@ -4,7 +4,7 @@ name: Build production database from newest changelog
 # This should only be from the staging branch!
 on:
   push:
-    branches: [ main ]
+    branches: [ staging ]
 
 jobs:
 
@@ -20,27 +20,27 @@ jobs:
       - run: echo "Successfully checked out master branch"
 
     # Build the database using the latest master changelog 
-      - name: Building the production database from the Liquibase changelog
+      - name: Building the staging database from the Liquibase changelog
         uses: liquibase/liquibase-github-action@v3
         with:
           operation: 'update'
           classpath: '../db_changelogs/'
           changeLogFile: 'changelog_master.xml'
-          username: ${{ secrets.PROD_DB_USERNAME }}
-          password: ${{ secrets.PROD_DB_PASSWORD }}
-          url: ${{ secrets.PROD_DB_URL }} 
+          username: ${{ secrets.STAGING_DB_USERNAME }}
+          password: ${{ secrets.STAGING_DB_PASSWORD }}
+          url: ${{ secrets.STAGING_DB_URL }} 
         
-      - run: echo "Successfully built production database"
+      - run: echo "Successfully built staging database"
 
-      - name: Updating latest production database version tag
+      - name: Updating latest staging database version tag
         uses: liquibase/liquibase-github-action@v3
         with:
           operation: 'tag'
           classpath: '../db_changelogs/'
           changeLogFile: 'changelog_master.xml'
-          username: ${{ secrets.PROD_DB_USERNAME }}
-          password: ${{ secrets.PROD_DB_PASSWORD }}
-          url: ${{ secrets.PROD_DB_URL }}
+          username: ${{ secrets.STAGING_DB_USERNAME }}
+          password: ${{ secrets.STAGING_DB_PASSWORD }}
+          url: ${{ secrets.STAGING_DB_URL }}
           tag: 'version1'
 
       - run: echo "Successfully updated version tag"
