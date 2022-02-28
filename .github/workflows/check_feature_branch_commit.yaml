@@ -17,11 +17,11 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          DB_USER: ${{ secrets.DEV_DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
-          DB_NET_TYPE: ${{ secrets.DEV_DB_NET_TYPE }}
-          DB_NET_ADDR: ${{ secrets.DEV_DB_NET_ADDR }}
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
+          DB_USER: "dbuser" # ${{ secrets.DEV_DB_USERNAME }}
+          DB_PASSWORD: "dbuserdbuser" # ${{ secrets.DEV_DB_PASSWORD }}
+          DB_NET_TYPE: "tcp" # ${{ secrets.DEV_DB_NET_TYPE }}
+          DB_NET_ADDR: "https://baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306" # ${{ secrets.DEV_DB_NET_ADDR }}
+          MYSQL_ROOT_PASSWORD: "dbuserdbuser" # ${{ secrets.DEV_DB_PASSWORD }}
         ports:
         - 3306:3306
     
