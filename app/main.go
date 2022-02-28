@@ -19,8 +19,6 @@ import (
 
 func main() {
 
-	// Enable use of .env file if running with "local" flag
-	// parseBuildArgs()
 	err := godotenv.Load(".env")
 
 	// Initialize database connection and model stores
@@ -80,6 +78,13 @@ func main() {
 	log.Print("Server Running and Accepting Requests")
 
 	wg.Wait()
+}
+
+func checkForEnv() {
+	_, err := os.Stat(".env")
+	if err == nil {
+		godotenv.Load(".env")
+	}
 }
 
 func logFatal(err error) {
