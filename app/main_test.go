@@ -45,7 +45,7 @@ func Test_GetAllAssets(t *testing.T) {
 }
 
 func Test_GetFeaturedAssets(t *testing.T) {
-	godotenv.Load("../.env")
+	err := godotenv.Load("../.env")
 
 	dbAccess, err := db_access.NewDbAccess()
 	if err != nil {

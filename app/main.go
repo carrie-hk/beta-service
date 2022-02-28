@@ -21,7 +21,7 @@ func main() {
 
 	// Enable use of .env file if running with "local" flag
 	// parseBuildArgs()
-	godotenv.Load(".env")
+	err := godotenv.Load(".env")
 
 	// Initialize database connection and model stores
 	dbAccess, err := db_access.NewDbAccess()
