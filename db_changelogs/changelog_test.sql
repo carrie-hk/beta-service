@@ -28,4 +28,11 @@ CREATE TABLE yourname (
 
 */
 
+--changeset Elliot-BAXUS:2
+--rollback DROP TABLE TestTable
+CREATE TABLE TestTable (
+    id int primary key,
+    name varchar(50) not null
+)
+
 
