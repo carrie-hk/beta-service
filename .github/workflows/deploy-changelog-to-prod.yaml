@@ -16,8 +16,6 @@ jobs:
       # Check out the main branch in the runner
       - name: Checking out the main branch
         uses: actions/checkout@v2
-        
-      - run: echo "Successfully checked out master branch"
 
     # Build the database using the latest master changelog 
       - name: Building the production database from the Liquibase changelog
@@ -29,8 +27,6 @@ jobs:
           username: ${{ secrets.PROD_DB_USERNAME }}
           password: ${{ secrets.PROD_DB_PASSWORD }}
           url: ${{ secrets.PROD_DB_URL }} 
-        
-      - run: echo "Successfully built production database"
 
       - name: Updating latest production database version tag
         uses: liquibase/liquibase-github-action@v3
@@ -42,5 +38,3 @@ jobs:
           password: ${{ secrets.PROD_DB_PASSWORD }}
           url: ${{ secrets.PROD_DB_URL }}
           tag: 'version1'
-
-      - run: echo "Successfully updated version tag"
