@@ -1,0 +1,23 @@
+name: Deploy repo to Google App Engine cors-test-branch Project
+
+on:
+  push:
+    branches: [ add-appengine-gh-action ]
+
+jobs:
+
+  job_id:
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        workload_identity_provider: 'projects/387889813099/locations/global/workloadIdentityPools/gh-beta-service-cors-pool/providers/gh-beta-service-cors-provider'
+        service_account: 'github-beta-service-deployment@cors-branch-test.iam.gserviceaccount.com'
+
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v0'
