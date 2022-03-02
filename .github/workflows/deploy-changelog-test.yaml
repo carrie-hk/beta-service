@@ -34,7 +34,7 @@ jobs:
           operation: 'tag'
           classpath: 'db_changelogs/'
           changeLogFile: 'changelog_master.xml'
-          username: ${{ secrets.PROD_DB_USERNAME }}
-          password: ${{ secrets.PROD_DB_PASSWORD }}
+          username: ${{ secrets.DEV_DB_USERNAME }}
+          password: ${{ secrets.DEV_DB_PASSWORD }}
           url: 'jdbc:mysql://baxus.c3tf20wv9p1c.us-east-2.rds.amazonaws.com:3306/dev'
           tag: 'version1'
