@@ -21,7 +21,7 @@ jobs:
     - name: Setting app.yaml values
       uses: golang-enthusiast/app-yaml-env-compiler@v1.0
       env:
-        SERVER_PORT: ${{ secrets.STAGING_SERVER_PORT }}
+        SERVER_PORT: ${{ secrets.SERVER_PORT }}
         BAXUS_ORIGIN: ${{ secrets.STAGING_BAXUS_ORIGIN }}
         DB_USERNAME: ${{ secrets.STAGING_DB_USERNAME }}
         DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}

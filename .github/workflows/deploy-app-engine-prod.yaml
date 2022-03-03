@@ -21,7 +21,7 @@ jobs:
     - name: Setting app.yaml values
       uses: golang-enthusiast/app-yaml-env-compiler@v1.0
       env:
-        SERVER_PORT: ${{ secrets.PROD_SERVER_PORT }}
+        SERVER_PORT: ${{ secrets.SERVER_PORT }}
         BAXUS_ORIGIN: ${{ secrets.PROD_BAXUS_ORIGIN }}
         DB_USERNAME: ${{ secrets.PROD_DB_USERNAME }}
         DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
