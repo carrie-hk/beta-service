@@ -22,7 +22,7 @@ jobs:
         uses: liquibase/liquibase-github-action@v3
         with:
           operation: 'update'
-          classpath: '../db_changelogs/'
+          classpath: 'db_changelogs/'
           changeLogFile: 'changelog_master.xml'
           username: ${{ secrets.PROD_DB_USERNAME }}
           password: ${{ secrets.PROD_DB_PASSWORD }}
@@ -32,7 +32,7 @@ jobs:
         uses: liquibase/liquibase-github-action@v3
         with:
           operation: 'tag'
-          classpath: '../db_changelogs/'
+          classpath: 'db_changelogs/'
           changeLogFile: 'changelog_master.xml'
           username: ${{ secrets.PROD_DB_USERNAME }}
           password: ${{ secrets.PROD_DB_PASSWORD }}
