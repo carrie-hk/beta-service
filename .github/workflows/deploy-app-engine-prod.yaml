@@ -2,7 +2,7 @@ name: Deploy repo to Google App Engine cors-test-branch Project
 
 on:
   push:
-    branches: [ add-appengine-gh-action ]
+    branches: [ main ]
 
 jobs:
 
@@ -28,11 +28,11 @@ jobs:
         DB_NET_TYPE: ${{ secrets.DEV_DB_NET_TYPE }}
         DB_NET_ADDR: ${{ secrets.DEV_DB_NET_ADDR }}
 
-    - name: Authenticating Service Account with Workload Identity Federation
+    - name: Authenticating baxus-prod-service Service Account with Workload Identity Federation
       uses: 'google-github-actions/auth@v0'
       with:
-        workload_identity_provider: 'projects/385012687961/locations/global/workloadIdentityPools/gh-beta-service-staging-pool/providers/gh-beta-service-staging-provider'
-        service_account: 'github-beta-service-account@baxus-staging-service.iam.gserviceaccount.com'
+        workload_identity_provider: 'projects/3835018965/locations/global/workloadIdentityPools/gh-beta-service-prod-pool/providers/gh-beta-service-prod-provider'
+        service_account: 'github-beta-service-deployment@baxus-prod-service.iam.gserviceaccount.com'
 
     - name: Deploying to App Engine
       uses: 'google-github-actions/deploy-appengine@v0' 
