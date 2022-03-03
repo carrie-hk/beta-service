@@ -1,0 +1,40 @@
+name: Build production database from newest changelog
+
+# Will run whenever a commit is pushed to main
+# This should only be from the staging branch!
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+
+  build:
+  
+    runs-on: ubuntu-latest
+    steps:
+
+      # Check out the main branch in the runner
+      - name: Checking out the main branch
+        uses: actions/checkout@v2
+
+    # Build the database using the latest master changelog 
+      - name: Building the staging database from the Liquibase changelog
+        uses: liquibase/liquibase-github-action@v3
+        with:
+          operation: 'update'
+          classpath: 'db_changelogs/'
+          changeLogFile: 'changelog_master.xml'
+          username: ${{ secrets.STAGING_DB_USERNAME }}
+          password: ${{ secrets.STAGING_DB_PASSWORD }}
+          url: ${{ secrets.STAGING_DB_URL }} 
+
+      - name: Updating latest staging database version tag
+        uses: liquibase/liquibase-github-action@v3
+        with:
+          operation: 'tag'
+          classpath: 'db_changelogs/'
+          changeLogFile: 'changelog_master.xml'
+          username: ${{ secrets.STAGING_DB_USERNAME }}
+          password: ${{ secrets.STAGING_DB_PASSWORD }}
+          url: ${{ secrets.STAGING_DB_URL }}
+          tag: 'version1'
