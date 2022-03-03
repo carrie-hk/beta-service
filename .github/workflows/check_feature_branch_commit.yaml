@@ -1,0 +1,30 @@
+name: Compile, test, and lint committed Go code
+
+on:
+  push:
+    branches-ignore: [ main, staging ]
+
+jobs:
+  builds:
+    runs-on:
+      ubuntu-latest
+
+    env:
+      SERVER_PORT: ${{ secrets.DEV_SERVER_PORT }}
+      BAXUS_ORIGIN: ${{ secrets.DEV_BAXUS_ORIGIN }}
+      DB_USERNAME: ${{ secrets.DEV_DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
+      DB_NET_TYPE: ${{ secrets.DEV_DB_NET_TYPE }}
+      DB_NET_ADDR: ${{ secrets.DEV_DB_NET_ADDR }}
+    
+    steps:
+      - name: Checkout repo 
+        uses: actions/checkout@v2
+
+      - name: Set up Go environment
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16.1' 
+
+      - name: Run Go unit tests
+        run: go test ./...
