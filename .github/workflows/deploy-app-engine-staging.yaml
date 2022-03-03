@@ -1,0 +1,38 @@
+name: Deploy repo to Google App Engine baxus-staging-service Project
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+
+    - name: Checking out the main branch
+      uses: actions/checkout@v2
+
+    - name: Setting app.yaml values
+      uses: golang-enthusiast/app-yaml-env-compiler@v1.0
+      env:
+        SERVER_PORT: ${{ secrets.SERVER_PORT }}
+        BAXUS_ORIGIN: ${{ secrets.STAGING_BAXUS_ORIGIN }}
+        DB_USERNAME: ${{ secrets.STAGING_DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
+        DB_NET_TYPE: ${{ secrets.STAGING_DB_NET_TYPE }}
+        DB_NET_ADDR: ${{ secrets.STAGING_DB_NET_ADDR }}
+
+    - name: Authenticating Service Account with Workload Identity Federation
+      uses: 'google-github-actions/auth@v0'
+      with:
+        workload_identity_provider: 'projects/385012687961/locations/global/workloadIdentityPools/gh-beta-service-staging-pool/providers/gh-beta-service-staging-provider'
+        service_account: 'github-beta-service-account@baxus-staging-service.iam.gserviceaccount.com'
+
+    - name: Deploying to App Engine
+      uses: 'google-github-actions/deploy-appengine@v0' 

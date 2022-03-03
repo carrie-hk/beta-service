@@ -1,7 +1,6 @@
-name: Build production database from newest changelog
+name: Build staging database from newest changelog
 
-# Will run whenever a commit is pushed to main
-# This should only be from the staging branch!
+# Will run whenever a commit is pushed to staging
 on:
   push:
     branches: [ staging ]
