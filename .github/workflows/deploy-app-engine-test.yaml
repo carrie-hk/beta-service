@@ -13,10 +13,13 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
+    steps:
+    
     - name: Checking out the main branch
       uses: actions/checkout@v2
 
-    - uses: golang-enthusiast/app-yaml-env-compiler@v1.0
+    - name: Setting app.yaml values
+      uses: golang-enthusiast/app-yaml-env-compiler@v1.0
       env:
         SERVER_PORT: ${{ secrets.DEV_SERVER_PORT }}
         BAXUS_ORIGIN: ${{ secrets.DEV_BAXUS_ORIGIN }}
@@ -25,7 +28,6 @@ jobs:
         DB_NET_TYPE: ${{ secrets.DEV_DB_NET_TYPE }}
         DB_NET_ADDR: ${{ secrets.DEV_DB_NET_ADDR }}
 
-    steps:
     - name: Authenticating Service Account with Workload Identity Federation
       uses: 'google-github-actions/auth@v0'
       with:
