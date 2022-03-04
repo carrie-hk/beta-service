@@ -26,7 +26,7 @@ jobs:
           changeLogFile: 'changelog_master.xml'
           username: ${{ secrets.PROD_DB_USERNAME }}
           password: ${{ secrets.PROD_DB_PASSWORD }}
-          url: ${{ secrets.PROD_DB_NET_ADDR }} 
+          url: ${{ secrets.PROD_DB_NET_ADDR_DRIVER }} 
 
       - name: Updating latest production database version tag
         uses: liquibase/liquibase-github-action@v3
@@ -36,5 +36,5 @@ jobs:
           changeLogFile: 'changelog_master.xml'
           username: ${{ secrets.PROD_DB_USERNAME }}
           password: ${{ secrets.PROD_DB_PASSWORD }}
-          url: ${{ secrets.PROD_DB_NET_ADDR }}
+          url: ${{ secrets.PROD_DB_NET_ADDR_DRIVER }}
           tag: 'version1'
