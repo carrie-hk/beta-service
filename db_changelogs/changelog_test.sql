@@ -5,6 +5,6 @@
 CREATE TABLE TestTable (
     id int primary key,
     name varchar(50) not null
-)
+);
 
 
