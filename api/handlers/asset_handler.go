@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"beta_service/db_access"
+	"beta_service/db/data_access"
 	"log"
 	"net/http"
 	"strconv"
@@ -10,10 +10,10 @@ import (
 )
 
 type AssetHandler struct {
-	dbAccess *db_access.DbAccess
+	dbAccess *data_access.DbAccess
 }
 
-func NewAssetHandler(dbAccess *db_access.DbAccess) (*AssetHandler, error) {
+func NewAssetHandler(dbAccess *data_access.DbAccess) (*AssetHandler, error) {
 	return &AssetHandler{dbAccess: dbAccess}, nil
 }
 
@@ -30,7 +30,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	assets, err := h.dbAccess.AssetDbAccess.GetAllAssets(pageIndex, pageSize)
+	assets, err := h.dbAccess.GetAllAssets(pageIndex, pageSize)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
@@ -49,7 +49,7 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 //This function returns a featured subset of the bottles
 func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 
-	assets, err := h.dbAccess.AssetDbAccess.GetFeaturedAssets()
+	assets, err := h.dbAccess.GetFeaturedAssets()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return

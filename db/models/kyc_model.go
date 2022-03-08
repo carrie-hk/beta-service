@@ -1,6 +1,7 @@
 package models
 
-type User struct {
+type KYC struct {
+	Wallet          *string `db:"wallet"`
 	FirstName       *string `db:"firstName"`
 	LastName        *string `db:"lastName"`
 	PhoneNumber     *string `db:"phoneNumber"`
@@ -21,8 +22,4 @@ type User struct {
 	BirthMonth      *int32  `db:"birthMonth"`
 	BirthYear       *int32  `db:"birthYear"`
 	Title           *string `db:"title"`
-}
-
-type UserRequests interface {
-	CreateUser(u User) error
 }
