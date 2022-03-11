@@ -4,15 +4,15 @@
 --rollback DROP TABLE staging.axu
 CREATE TABLE staging.axu
 (
-    axu_id INT AUTO_INCREMENT NOT NULL,
+    axu_id INT NOT NULL,
     bax_id TEXT NOT NULL,
     asc_num INT NOT NULL,
     asset_type INT NOT NULL,
     time_created TIMESTAMP NOT NULL,
     asset_status ENUM ('Processing','Minted','Listed','Sold', 'Escrow', 'Redeemed') NOT NULL,
-    mint_addr TEXT NOT NULL,
-    update_addr TEXT NOT NULL,
-    featured BOOLEAN NOT NULL,
+    mint_addr TEXT,
+    update_addr TEXT,
+    featured BOOLEAN,
     shelf_loc TEXT,
     PRIMARY KEY (axu_id),
     UNIQUE (axu_id)
@@ -100,21 +100,21 @@ CREATE TABLE staging.wine_class
 CREATE TABLE staging.sprt_class
 (
     class_name TEXT NOT NULL,
-    age INT NOT NULL,
+    age INT,
     desc_short TEXT,
     desc_long TEXT NOT NULL,
-    year_distilled INT NOT NULL,
-    year_bottled INT NOT NULL,
+    year_distilled INT,
+    year_bottled INT,
     cask_type TEXT,
     cask_num TEXT,
-    single_cask BOOLEAN NOT NULL,
-    bttl_size INT NOT NULL,
+    single_cask BOOLEAN,
+    bttl_size INT,
     series TEXT,
-    spirit_type TEXT NOT NULL,
+    spirit_type TEXT,
     original_cask_yield INT,
-    abv FLOAT NOT NULL,
-    distillery TEXT NOT NULL,
-    bottler TEXT NOT NULL,
+    abv FLOAT,
+    distillery TEXT,
+    bottler TEXTL,
     class_id INT NOT NULL,
     PRIMARY KEY (class_id),
     FOREIGN KEY (class_id)
@@ -128,11 +128,11 @@ CREATE TABLE staging.sprt_class
 CREATE TABLE staging.bttl
 (
     axu_id INT NOT NULL,
-    bottle_num INT NOT NULL,
-    serial_num TEXT NOT NULL,
+    bottle_num INT,
+    serial_num TEXT,
     barcode TEXT,
     grade ENUM ('A+', 'A', 'A-', 'B+', 'B') NOT NULL,
-    packaging_desc TEXT NOT NULL,
+    packaging_desc TEXT,
     class_id INT NOT NULL,
     PRIMARY KEY (axu_id),
     FOREIGN KEY (axu_id)
