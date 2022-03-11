@@ -1,9 +1,9 @@
 package main
 
 import (
-	"beta_service/db_access"
-	"beta_service/handlers"
-	"beta_service/routers"
+	"beta_service/api/handlers"
+	"beta_service/api/router_groups"
+	"beta_service/db/data_access"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -15,7 +15,7 @@ import (
 func Test_GetAllAssets(t *testing.T) {
 	godotenv.Load("../.env")
 
-	dbAccess, err := db_access.NewDbAccess()
+	dbAccess, err := data_access.NewDbAccess()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -28,7 +28,7 @@ func Test_GetAllAssets(t *testing.T) {
 	// Create test router
 	test_router := gin.New()
 	// Add /asset endpoints to test router
-	routers.NewAssetRouter(test_router.Group("/assets"), assetHandler)
+	router_groups.NewAssetRouter(test_router.Group("/assets"), assetHandler)
 
 	// Create a new server using the test router
 	ts := httptest.NewServer(test_router)
@@ -47,7 +47,7 @@ func Test_GetAllAssets(t *testing.T) {
 func Test_GetFeaturedAssets(t *testing.T) {
 	err := godotenv.Load("../.env")
 
-	dbAccess, err := db_access.NewDbAccess()
+	dbAccess, err := data_access.NewDbAccess()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,7 +60,7 @@ func Test_GetFeaturedAssets(t *testing.T) {
 	// Create test router
 	test_router := gin.New()
 	// Add /asset endpoints to test router
-	routers.NewAssetRouter(test_router.Group("/assets"), assetHandler)
+	router_groups.NewAssetRouter(test_router.Group("/assets"), assetHandler)
 
 	// Create a new server using the test router
 	ts := httptest.NewServer(test_router)

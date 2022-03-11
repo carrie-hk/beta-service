@@ -1,28 +1,22 @@
-package db_access
+package data_access
 
 import (
-	"beta_service/models"
+	"beta_service/db/models"
 	"log"
-
-	"github.com/jmoiron/sqlx"
 )
 
-type UserDbAccess struct {
-	*sqlx.DB
-}
+func (db *DbAccess) CreateKYC(kyc models.KYC) error {
 
-func (s *UserDbAccess) CreateUser(u models.User) error {
-
-	_, err := s.NamedExec(`INSERT INTO KYC.customers (firstName, lastName, phoneNumber, email, streetAddrA_ship, 
+	_, err := db.NamedExec(`INSERT INTO kyc.customers (wallet, firstName, lastName, phoneNumber, email, streetAddrA_ship, 
 		streetAddrB_ship, city_ship, state_ship, country_ship, zipcode_ship, streetAddrA_bill, 
 		streetAddrB_bill, city_bill, state_bill, country_bill, zipcode_bill, birthDay, birthMonth, birthYear, title) 
 		VALUES (:firstName, :lastName, :phoneNumber, :email, :streetAddrA_ship, 
 			:streetAddrB_ship, :city_ship, :state_ship, :country_ship, :zipcode_ship, :streetAddrA_bill, 
 			:streetAddrB_bill, :city_bill, :state_bill, :country_bill, :zipcode_bill, :birthDay, :birthMonth, :birthYear, :title )`,
-		u)
+		kyc)
 
 	if err != nil {
-		log.Println("Issue with insert", err)
+		log.Println("Error inserting KYC information:", err)
 		return err
 	}
 

@@ -40,9 +40,3 @@ type Asset struct {
 	MSRP          *int64   `db:"MSRP"`
 	AnnualizedRet *int64   `db:"Annualized_return"`
 }
-
-type AssetRequests interface {
-	Assets() ([]Asset, error)
-	FeaturedAssets() ([]Asset, error)
-	TestAssets() ([]Asset, error)
-}

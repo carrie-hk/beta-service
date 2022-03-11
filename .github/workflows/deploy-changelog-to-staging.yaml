@@ -25,7 +25,7 @@ jobs:
           changeLogFile: 'changelog_master.xml'
           username: ${{ secrets.STAGING_DB_USERNAME }}
           password: ${{ secrets.STAGING_DB_PASSWORD }}
-          url: ${{ secrets.STAGING_DB_URL }} 
+          url: ${{ secrets.STAGING_DB_NET_ADDR_DRIVER }} 
 
       - name: Updating latest staging database version tag
         uses: liquibase/liquibase-github-action@v3
@@ -35,5 +35,5 @@ jobs:
           changeLogFile: 'changelog_master.xml'
           username: ${{ secrets.STAGING_DB_USERNAME }}
           password: ${{ secrets.STAGING_DB_PASSWORD }}
-          url: ${{ secrets.STAGING_DB_URL }}
+          url: ${{ secrets.STAGING_DB_NET_ADDR_DRIVER }}
           tag: 'version1'
