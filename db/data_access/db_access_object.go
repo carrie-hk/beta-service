@@ -24,6 +24,7 @@ func NewDbAccess() (*DbAccess, error) {
 	}
 
 	db, err := sqlx.Open("mysql", cfg.FormatDSN())
+
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
