@@ -1,8 +1,8 @@
 --liquibase formatted sql
 
 --changeset Elliot:1
---rollback DROP TABLE dev.axu
-CREATE TABLE dev.axu
+--rollback DROP TABLE staging.axu
+CREATE TABLE staging.axu
 (
     axu_id INT AUTO_INCREMENT NOT NULL,
     bax_id TEXT NOT NULL,
@@ -21,11 +21,11 @@ CREATE TABLE dev.axu
 --changeset Elliot:2
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_asc_num 
-ON dev.axu(asc_num)
+ON staging.axu(asc_num)
 
 --changeset Elliot:3
---rollback DROP TABLE dev.visual_content
-CREATE TABLE dev.visual_content
+--rollback DROP TABLE staging.visual_content
+CREATE TABLE staging.visual_content
 (
     axu_id INT NOT NULL,
     html5 TEXT,
@@ -36,14 +36,14 @@ CREATE TABLE dev.visual_content
     back TEXT,
     PRIMARY KEY (axu_id),
     FOREIGN KEY (axu_id)
-        REFERENCES dev.axu(axu_id)
+        REFERENCES staging.axu(axu_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE 
 );
 
 --changeset Elliot:4
---rollback DROP TABLE dev.user
-CREATE TABLE dev.user
+--rollback DROP TABLE staging.user
+CREATE TABLE staging.user
 (
     username VARCHAR(50) NOT NULL,
     passwd TEXT NOT NULL,
@@ -52,8 +52,8 @@ CREATE TABLE dev.user
 );
 
 --changeset Elliot:5
---rollback DROP TABLE dev.bttl_class
-CREATE TABLE dev.bttl_class
+--rollback DROP TABLE staging.bttl_class
+CREATE TABLE staging.bttl_class
 (
     class_id INT NOT NULL,
     class_name TEXT NOT NULL,
@@ -62,8 +62,8 @@ CREATE TABLE dev.bttl_class
 );
 
 --changeset Elliot:6
---rollback DROP TABLE dev.wine_class
-CREATE TABLE dev.wine_class
+--rollback DROP TABLE staging.wine_class
+CREATE TABLE staging.wine_class
 (
     class_name TEXT NOT NULL,
     age INT NOT NULL,
@@ -90,14 +90,14 @@ CREATE TABLE dev.wine_class
     class_id INT NOT NULL,
     PRIMARY KEY (class_id),
     FOREIGN KEY (class_id)
-        REFERENCES dev.bttl_class(class_id)
+        REFERENCES staging.bttl_class(class_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE 
 );
 
 --changeset Elliot:7
---rollback DROP TABLE dev.sprt_class
-CREATE TABLE dev.sprt_class
+--rollback DROP TABLE staging.sprt_class
+CREATE TABLE staging.sprt_class
 (
     class_name TEXT NOT NULL,
     age INT NOT NULL,
@@ -118,14 +118,14 @@ CREATE TABLE dev.sprt_class
     class_id INT NOT NULL,
     PRIMARY KEY (class_id),
     FOREIGN KEY (class_id)
-        REFERENCES dev.bttl_class(class_id)
+        REFERENCES staging.bttl_class(class_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE 
 );
 
 --changeset Elliot:8
---rollback DROP TABLE dev.bttl
-CREATE TABLE dev.bttl
+--rollback DROP TABLE staging.bttl
+CREATE TABLE staging.bttl
 (
     axu_id INT NOT NULL,
     bottle_num INT NOT NULL,
@@ -136,18 +136,18 @@ CREATE TABLE dev.bttl
     class_id INT NOT NULL,
     PRIMARY KEY (axu_id),
     FOREIGN KEY (axu_id)
-        REFERENCES dev.axu(axu_id)
+        REFERENCES staging.axu(axu_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE,
     FOREIGN KEY (class_id)
-        REFERENCES dev.bttl_class(class_id)
+        REFERENCES staging.bttl_class(class_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE
 );
 
 --changeset Elliot:9
---rollback DROP TABLE dev.winery
-CREATE TABLE dev.winery
+--rollback DROP TABLE staging.winery
+CREATE TABLE staging.winery
 (
     name VARCHAR(50) NOT NULL,
     country TEXT NOT NULL,
@@ -156,8 +156,8 @@ CREATE TABLE dev.winery
 );
 
 --changeset Elliot:10
---rollback DROP TABLE dev.distillery
-CREATE TABLE dev.distillery
+--rollback DROP TABLE staging.distillery
+CREATE TABLE staging.distillery
 (
     name VARCHAR(50) NOT NULL,
     country TEXT NOT NULL,
@@ -167,8 +167,8 @@ CREATE TABLE dev.distillery
 );
 
 --changeset Elliot:11
---rollback DROP TABLE dev.kyc
-CREATE TABLE dev.kyc
+--rollback DROP TABLE staging.kyc
+CREATE TABLE staging.kyc
 (
     username VARCHAR(50) NOT NULL,
     first_name TEXT NOT NULL,
@@ -188,14 +188,14 @@ CREATE TABLE dev.kyc
 );
 
 --changeset Elliot:12
---rollback DROP TABLE dev.asc
-CREATE TABLE dev.asc
+--rollback DROP TABLE staging.asc
+CREATE TABLE staging.asc
 (
     asc_num INT NOT NULL,
     wallet_pk VARCHAR(50) NOT NULL,
     PRIMARY KEY (asc_num),
     FOREIGN KEY (asc_num)
-        REFERENCES dev.axu(asc_num)
+        REFERENCES staging.axu(asc_num)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
@@ -203,35 +203,35 @@ CREATE TABLE dev.asc
 --changeset Elliot:13
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_wallet_pk
-ON dev.asc(wallet_pk)
+ON staging.asc(wallet_pk)
 
 --changeset Elliot:14
---rollback DROP TABLE dev.wallet
-CREATE TABLE dev.wallet
+--rollback DROP TABLE staging.wallet
+CREATE TABLE staging.wallet
 (
     wallet_pk VARCHAR(50) NOT NULL,
     username VARCHAR(50) NOT NULL,
     PRIMARY KEY (wallet_pk),
     FOREIGN KEY (wallet_pk)
-        REFERENCES dev.asc(wallet_pk)
+        REFERENCES staging.asc(wallet_pk)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
 --changeset Elliot:15
---rollback DROP TABLE dev.primary_sale
-CREATE TABLE dev.primary_sale
+--rollback DROP TABLE staging.primary_sale
+CREATE TABLE staging.primary_sale
 (
     axu_id INT NOT NULL,
     price FLOAT NOT NULL,
     date_listed TIMESTAMP NOT NULL,
     PRIMARY KEY (axu_id),
     FOREIGN KEY (axu_id)
-        REFERENCES dev.axu(axu_id)
+        REFERENCES staging.axu(axu_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE 
 );
 
 --changeset Elliot:16
-ALTER TABLE dev.distillery
+ALTER TABLE staging.distillery
 MODIFY COLUMN smws TEXT;
