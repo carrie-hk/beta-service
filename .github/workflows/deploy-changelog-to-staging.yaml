@@ -22,7 +22,7 @@ jobs:
         with:
           operation: 'update'
           classpath: 'db_changelogs/'
-          changeLogFile: 'changelog_master.xml'
+          changeLogFile: 'changelog_master_staging.xml'
           username: ${{ secrets.STAGING_DB_USERNAME }}
           password: ${{ secrets.STAGING_DB_PASSWORD }}
           url: ${{ secrets.STAGING_DB_NET_ADDR_DRIVER }} 
@@ -32,7 +32,7 @@ jobs:
         with:
           operation: 'tag'
           classpath: 'db_changelogs/'
-          changeLogFile: 'changelog_master.xml'
+          changeLogFile: 'changelog_master_staging.xml'
           username: ${{ secrets.STAGING_DB_USERNAME }}
           password: ${{ secrets.STAGING_DB_PASSWORD }}
           url: ${{ secrets.STAGING_DB_NET_ADDR_DRIVER }}
