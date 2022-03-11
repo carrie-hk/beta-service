@@ -1,10 +1,10 @@
 package main
 
 import (
-	"beta_service/db_access"
-	"beta_service/handlers"
+	"beta_service/api/handlers"
+	"beta_service/api/router_groups"
+	"beta_service/db/data_access"
 	"beta_service/middlewares"
-	"beta_service/routers"
 	"log"
 	"net/http"
 	"os"
@@ -19,21 +19,21 @@ import (
 
 func main() {
 
-	// Temporary janky-ass workaround so a linter doesn't throw an error
+	// Temporary workaround so a linter doesn't throw an error
 	err := godotenv.Load(".env")
 	if err == nil {
 		log.Print("Building locally...")
 	}
 
 	// Initialize database connection and model stores
-	dbAccess, err := db_access.NewDbAccess()
+	dbAccess, err := data_access.NewDbAccess()
 	logFatal(err)
 
 	// Initialize handlers for models
 	assetHandler, err := handlers.NewAssetHandler(dbAccess)
 	logFatal(err)
 
-	userHandler, err := handlers.NewUserHandler(dbAccess)
+	userHandler, err := handlers.NewKycHandler(dbAccess)
 	logFatal(err)
 
 	// Create a router
@@ -45,8 +45,8 @@ func main() {
 	)
 
 	// Initialize router groups for handlers
-	routers.NewAssetRouter(router.Group("/assets"), assetHandler)
-	routers.NewUserRouter(router.Group("/redeem"), userHandler)
+	router_groups.NewAssetRouter(router.Group("/assets"), assetHandler)
+	router_groups.NewUserRouter(router.Group("/redeem"), userHandler)
 
 	server := &http.Server{
 		Handler:      router,

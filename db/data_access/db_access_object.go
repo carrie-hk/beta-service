@@ -1,4 +1,4 @@
-package db_access
+package data_access
 
 import (
 	"fmt"
@@ -10,8 +10,7 @@ import (
 )
 
 type DbAccess struct {
-	*AssetDbAccess
-	*UserDbAccess
+	*sqlx.DB
 }
 
 func NewDbAccess() (*DbAccess, error) {
@@ -25,6 +24,7 @@ func NewDbAccess() (*DbAccess, error) {
 	}
 
 	db, err := sqlx.Open("mysql", cfg.FormatDSN())
+
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
@@ -32,8 +32,5 @@ func NewDbAccess() (*DbAccess, error) {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
 
-	return &DbAccess{
-		AssetDbAccess: &AssetDbAccess{DB: db},
-		UserDbAccess:  &UserDbAccess{DB: db},
-	}, nil
+	return &DbAccess{db}, nil
 }

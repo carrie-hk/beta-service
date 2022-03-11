@@ -1,7 +1,7 @@
-package routers
+package router_groups
 
 import (
-	"beta_service/handlers"
+	"beta_service/api/handlers"
 
 	"github.com/gin-gonic/gin"
 )
