@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"beta_service/db/data_access"
+	"beta_service/db/models"
 	"log"
 	"net/http"
 	"strconv"
@@ -17,7 +18,7 @@ func NewAssetHandler(dbAccess *data_access.DbAccess) (*AssetHandler, error) {
 	return &AssetHandler{dbAccess: dbAccess}, nil
 }
 
-//This function returns all of the assets in the AXU.whisky_bottles
+// Return all assets in the database
 func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 
 	pageSize, err := strconv.Atoi(ctx.Query("pageSize"))
@@ -37,16 +38,11 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, assets)
-	// if err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, err.Error())
-	// } else {
-	// 	log.Print("Message successful")
-	// }
 
 	log.Print(http.StatusOK, nil)
 }
 
-//This function returns a featured subset of the bottles
+// Return all assets in the database marked as 'featured'
 func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 
 	assets, err := h.dbAccess.GetFeaturedAssets()
@@ -56,11 +52,27 @@ func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 	}
 
 	ctx.IndentedJSON(http.StatusOK, assets)
+
+	log.Print(http.StatusOK, nil)
+}
+
+// Update an individual asset's status
+func (h *AssetHandler) HandleUpdateAssetStatus(ctx *gin.Context) {
+
+	var su_list []models.StatusUpdate
+
+	err := ctx.ShouldBindJSON(&su_list)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
-	} else {
-		log.Print("Message successful")
+		return
 	}
 
+	err = h.dbAccess.UpdateAssetStatus(su_list)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"Message": "Succesfully read update info from JSON"})
 	log.Print(http.StatusOK, nil)
 }

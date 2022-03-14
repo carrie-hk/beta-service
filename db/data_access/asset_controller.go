@@ -29,3 +29,16 @@ func (db *DbAccess) GetFeaturedAssets() ([]models.Asset, error) {
 	}
 	return fa, nil
 }
+
+func (db *DbAccess) UpdateAssetStatus(su_list []models.StatusUpdate) error {
+	query := "UPDATE axu SET asset_status = ? WHERE axu_id = ?"
+
+	for _, su_item := range su_list {
+		err := db.MustExec(query, su_item.New_Status, su_item.AXU_ID)
+		if err != nil {
+			log.Println("Error updating asset status:", err)
+		}
+	}
+
+	return nil
+}
