@@ -1,6 +1,9 @@
 --liquibase formatted sql
 
 --changeset Elliot:1
+USE baxusnft;
+
+--changeset Elliot:2
 --rollback DROP TABLE baxusnft.axu
 CREATE TABLE baxusnft.axu
 (
@@ -9,7 +12,7 @@ CREATE TABLE baxusnft.axu
     asc_num INT NOT NULL,
     asset_type INT NOT NULL,
     time_created TIMESTAMP NOT NULL,
-    asset_status ENUM ('Processing','Minted','Listed','Sold', 'Escrow', 'Redeemed') NOT NULL,
+    asset_status ENUM ("Processing","Minted","Listed","Sold", "Escrow", "Redeemed") NOT NULL,
     mint_addr TEXT NOT NULL,
     update_addr TEXT NOT NULL,
     featured BOOLEAN NOT NULL,
@@ -18,12 +21,12 @@ CREATE TABLE baxusnft.axu
     UNIQUE (axu_id)
 );
 
---changeset Elliot:2
+--changeset Elliot:3
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_asc_num 
 ON baxusnft.axu(asc_num)
 
---changeset Elliot:3
+--changeset Elliot:4
 --rollback DROP TABLE baxusnft.visual_content
 CREATE TABLE baxusnft.visual_content
 (
@@ -41,7 +44,7 @@ CREATE TABLE baxusnft.visual_content
         ON DELETE CASCADE 
 );
 
---changeset Elliot:4
+--changeset Elliot:5
 --rollback DROP TABLE baxusnft.user
 CREATE TABLE baxusnft.user
 (
@@ -51,7 +54,7 @@ CREATE TABLE baxusnft.user
     PRIMARY KEY (username)
 );
 
---changeset Elliot:5
+--changeset Elliot:6
 --rollback DROP TABLE baxusnft.bttl_class
 CREATE TABLE baxusnft.bttl_class
 (
@@ -61,7 +64,7 @@ CREATE TABLE baxusnft.bttl_class
     UNIQUE (class_id)
 );
 
---changeset Elliot:6
+--changeset Elliot:7
 --rollback DROP TABLE baxusnft.wine_class
 CREATE TABLE baxusnft.wine_class
 (
@@ -95,7 +98,7 @@ CREATE TABLE baxusnft.wine_class
         ON DELETE CASCADE 
 );
 
---changeset Elliot:7
+--changeset Elliot:8
 --rollback DROP TABLE baxusnft.sprt_class
 CREATE TABLE baxusnft.sprt_class
 (
@@ -123,7 +126,7 @@ CREATE TABLE baxusnft.sprt_class
         ON DELETE CASCADE 
 );
 
---changeset Elliot:8
+--changeset Elliot:9
 --rollback DROP TABLE baxusnft.bttl
 CREATE TABLE baxusnft.bttl
 (
@@ -131,7 +134,7 @@ CREATE TABLE baxusnft.bttl
     bottle_num INT NOT NULL,
     serial_num TEXT NOT NULL,
     barcode TEXT,
-    grade ENUM ('A+', 'A', 'A-', 'B+', 'B') NOT NULL,
+    grade ENUM ("A+", "A", "A-", "B+", "B") NOT NULL,
     packaging_desc TEXT NOT NULL,
     class_id INT NOT NULL,
     PRIMARY KEY (axu_id),
@@ -145,7 +148,7 @@ CREATE TABLE baxusnft.bttl
         ON DELETE CASCADE
 );
 
---changeset Elliot:9
+--changeset Elliot:10
 --rollback DROP TABLE baxusnft.winery
 CREATE TABLE baxusnft.winery
 (
@@ -155,7 +158,7 @@ CREATE TABLE baxusnft.winery
     PRIMARY KEY (name)
 );
 
---changeset Elliot:10
+--changeset Elliot:11
 --rollback DROP TABLE baxusnft.distillery
 CREATE TABLE baxusnft.distillery
 (
@@ -166,7 +169,7 @@ CREATE TABLE baxusnft.distillery
     PRIMARY KEY (name)
 );
 
---changeset Elliot:11
+--changeset Elliot:12
 --rollback DROP TABLE baxusnft.kyc
 CREATE TABLE baxusnft.kyc
 (
@@ -183,11 +186,11 @@ CREATE TABLE baxusnft.kyc
     dob_day INT NOT NULL,
     dob_month INT NOT NULL,
     dob_year INT NOT NULL,
-    title Enum ('Mr.','Mrs.','Dr.', 'Sir', 'Madame'),
+    title Enum ("Mr.","Mrs.","Dr.", "Sir", "Madame"),
     PRIMARY KEY (username)
 );
 
---changeset Elliot:12
+--changeset Elliot:13
 --rollback DROP TABLE baxusnft.asc
 CREATE TABLE baxusnft.asc
 (
@@ -200,12 +203,12 @@ CREATE TABLE baxusnft.asc
         ON DELETE CASCADE
 );
 
---changeset Elliot:13
+--changeset Elliot:14
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_wallet_pk
 ON baxusnft.asc(wallet_pk)
 
---changeset Elliot:14
+--changeset Elliot:15
 --rollback DROP TABLE baxusnft.wallet
 CREATE TABLE baxusnft.wallet
 (
@@ -218,7 +221,7 @@ CREATE TABLE baxusnft.wallet
         ON DELETE CASCADE
 );
 
---changeset Elliot:15
+--changeset Elliot:16
 --rollback DROP TABLE baxusnft.primary_sale
 CREATE TABLE baxusnft.primary_sale
 (
@@ -232,9 +235,11 @@ CREATE TABLE baxusnft.primary_sale
         ON DELETE CASCADE 
 );
 
---changeset Elliot:16
+--changeset Elliot:17
 ALTER TABLE baxusnft.distillery
 MODIFY COLUMN smws TEXT;
+
+
 
 
 

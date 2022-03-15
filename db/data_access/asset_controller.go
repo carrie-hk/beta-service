@@ -7,7 +7,7 @@ import (
 
 func (db *DbAccess) GetAllAssets(pageIndex int, pageSize int) ([]models.Asset, error) {
 	var aa []models.Asset
-	query := "SELECT * from AXU.whisky_bottles WHERE `Bottle ID` > ? ORDER BY 'Bottle ID' DESC LIMIT ?"
+	query := "SELECT * from baxusnft.axu WHERE `axu_id` > ? ORDER BY 'axu_id' DESC LIMIT ?"
 
 	err := db.Select(&aa, query, pageIndex, pageSize)
 	if err != nil {
@@ -31,13 +31,15 @@ func (db *DbAccess) GetFeaturedAssets() ([]models.Asset, error) {
 }
 
 func (db *DbAccess) UpdateAssetStatus(su_list []models.StatusUpdate) error {
-	query := "UPDATE axu SET asset_status = ? WHERE axu_id = ?"
+	query := "UPDATE baxusnft.axu SET asset_status = ? WHERE axu_id = ? AND mint_addr = ?"
 
 	for _, su_item := range su_list {
-		err := db.MustExec(query, su_item.New_Status, su_item.AXU_ID)
+		res, err := db.NamedExec(query, &su_item)
 		if err != nil {
 			log.Println("Error updating asset status:", err)
+			return err
 		}
+		log.Println("Query result: ", res)
 	}
 
 	return nil
