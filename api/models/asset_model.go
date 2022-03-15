@@ -1,6 +1,6 @@
 package models
 
-type Asset struct {
+type AssetView struct {
 	AXU_ID       *int64   `db:"axu_id" json:"axu_id"`
 	ASC_Num      *int64   `db:"asc_num" json:"asc_num"`
 	Asset_Status *string  `db:"asset_status" json:"asset_status"`
