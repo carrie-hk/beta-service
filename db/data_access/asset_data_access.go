@@ -7,7 +7,7 @@ import (
 
 func (db *DbAccess) GetAllAssets(pageIndex int, pageSize int) ([]models.Asset, error) {
 	var aa []models.Asset
-	query := "SELECT * from AXU.whisky_bottles WHERE `Bottle ID` > ? ORDER BY 'Bottle ID' DESC LIMIT ?"
+	query := "SELECT * from baxusnft.asset_view_table WHERE `axu_id` > ? ORDER BY 'axu_id' DESC LIMIT ?"
 
 	err := db.Select(&aa, query, pageIndex, pageSize)
 	if err != nil {
@@ -20,7 +20,7 @@ func (db *DbAccess) GetAllAssets(pageIndex int, pageSize int) ([]models.Asset, e
 
 func (db *DbAccess) GetFeaturedAssets() ([]models.Asset, error) {
 	var fa []models.Asset
-	query := "SELECT * from AXU.whisky_bottles WHERE `Featured`=1"
+	query := "SELECT * from baxusnft.asset_view_table WHERE `featured`=1"
 
 	err := db.Select(&fa, query)
 	if err != nil {
