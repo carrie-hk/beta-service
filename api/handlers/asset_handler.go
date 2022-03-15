@@ -37,11 +37,6 @@ func (h *AssetHandler) HandleGetAllAssets(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, assets)
-	// if err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, err.Error())
-	// } else {
-	// 	log.Print("Message successful")
-	// }
 
 	log.Print(http.StatusOK, nil)
 }

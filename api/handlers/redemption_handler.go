@@ -8,16 +8,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type KycHandler struct {
+type RedemptionHandler struct {
 	dbAccess *data_access.DbAccess
 }
 
-func NewKycHandler(dbAccess *data_access.DbAccess) (*KycHandler, error) {
-	return &KycHandler{dbAccess: dbAccess}, nil
+func NewRedemptionHandler(dbAccess *data_access.DbAccess) (*RedemptionHandler, error) {
+	return &RedemptionHandler{dbAccess: dbAccess}, nil
 }
 
-//This function parses the KYC form and creates a new user
-func (h *KycHandler) HandleCreateKYC(ctx *gin.Context) {
+// This function returns a set of information about redemption for the connected wallet's AXUs
+func (h *RedemptionHandler) HandleGetRedemptionInfo(ctx *gin.Context) {
+	var rv models.RedemptionView
+
+	rdm_view, err := h.dbAccess.GetRedemptionView() ([]models.RedemptionView, err) {
+		
+	}
+}
+
+// This function parses the KYC form and creates a new KYC entry
+func (h *RedemptionHandler) HandleCreateKYC(ctx *gin.Context) {
 
 	var kyc models.KYC
 

@@ -233,8 +233,10 @@ CREATE TABLE baxusnft.primary_sale
 );
 
 --changeset Elliot:16
-ALTER TABLE baxusnft.distillery
-MODIFY COLUMN smws TEXT;
+--rollback DROP TABLE baxusnft.asset_view_table
+CREATE TABLE baxusnft.asset_view_table
+(
+);
 
 
 
