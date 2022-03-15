@@ -31,10 +31,13 @@ func (db *DbAccess) GetFeaturedAssets() ([]models.Asset, error) {
 }
 
 func (db *DbAccess) UpdateAssetStatus(su_list []models.StatusUpdate) error {
-	query := "UPDATE baxusnft.axu SET asset_status = ? WHERE axu_id = ? AND mint_addr = ?"
+
+	query := "UPDATE baxusnft.axu SET asset_status = :asset_status WHERE axu_id = :axu_id AND mint_addr = :mint_addr"
 
 	for _, su_item := range su_list {
-		res, err := db.NamedExec(query, &su_item)
+
+		log.Println(su_item)
+		res, err := db.NamedExec(query, su_item)
 		if err != nil {
 			log.Println("Error updating asset status:", err)
 			return err

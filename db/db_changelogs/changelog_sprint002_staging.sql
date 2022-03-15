@@ -1,36 +1,38 @@
 --liquibase formatted sql
 
 --changeset Elliot:1
+USE staging;
+
+--changeset Elliot:2
 --rollback DROP TABLE staging.axu
 CREATE TABLE staging.axu
 (
-    axu_id INT AUTO_INCREMENT NOT NULL,
+    axu_id INT NOT NULL,
     bax_id TEXT NOT NULL,
     asc_num INT NOT NULL,
     asset_type INT NOT NULL,
     time_created TIMESTAMP NOT NULL,
-    asset_status ENUM ('Processing','Minted','Listed','Sold', 'Escrow', 'Redeemed') NOT NULL,
-    mint_addr TEXT NOT NULL,
-    update_addr TEXT NOT NULL,
+    asset_status TEXT NOT NULL,
+    mint_addr TEXT,
+    update_addr TEXT,
     featured BOOLEAN NOT NULL,
     shelf_loc TEXT,
     PRIMARY KEY (axu_id),
     UNIQUE (axu_id)
 );
 
---changeset Elliot:2
+--changeset Elliot:3
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_asc_num 
 ON staging.axu(asc_num)
 
---changeset Elliot:3
+--changeset Elliot:4
 --rollback DROP TABLE staging.visual_content
 CREATE TABLE staging.visual_content
 (
     axu_id INT NOT NULL,
     html5 TEXT,
     mp4 TEXT,
-    s3_link TEXT NOT NULL,
     cover TEXT,
     front TEXT,
     back TEXT,
@@ -41,7 +43,7 @@ CREATE TABLE staging.visual_content
         ON DELETE CASCADE 
 );
 
---changeset Elliot:4
+--changeset Elliot:5
 --rollback DROP TABLE staging.user
 CREATE TABLE staging.user
 (
@@ -51,7 +53,7 @@ CREATE TABLE staging.user
     PRIMARY KEY (username)
 );
 
---changeset Elliot:5
+--changeset Elliot:6
 --rollback DROP TABLE staging.bttl_class
 CREATE TABLE staging.bttl_class
 (
@@ -61,7 +63,7 @@ CREATE TABLE staging.bttl_class
     UNIQUE (class_id)
 );
 
---changeset Elliot:6
+--changeset Elliot:7
 --rollback DROP TABLE staging.wine_class
 CREATE TABLE staging.wine_class
 (
@@ -84,7 +86,7 @@ CREATE TABLE staging.wine_class
     harvest TEXT,
     appellation TEXT,
     original_release_qnty INT,
-    abv FLOAT NOT NULL,
+    abv FLOAT,
     winery TEXT NOT NULL,
     bottler TEXT NOT NULL,
     class_id INT NOT NULL,
@@ -95,26 +97,26 @@ CREATE TABLE staging.wine_class
         ON DELETE CASCADE 
 );
 
---changeset Elliot:7
+--changeset Elliot:8
 --rollback DROP TABLE staging.sprt_class
 CREATE TABLE staging.sprt_class
 (
     class_name TEXT NOT NULL,
-    age INT NOT NULL,
+    age INT,
     desc_short TEXT,
     desc_long TEXT NOT NULL,
-    year_distilled INT NOT NULL,
-    year_bottled INT NOT NULL,
+    year_distilled INT,
+    year_bottled INT,
     cask_type TEXT,
     cask_num TEXT,
-    single_cask BOOLEAN NOT NULL,
-    bttl_size INT NOT NULL,
+    single_cask BOOLEAN,
+    bttl_size INT,
     series TEXT,
     spirit_type TEXT NOT NULL,
     original_cask_yield INT,
-    abv FLOAT NOT NULL,
-    distillery TEXT NOT NULL,
-    bottler TEXT NOT NULL,
+    abv FLOAT,
+    distillery TEXT,
+    bottler TEXT,
     class_id INT NOT NULL,
     PRIMARY KEY (class_id),
     FOREIGN KEY (class_id)
@@ -123,15 +125,15 @@ CREATE TABLE staging.sprt_class
         ON DELETE CASCADE 
 );
 
---changeset Elliot:8
+--changeset Elliot:9
 --rollback DROP TABLE staging.bttl
 CREATE TABLE staging.bttl
 (
     axu_id INT NOT NULL,
-    bottle_num INT NOT NULL,
-    serial_num TEXT NOT NULL,
+    bottle_num INT,
+    serial_num TEXT,
     barcode TEXT,
-    grade ENUM ('A+', 'A', 'A-', 'B+', 'B') NOT NULL,
+    grade TEXT NOT NULL,
     packaging_desc TEXT NOT NULL,
     class_id INT NOT NULL,
     PRIMARY KEY (axu_id),
@@ -145,7 +147,7 @@ CREATE TABLE staging.bttl
         ON DELETE CASCADE
 );
 
---changeset Elliot:9
+--changeset Elliot:10
 --rollback DROP TABLE staging.winery
 CREATE TABLE staging.winery
 (
@@ -155,22 +157,22 @@ CREATE TABLE staging.winery
     PRIMARY KEY (name)
 );
 
---changeset Elliot:10
+--changeset Elliot:11
 --rollback DROP TABLE staging.distillery
 CREATE TABLE staging.distillery
 (
     name VARCHAR(50) NOT NULL,
     country TEXT NOT NULL,
     region TEXT,
-    smws TEXT NOT NULL,
+    smws TEXT,
     PRIMARY KEY (name)
 );
 
---changeset Elliot:11
+--changeset Elliot:12
 --rollback DROP TABLE staging.kyc
 CREATE TABLE staging.kyc
 (
-    username VARCHAR(50) NOT NULL,
+    wallet_pk VARCHAR(50) NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     phone_num TEXT NOT NULL,
@@ -183,11 +185,11 @@ CREATE TABLE staging.kyc
     dob_day INT NOT NULL,
     dob_month INT NOT NULL,
     dob_year INT NOT NULL,
-    title Enum ('Mr.','Mrs.','Dr.', 'Sir', 'Madame'),
-    PRIMARY KEY (username)
+    title TEXT,
+    PRIMARY KEY (wallet_pk)
 );
 
---changeset Elliot:12
+--changeset Elliot:13
 --rollback DROP TABLE staging.asc
 CREATE TABLE staging.asc
 (
@@ -200,12 +202,12 @@ CREATE TABLE staging.asc
         ON DELETE CASCADE
 );
 
---changeset Elliot:13
+--changeset Elliot:14
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_wallet_pk
 ON staging.asc(wallet_pk)
 
---changeset Elliot:14
+--changeset Elliot:15
 --rollback DROP TABLE staging.wallet
 CREATE TABLE staging.wallet
 (
@@ -218,7 +220,7 @@ CREATE TABLE staging.wallet
         ON DELETE CASCADE
 );
 
---changeset Elliot:15
+--changeset Elliot:16
 --rollback DROP TABLE staging.primary_sale
 CREATE TABLE staging.primary_sale
 (
@@ -232,6 +234,3 @@ CREATE TABLE staging.primary_sale
         ON DELETE CASCADE 
 );
 
---changeset Elliot:16
-ALTER TABLE staging.distillery
-MODIFY COLUMN smws TEXT;
