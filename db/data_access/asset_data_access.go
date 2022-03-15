@@ -1,7 +1,7 @@
 package data_access
 
 import (
-	"beta_service/db/models"
+	"beta_service/api/models"
 	"log"
 )
 
