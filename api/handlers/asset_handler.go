@@ -1,8 +1,8 @@
 package handlers
 
 import (
+	"beta_service/api/models"
 	"beta_service/db/data_access"
-	"beta_service/db/models"
 	"log"
 	"net/http"
 	"strconv"
