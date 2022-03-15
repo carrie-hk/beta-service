@@ -33,9 +33,6 @@ func main() {
 	assetHandler, err := handlers.NewAssetHandler(dbAccess)
 	logFatal(err)
 
-	userHandler, err := handlers.NewUserHandler(dbAccess)
-	logFatal(err)
-
 	redemptionHandler, err := handlers.NewRedemptionHandler(dbAccess)
 	logFatal(err)
 

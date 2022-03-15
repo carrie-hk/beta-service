@@ -6,10 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewRedemptionRouter(router *gin.RouterGroup, kycHandler *handlers.KycHandler) {
+func NewRedemptionRouter(router *gin.RouterGroup, redemptionHandler *handlers.RedemptionHandler) {
 
-	router.GET("/assets", kycHandler.HandleGetRedemptionInfo)
+	router.GET("/assets", redemptionHandler.HandleGetRedemptionInfo)
 
 	// Create router for inserting information into KYC form
-	router.POST("/kyc", kycHandler.HandleCreateKYC)
+	router.POST("/kyc", redemptionHandler.HandleCreateKYC)
 }

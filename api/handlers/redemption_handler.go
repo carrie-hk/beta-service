@@ -18,11 +18,6 @@ func NewRedemptionHandler(dbAccess *data_access.DbAccess) (*RedemptionHandler, e
 
 // This function returns a set of information about redemption for the connected wallet's AXUs
 func (h *RedemptionHandler) HandleGetRedemptionInfo(ctx *gin.Context) {
-	var rv models.RedemptionView
-
-	rdm_view, err := h.dbAccess.GetRedemptionView() ([]models.RedemptionView, err) {
-		
-	}
 }
 
 // This function parses the KYC form and creates a new KYC entry
