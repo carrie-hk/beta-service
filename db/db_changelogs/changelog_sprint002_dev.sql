@@ -17,6 +17,7 @@ CREATE TABLE dev.axu
     update_addr TEXT,
     featured BOOLEAN NOT NULL,
     shelf_loc TEXT,
+    price FLOAT,
     PRIMARY KEY (axu_id),
     UNIQUE (axu_id)
 );
@@ -27,23 +28,6 @@ CREATE INDEX idx_asc_num
 ON dev.axu(asc_num)
 
 --changeset Elliot:4
---rollback DROP TABLE dev.visual_content
-CREATE TABLE dev.visual_content
-(
-    axu_id INT NOT NULL,
-    html5 TEXT,
-    mp4 TEXT,
-    cover TEXT,
-    front TEXT,
-    back TEXT,
-    PRIMARY KEY (axu_id),
-    FOREIGN KEY (axu_id)
-        REFERENCES dev.axu(axu_id)
-        ON UPDATE CASCADE 
-        ON DELETE CASCADE 
-);
-
---changeset Elliot:5
 --rollback DROP TABLE dev.user
 CREATE TABLE dev.user
 (
@@ -53,7 +37,7 @@ CREATE TABLE dev.user
     PRIMARY KEY (username)
 );
 
---changeset Elliot:6
+--changeset Elliot:5
 --rollback DROP TABLE dev.bttl_class
 CREATE TABLE dev.bttl_class
 (
@@ -63,7 +47,7 @@ CREATE TABLE dev.bttl_class
     UNIQUE (class_id)
 );
 
---changeset Elliot:7
+--changeset Elliot:6
 --rollback DROP TABLE dev.wine_class
 CREATE TABLE dev.wine_class
 (
@@ -97,7 +81,7 @@ CREATE TABLE dev.wine_class
         ON DELETE CASCADE 
 );
 
---changeset Elliot:8
+--changeset Elliot:7
 --rollback DROP TABLE dev.sprt_class
 CREATE TABLE dev.sprt_class
 (
@@ -125,9 +109,9 @@ CREATE TABLE dev.sprt_class
         ON DELETE CASCADE 
 );
 
---changeset Elliot:9
---rollback DROP TABLE dev.bttl
-CREATE TABLE dev.bttl
+--changeset Elliot:8
+--rollback DROP TABLE dev.wine_bttl
+CREATE TABLE dev.wine_bttl
 (
     axu_id INT NOT NULL,
     bottle_num INT,
@@ -136,6 +120,11 @@ CREATE TABLE dev.bttl
     grade TEXT NOT NULL,
     packaging_desc TEXT NOT NULL,
     class_id INT NOT NULL,
+    html5 TEXT,
+    mp4 TEXT,
+    cover TEXT,
+    front TEXT,
+    back TEXT,
     PRIMARY KEY (axu_id),
     FOREIGN KEY (axu_id)
         REFERENCES dev.axu(axu_id)
@@ -147,7 +136,7 @@ CREATE TABLE dev.bttl
         ON DELETE CASCADE
 );
 
---changeset Elliot:10
+--changeset Elliot:9
 --rollback DROP TABLE dev.winery
 CREATE TABLE dev.winery
 (
@@ -155,6 +144,33 @@ CREATE TABLE dev.winery
     country TEXT NOT NULL,
     region TEXT,
     PRIMARY KEY (name)
+);
+
+--changeset Elliot:10
+--rollback DROP TABLE dev.sprt_bttl
+CREATE TABLE dev.sprt_bttl
+(
+    axu_id INT NOT NULL,
+    bottle_num INT,
+    serial_num TEXT,
+    barcode TEXT,
+    grade TEXT NOT NULL,
+    packaging_desc TEXT NOT NULL,
+    class_id INT NOT NULL,
+    html5 TEXT,
+    mp4 TEXT,
+    cover TEXT,
+    front TEXT,
+    back TEXT,
+    PRIMARY KEY (axu_id),
+    FOREIGN KEY (axu_id)
+        REFERENCES dev.axu(axu_id)
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE,
+    FOREIGN KEY (class_id)
+        REFERENCES dev.bttl_class(class_id)
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE
 );
 
 --changeset Elliot:11
@@ -232,6 +248,66 @@ CREATE TABLE dev.primary_sale
         REFERENCES dev.axu(axu_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE 
+);
+
+--changeset Elliot:17
+--rollback DROP TABLE dev.asset_view_table
+CREATE TABLE dev.asset_view_table
+(
+SELECT axu.axu_id,
+       asc_num,
+       asset_status,
+       mint_addr,
+       update_addr,
+       price,
+       featured,
+       html5,
+       cover,
+       class_name,
+       age,
+       desc_short,
+       desc_long,
+       abv
+FROM dev.axu
+         inner join (SELECT sprt_bttl.axu_id,
+                            html5,
+                            cover,
+                            class_name,
+                            age,
+                            desc_short,
+                            desc_long,
+                            abv
+                     from dev.sprt_bttl
+                              inner join dev.sprt_class on sprt_bttl.class_id = sprt_class.class_id) as A
+                    on axu.axu_id = A.axu_id
+UNION
+
+SELECT axu.axu_id,
+       asc_num,
+       asset_status,
+       mint_addr,
+       update_addr,
+       price,
+       featured,
+       html5,
+       cover,
+       class_name,
+       age,
+       desc_short,
+       desc_long,
+       abv
+from dev.axu
+         inner join (SELECT wine_bttl.axu_id,
+                            html5,
+                            cover,
+                            class_name,
+                            age,
+                            desc_short,
+                            desc_long,
+                            abv
+                     from dev.wine_bttl
+                              inner join dev.wine_class on wine_bttl.class_id = wine_class.class_id) as B
+                    on axu.axu_id = B.axu_id
 );
 
 
