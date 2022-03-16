@@ -3,6 +3,7 @@ package handlers
 import (
 	"beta_service/api/models"
 	"beta_service/db/data_access"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,18 @@ func NewRedemptionHandler(dbAccess *data_access.DbAccess) (*RedemptionHandler, e
 
 // This function returns a set of information about redemption for the connected wallet's AXUs
 func (h *RedemptionHandler) HandleGetRedemptionInfo(ctx *gin.Context) {
+
+	mintAddr := ctx.Query("mint")
+	log.Print(mintAddr)
+	assets, err := h.dbAccess.GetRedemptionAssets(mintAddr)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, assets)
+
+	log.Print(http.StatusOK, nil)
 }
 
 // This function parses the KYC form and creates a new KYC entry
