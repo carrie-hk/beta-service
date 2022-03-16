@@ -21,7 +21,6 @@ func NewRedemptionHandler(dbAccess *data_access.DbAccess) (*RedemptionHandler, e
 func (h *RedemptionHandler) HandleGetRedemptionInfo(ctx *gin.Context) {
 
 	mintAddr := ctx.Query("mint")
-	log.Print(mintAddr)
 	assets, err := h.dbAccess.GetRedemptionAssets(mintAddr)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
