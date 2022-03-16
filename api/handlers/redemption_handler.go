@@ -40,15 +40,16 @@ func (h *RedemptionHandler) HandleCreateKYC(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&kyc)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
-	} else {
-		ctx.JSON(http.StatusOK, gin.H{"Message": "Succesfully read user info from JSON"})
+	}
+
+	err = kyc.Validate()
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	err = h.dbAccess.CreateKYC(kyc)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
-	} else {
-		ctx.JSON(http.StatusOK, gin.H{"Message": "Succesfully added KYC information to database"})
 	}
 
 	ctx.JSON(http.StatusOK, nil)
