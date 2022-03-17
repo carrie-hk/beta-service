@@ -16,6 +16,7 @@ jobs:
       DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
       DB_NET_TYPE: ${{ secrets.DEV_DB_NET_TYPE }}
       DB_NET_ADDR: ${{ secrets.DEV_DB_NET_ADDR }}
+      DB_NAME: ${{ secrets.DEV_DB_NAME }}
     
     steps:
       - name: Checkout repo 
