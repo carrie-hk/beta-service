@@ -20,6 +20,7 @@ func NewDbAccess() (*DbAccess, error) {
 		Passwd:               os.Getenv("DB_PASSWORD"),
 		Net:                  os.Getenv("DB_NET_TYPE"),
 		Addr:                 os.Getenv("DB_NET_ADDR"),
+		DBName:               os.Getenv("DB_NAME"),
 		AllowNativePasswords: true,
 	}
 
