@@ -24,15 +24,17 @@ func (db *DbAccess) CreateKYC(kyc models.KYC) error {
 
 }
 
-func (db *DbAccess) GetRedemptionAssets(mintAddr string) ([]models.AssetView, error) {
+func (db *DbAccess) GetRedemptionAssets(rr_list []models.RedemptionRequest) ([]models.AssetView, error) {
 	var aa []models.AssetView
 
 	query := "SELECT * from baxusnft.asset_view_table WHERE `mint_addr` = ?"
 
-	err := db.Select(&aa, query, mintAddr)
-	if err != nil {
-		log.Println("Error selecting asset:", err)
-		return []models.AssetView{}, err
+	for _, rr_item := range rr_list {
+		err := db.Select(&aa, query, rr_item.Mint_Addr)
+		if err != nil {
+			log.Println("Error selecting asset:", err)
+			return []models.AssetView{}, err
+		}
 	}
 
 	return aa, nil
