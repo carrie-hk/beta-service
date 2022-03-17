@@ -1,49 +1,35 @@
 --liquibase formatted sql
 
 --changeset Elliot:1
---rollback DROP TABLE dev.axu
-CREATE TABLE dev.axu
+--USE baxusnft;
+
+--changeset Elliot:2
+--rollback DROP TABLE axu
+CREATE TABLE axu
 (
-    axu_id INT AUTO_INCREMENT NOT NULL,
+    axu_id INT NOT NULL,
     bax_id TEXT NOT NULL,
     asc_num INT NOT NULL,
     asset_type INT NOT NULL,
     time_created TIMESTAMP NOT NULL,
-    asset_status ENUM ('Processing','Minted','Listed','Sold', 'Escrow', 'Redeemed') NOT NULL,
-    mint_addr TEXT NOT NULL,
-    update_addr TEXT NOT NULL,
+    asset_status TEXT NOT NULL,
+    mint_addr TEXT,
+    update_addr TEXT,
     featured BOOLEAN NOT NULL,
     shelf_loc TEXT,
+    price FLOAT,
     PRIMARY KEY (axu_id),
     UNIQUE (axu_id)
 );
 
---changeset Elliot:2
+--changeset Elliot:3
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_asc_num 
-ON dev.axu(asc_num)
-
---changeset Elliot:3
---rollback DROP TABLE dev.visual_content
-CREATE TABLE dev.visual_content
-(
-    axu_id INT NOT NULL,
-    html5 TEXT,
-    mp4 TEXT,
-    s3_link TEXT NOT NULL,
-    cover TEXT,
-    front TEXT,
-    back TEXT,
-    PRIMARY KEY (axu_id),
-    FOREIGN KEY (axu_id)
-        REFERENCES dev.axu(axu_id)
-        ON UPDATE CASCADE 
-        ON DELETE CASCADE 
-);
+ON axu(asc_num)
 
 --changeset Elliot:4
---rollback DROP TABLE dev.user
-CREATE TABLE dev.user
+--rollback DROP TABLE user
+CREATE TABLE user
 (
     username VARCHAR(50) NOT NULL,
     passwd TEXT NOT NULL,
@@ -52,8 +38,8 @@ CREATE TABLE dev.user
 );
 
 --changeset Elliot:5
---rollback DROP TABLE dev.bttl_class
-CREATE TABLE dev.bttl_class
+--rollback DROP TABLE bttl_class
+CREATE TABLE bttl_class
 (
     class_id INT NOT NULL,
     class_name TEXT NOT NULL,
@@ -62,8 +48,8 @@ CREATE TABLE dev.bttl_class
 );
 
 --changeset Elliot:6
---rollback DROP TABLE dev.wine_class
-CREATE TABLE dev.wine_class
+--rollback DROP TABLE wine_class
+CREATE TABLE wine_class
 (
     class_name TEXT NOT NULL,
     age INT NOT NULL,
@@ -84,70 +70,75 @@ CREATE TABLE dev.wine_class
     harvest TEXT,
     appellation TEXT,
     original_release_qnty INT,
-    abv FLOAT NOT NULL,
+    abv FLOAT,
     winery TEXT NOT NULL,
     bottler TEXT NOT NULL,
     class_id INT NOT NULL,
     PRIMARY KEY (class_id),
     FOREIGN KEY (class_id)
-        REFERENCES dev.bttl_class(class_id)
+        REFERENCES bttl_class(class_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE 
 );
 
 --changeset Elliot:7
---rollback DROP TABLE dev.sprt_class
-CREATE TABLE dev.sprt_class
+--rollback DROP TABLE sprt_class
+CREATE TABLE sprt_class
 (
     class_name TEXT NOT NULL,
-    age INT NOT NULL,
+    age INT,
     desc_short TEXT,
     desc_long TEXT NOT NULL,
-    year_distilled INT NOT NULL,
-    year_bottled INT NOT NULL,
+    year_distilled INT,
+    year_bottled INT,
     cask_type TEXT,
     cask_num TEXT,
-    single_cask BOOLEAN NOT NULL,
-    bttl_size INT NOT NULL,
+    single_cask BOOLEAN,
+    bttl_size INT,
     series TEXT,
     spirit_type TEXT NOT NULL,
     original_cask_yield INT,
-    abv FLOAT NOT NULL,
-    distillery TEXT NOT NULL,
-    bottler TEXT NOT NULL,
+    abv FLOAT,
+    distillery TEXT,
+    bottler TEXT,
     class_id INT NOT NULL,
     PRIMARY KEY (class_id),
     FOREIGN KEY (class_id)
-        REFERENCES dev.bttl_class(class_id)
+        REFERENCES bttl_class(class_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE 
 );
 
 --changeset Elliot:8
---rollback DROP TABLE dev.bttl
-CREATE TABLE dev.bttl
+--rollback DROP TABLE wine_bttl
+CREATE TABLE wine_bttl
 (
     axu_id INT NOT NULL,
-    bottle_num INT NOT NULL,
-    serial_num TEXT NOT NULL,
+    bottle_num INT,
+    serial_num TEXT,
     barcode TEXT,
-    grade ENUM ('A+', 'A', 'A-', 'B+', 'B') NOT NULL,
+    grade TEXT NOT NULL,
     packaging_desc TEXT NOT NULL,
     class_id INT NOT NULL,
+    html5 TEXT,
+    mp4 TEXT,
+    cover TEXT,
+    front TEXT,
+    back TEXT,
     PRIMARY KEY (axu_id),
     FOREIGN KEY (axu_id)
-        REFERENCES dev.axu(axu_id)
+        REFERENCES axu(axu_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE,
     FOREIGN KEY (class_id)
-        REFERENCES dev.bttl_class(class_id)
+        REFERENCES bttl_class(class_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE
 );
 
 --changeset Elliot:9
---rollback DROP TABLE dev.winery
-CREATE TABLE dev.winery
+--rollback DROP TABLE winery
+CREATE TABLE winery
 (
     name VARCHAR(50) NOT NULL,
     country TEXT NOT NULL,
@@ -156,21 +147,48 @@ CREATE TABLE dev.winery
 );
 
 --changeset Elliot:10
---rollback DROP TABLE dev.distillery
-CREATE TABLE dev.distillery
+--rollback DROP TABLE sprt_bttl
+CREATE TABLE sprt_bttl
+(
+    axu_id INT NOT NULL,
+    bottle_num INT,
+    serial_num TEXT,
+    barcode TEXT,
+    grade TEXT NOT NULL,
+    packaging_desc TEXT NOT NULL,
+    class_id INT NOT NULL,
+    html5 TEXT,
+    mp4 TEXT,
+    cover TEXT,
+    front TEXT,
+    back TEXT,
+    PRIMARY KEY (axu_id),
+    FOREIGN KEY (axu_id)
+        REFERENCES axu(axu_id)
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE,
+    FOREIGN KEY (class_id)
+        REFERENCES bttl_class(class_id)
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE
+);
+
+--changeset Elliot:11
+--rollback DROP TABLE distillery
+CREATE TABLE distillery
 (
     name VARCHAR(50) NOT NULL,
     country TEXT NOT NULL,
     region TEXT,
-    smws TEXT NOT NULL,
+    smws TEXT,
     PRIMARY KEY (name)
 );
 
---changeset Elliot:11
---rollback DROP TABLE dev.kyc
-CREATE TABLE dev.kyc
+--changeset Elliot:12
+--rollback DROP TABLE kyc
+CREATE TABLE kyc
 (
-    username VARCHAR(50) NOT NULL,
+    wallet_pk VARCHAR(50) NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     phone_num TEXT NOT NULL,
@@ -183,58 +201,119 @@ CREATE TABLE dev.kyc
     dob_day INT NOT NULL,
     dob_month INT NOT NULL,
     dob_year INT NOT NULL,
-    title Enum ('Mr.','Mrs.','Dr.', 'Sir', 'Madame'),
-    PRIMARY KEY (username)
+    title TEXT,
+    PRIMARY KEY (wallet_pk)
 );
 
---changeset Elliot:12
---rollback DROP TABLE dev.asc
-CREATE TABLE dev.asc
+--changeset Elliot:13
+--rollback DROP TABLE asc
+CREATE TABLE asc_token
 (
     asc_num INT NOT NULL,
     wallet_pk VARCHAR(50) NOT NULL,
     PRIMARY KEY (asc_num),
     FOREIGN KEY (asc_num)
-        REFERENCES dev.axu(asc_num)
+        REFERENCES axu(asc_num)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
---changeset Elliot:13
+--changeset Elliot:14
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_wallet_pk
-ON dev.asc(wallet_pk)
+ON asc_token(wallet_pk)
 
---changeset Elliot:14
---rollback DROP TABLE dev.wallet
-CREATE TABLE dev.wallet
+--changeset Elliot:15
+--rollback DROP TABLE wallet
+CREATE TABLE wallet
 (
     wallet_pk VARCHAR(50) NOT NULL,
     username VARCHAR(50) NOT NULL,
     PRIMARY KEY (wallet_pk),
     FOREIGN KEY (wallet_pk)
-        REFERENCES dev.asc(wallet_pk)
+        REFERENCES asc_token(wallet_pk)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
---changeset Elliot:15
---rollback DROP TABLE dev.primary_sale
-CREATE TABLE dev.primary_sale
+--changeset Elliot:16
+--rollback DROP TABLE primary_sale
+CREATE TABLE primary_sale
 (
     axu_id INT NOT NULL,
     price FLOAT NOT NULL,
     date_listed TIMESTAMP NOT NULL,
     PRIMARY KEY (axu_id),
     FOREIGN KEY (axu_id)
-        REFERENCES dev.axu(axu_id)
+        REFERENCES axu(axu_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE 
 );
 
---changeset Elliot:16
-ALTER TABLE dev.distillery
-MODIFY COLUMN smws TEXT;
+--changeset Elliot:17
+--rollback DROP TABLE asset_view_table
+CREATE TABLE asset_view_table
+(
+SELECT axu.axu_id,
+       asc_num,
+       asset_status,
+       mint_addr,
+       update_addr,
+       price,
+       featured,
+       html5,
+       cover,
+       class_name,
+       age,
+       desc_short,
+       desc_long,
+       abv
+FROM axu
+         inner join (SELECT sprt_bttl.axu_id,
+                            html5,
+                            cover,
+                            class_name,
+                            age,
+                            desc_short,
+                            desc_long,
+                            abv
+                     from sprt_bttl
+                              inner join sprt_class on sprt_bttl.class_id = sprt_class.class_id) as A
+                    on axu.axu_id = A.axu_id
+UNION
+
+SELECT axu.axu_id,
+       asc_num,
+       asset_status,
+       mint_addr,
+       update_addr,
+       price,
+       featured,
+       html5,
+       cover,
+       class_name,
+       age,
+       desc_short,
+       desc_long,
+       abv
+from axu
+         inner join (SELECT wine_bttl.axu_id,
+                            html5,
+                            cover,
+                            class_name,
+                            age,
+                            desc_short,
+                            desc_long,
+                            abv
+                     from wine_bttl
+                              inner join wine_class on wine_bttl.class_id = wine_class.class_id) as B
+                    on axu.axu_id = B.axu_id
+);
+
+--changeset Elliot:18
+--rollback DROP COLUMN token_addr
+ALTER TABLE axu
+ADD COLUMN token_addr TEXT AFTER asset_status
 
 
 
