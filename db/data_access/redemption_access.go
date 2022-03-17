@@ -27,7 +27,7 @@ func (db *DbAccess) CreateKYC(kyc models.KYC) error {
 func (db *DbAccess) GetRedemptionAssets(rr_list []models.RedemptionRequest) ([]models.AssetView, error) {
 	var aa []models.AssetView
 
-	query := "SELECT * from baxusnft.asset_view_table WHERE `mint_addr` = ?"
+	query := "SELECT * from asset_view_table WHERE `mint_addr` = ?"
 
 	for _, rr_item := range rr_list {
 		err := db.Select(&aa, query, rr_item.Mint_Addr)
