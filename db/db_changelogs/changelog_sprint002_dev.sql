@@ -1,9 +1,6 @@
 --liquibase formatted sql
 
 --changeset Elliot:1
---USE baxusnft;
-
---changeset Elliot:2
 --rollback DROP TABLE axu
 CREATE TABLE axu
 (
@@ -22,12 +19,12 @@ CREATE TABLE axu
     UNIQUE (axu_id)
 );
 
---changeset Elliot:3
+--changeset Elliot:2
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_asc_num 
 ON axu(asc_num)
 
---changeset Elliot:4
+--changeset Elliot:3
 --rollback DROP TABLE user
 CREATE TABLE user
 (
@@ -37,7 +34,7 @@ CREATE TABLE user
     PRIMARY KEY (username)
 );
 
---changeset Elliot:5
+--changeset Elliot:4
 --rollback DROP TABLE bttl_class
 CREATE TABLE bttl_class
 (
@@ -47,7 +44,7 @@ CREATE TABLE bttl_class
     UNIQUE (class_id)
 );
 
---changeset Elliot:6
+--changeset Elliot:5
 --rollback DROP TABLE wine_class
 CREATE TABLE wine_class
 (
@@ -81,7 +78,7 @@ CREATE TABLE wine_class
         ON DELETE CASCADE 
 );
 
---changeset Elliot:7
+--changeset Elliot:6
 --rollback DROP TABLE sprt_class
 CREATE TABLE sprt_class
 (
@@ -109,7 +106,7 @@ CREATE TABLE sprt_class
         ON DELETE CASCADE 
 );
 
---changeset Elliot:8
+--changeset Elliot:7
 --rollback DROP TABLE wine_bttl
 CREATE TABLE wine_bttl
 (
@@ -136,7 +133,7 @@ CREATE TABLE wine_bttl
         ON DELETE CASCADE
 );
 
---changeset Elliot:9
+--changeset Elliot:8
 --rollback DROP TABLE winery
 CREATE TABLE winery
 (
@@ -146,7 +143,7 @@ CREATE TABLE winery
     PRIMARY KEY (name)
 );
 
---changeset Elliot:10
+--changeset Elliot:9
 --rollback DROP TABLE sprt_bttl
 CREATE TABLE sprt_bttl
 (
@@ -173,7 +170,7 @@ CREATE TABLE sprt_bttl
         ON DELETE CASCADE
 );
 
---changeset Elliot:11
+--changeset Elliot:10
 --rollback DROP TABLE distillery
 CREATE TABLE distillery
 (
@@ -184,7 +181,7 @@ CREATE TABLE distillery
     PRIMARY KEY (name)
 );
 
---changeset Elliot:12
+--changeset Elliot:11
 --rollback DROP TABLE kyc
 CREATE TABLE kyc
 (
@@ -205,7 +202,7 @@ CREATE TABLE kyc
     PRIMARY KEY (wallet_pk)
 );
 
---changeset Elliot:13
+--changeset Elliot:12
 --rollback DROP TABLE asc
 CREATE TABLE asc_token
 (
@@ -218,12 +215,12 @@ CREATE TABLE asc_token
         ON DELETE CASCADE
 );
 
---changeset Elliot:14
+--changeset Elliot:13
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_wallet_pk
 ON asc_token(wallet_pk)
 
---changeset Elliot:15
+--changeset Elliot:14
 --rollback DROP TABLE wallet
 CREATE TABLE wallet
 (
@@ -236,21 +233,7 @@ CREATE TABLE wallet
         ON DELETE CASCADE
 );
 
---changeset Elliot:16
---rollback DROP TABLE primary_sale
-CREATE TABLE primary_sale
-(
-    axu_id INT NOT NULL,
-    price FLOAT NOT NULL,
-    date_listed TIMESTAMP NOT NULL,
-    PRIMARY KEY (axu_id),
-    FOREIGN KEY (axu_id)
-        REFERENCES axu(axu_id)
-        ON UPDATE CASCADE 
-        ON DELETE CASCADE 
-);
-
---changeset Elliot:17
+--changeset Elliot:15
 --rollback DROP TABLE asset_view_table
 CREATE TABLE asset_view_table
 (
@@ -310,7 +293,7 @@ from axu
                     on axu.axu_id = B.axu_id
 );
 
---changeset Elliot:18
+--changeset Elliot:16
 --rollback DROP COLUMN token_addr
 ALTER TABLE axu
 ADD COLUMN token_addr TEXT AFTER asset_status
