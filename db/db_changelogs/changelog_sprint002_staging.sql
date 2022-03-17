@@ -309,3 +309,8 @@ from staging.axu
                               inner join staging.wine_class on wine_bttl.class_id = wine_class.class_id) as B
                     on axu.axu_id = B.axu_id
 );
+
+--changeset Elliot:18
+--rollback DROP COLUMN token_addr
+ALTER TABLE axu
+ADD COLUMN token_addr TEXT AFTER asset_status

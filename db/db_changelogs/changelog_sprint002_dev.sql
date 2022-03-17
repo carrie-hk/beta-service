@@ -310,5 +310,8 @@ from dev.axu
                     on axu.axu_id = B.axu_id
 );
 
-
+--changeset Elliot:18
+--rollback DROP COLUMN token_addr
+ALTER TABLE axu
+ADD COLUMN token_addr TEXT AFTER asset_status
 
