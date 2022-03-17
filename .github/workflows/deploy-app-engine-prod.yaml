@@ -27,6 +27,7 @@ jobs:
         DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
         DB_NET_TYPE: ${{ secrets.PROD_DB_NET_TYPE }}
         DB_NET_ADDR: ${{ secrets.PROD_DB_NET_ADDR }}
+        DB_NAME: ${{ secrets.PROD_DB_NAME }}
 
     - name: Authenticating baxus-prod-service Service Account with Workload Identity Federation
       uses: 'google-github-actions/auth@v0'

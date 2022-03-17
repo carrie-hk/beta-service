@@ -27,6 +27,7 @@ jobs:
         DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
         DB_NET_TYPE: ${{ secrets.STAGING_DB_NET_TYPE }}
         DB_NET_ADDR: ${{ secrets.STAGING_DB_NET_ADDR }}
+        DB_NAME: ${{ secrets.STAGING_DB_NAME }}
 
     - name: Authenticating Service Account with Workload Identity Federation
       uses: 'google-github-actions/auth@v0'
