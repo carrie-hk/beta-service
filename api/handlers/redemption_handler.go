@@ -45,12 +45,12 @@ func (h *RedemptionHandler) HandleCreateKYC(ctx *gin.Context) {
 	err = kyc.Validate()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err.Error())
+	} else {
+		err = h.dbAccess.CreateKYC(kyc)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+		} else {
+			ctx.JSON(http.StatusOK, nil)
+		}
 	}
-
-	err = h.dbAccess.CreateKYC(kyc)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	ctx.JSON(http.StatusOK, nil)
 }
