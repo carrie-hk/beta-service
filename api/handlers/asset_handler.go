@@ -67,10 +67,18 @@ func (h *AssetHandler) HandleUpdateAssetStatus(ctx *gin.Context) {
 		return
 	}
 
-	err = h.dbAccess.UpdateAssetStatus(su_list)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err.Error())
-		return
+	for _, su_item := range su_list {
+		err := su_item.Validate()
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		} else {
+			err = h.dbAccess.UpdateAssetStatus(su_item)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, err.Error())
+				return
+			}
+		}
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{"Message": "Succesfully read update info from JSON"})
