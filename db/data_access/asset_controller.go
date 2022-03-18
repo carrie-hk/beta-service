@@ -2,6 +2,7 @@ package data_access
 
 import (
 	"beta_service/api/models"
+	"errors"
 	"log"
 )
 
@@ -36,13 +37,17 @@ func (db *DbAccess) UpdateAssetStatus(su_list []models.StatusUpdate) error {
 
 	for _, su_item := range su_list {
 
-		log.Println(su_item)
 		res, err := db.NamedExec(query, su_item)
 		if err != nil {
 			log.Println("Error updating asset status:", err)
 			return err
 		}
-		log.Println("Query result: ", res)
+		// Check to ensure that rows were actually affected by update query
+		row_aff, _ := res.RowsAffected()
+		if row_aff == 0 {
+			log.Println("Invalid AXU ID or Mint Address")
+			return errors.New("Invalid AXU ID or Mint Address")
+		}
 	}
 
 	return nil
