@@ -25,7 +25,7 @@ type KYC struct {
 }
 
 func (kyc *KYC) Validate() error {
-	err := kyc.ValidateAge()
+	err := kyc.validateAge()
 	if err != nil {
 		return err
 	}
@@ -33,7 +33,7 @@ func (kyc *KYC) Validate() error {
 	return validate.Struct(kyc)
 }
 
-func (kyc *KYC) ValidateAge() error {
+func (kyc *KYC) validateAge() error {
 	TWENTY_ONE_YEARS_NS := 662709600000000000
 	birthDate := time.Date(int(kyc.Dob_Year), time.Month(kyc.Dob_Month), int(kyc.Dob_Day), 0, 0, 0, 0, time.UTC)
 	if int(time.Since(birthDate)) < TWENTY_ONE_YEARS_NS {
