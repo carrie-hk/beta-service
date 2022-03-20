@@ -1,6 +1,9 @@
 package models
 
 import (
+	"errors"
+	"time"
+
 	"github.com/go-playground/validator/v10"
 )
 
@@ -22,6 +25,19 @@ type KYC struct {
 }
 
 func (kyc *KYC) Validate() error {
+	err := kyc.ValidateAge()
+	if err != nil {
+		return err
+	}
 	validate := validator.New()
 	return validate.Struct(kyc)
+}
+
+func (kyc *KYC) ValidateAge() error {
+	TWENTY_ONE_NS := 662709600000000000
+	birthDate := time.Date(int(kyc.Dob_Year), time.Month(kyc.Dob_Month), int(kyc.Dob_Day), 0, 0, 0, 0, time.UTC)
+	if int(time.Since(birthDate)) < TWENTY_ONE_NS {
+		return errors.New("Error: does not minimum age requirement")
+	}
+	return nil
 }
