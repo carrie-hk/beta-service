@@ -44,15 +44,15 @@ func Test_GetAllAssets(t *testing.T) {
 	}
 }
 
-func Test_GetRedemptionAssets(t *testing.T) {
-	godotenv.Load("../.env")
+func Test_GetFeaturedAssets(t *testing.T) {
+	err := godotenv.Load("../.env")
 
 	dbAccess, err := data_access.NewDbAccess()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	redemptionHandler, err := handlers.NewRedemptionHandler(dbAccess)
+	assetHandler, err := handlers.NewAssetHandler(dbAccess)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,14 +60,14 @@ func Test_GetRedemptionAssets(t *testing.T) {
 	// Create test router
 	test_router := gin.New()
 	// Add /asset endpoints to test router
-	router_groups.NewRedemptionRouter(test_router.Group("/redeem"), redemptionHandler)
+	router_groups.NewAssetRouter(test_router.Group("/assets"), assetHandler)
 
 	// Create a new server using the test router
 	ts := httptest.NewServer(test_router)
 	defer ts.Close()
 
 	// Ping the "/assets/all" endpoint
-	res, err := http.Get(ts.URL + "/redeem/assets?mint=8UEf7A4EeK5pZuPbEjC7RtX6DVJ4Coy5GzJcXUavqs8e")
+	res, err := http.Get(ts.URL + "/assets/featured")
 	if err != nil {
 		t.Errorf("Expected nil, received %s", err.Error())
 	}
