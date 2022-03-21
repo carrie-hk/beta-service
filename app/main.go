@@ -33,7 +33,7 @@ func main() {
 	assetHandler, err := handlers.NewAssetHandler(dbAccess)
 	logFatal(err)
 
-	userHandler, err := handlers.NewKycHandler(dbAccess)
+	redemptionHandler, err := handlers.NewRedemptionHandler(dbAccess)
 	logFatal(err)
 
 	// Create a router
@@ -46,7 +46,7 @@ func main() {
 
 	// Initialize router groups for handlers
 	router_groups.NewAssetRouter(router.Group("/assets"), assetHandler)
-	router_groups.NewUserRouter(router.Group("/redeem"), userHandler)
+	router_groups.NewRedemptionRouter(router.Group("/redeem"), redemptionHandler)
 
 	server := &http.Server{
 		Handler:      router,
