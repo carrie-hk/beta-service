@@ -19,7 +19,7 @@ CREATE TABLE axu
     UNIQUE (axu_id)
 );
 
---changeset Elliot:2
+--changeset Elliot:3
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_asc_num 
 ON axu(asc_num)
@@ -215,7 +215,7 @@ CREATE TABLE asc_token
         ON DELETE CASCADE
 );
 
---changeset Elliot:13
+--changeset Elliot:14
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_wallet_pk
 ON asc_token(wallet_pk)
