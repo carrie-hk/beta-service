@@ -2,7 +2,6 @@ package data_access
 
 import (
 	"beta_service/api/models"
-	"errors"
 	"log"
 )
 
@@ -33,19 +32,36 @@ func (db *DbAccess) GetFeaturedAssets() ([]models.AssetView, error) {
 
 func (db *DbAccess) UpdateAssetStatus(su_item models.StatusUpdate) error {
 
-	query := "UPDATE axu SET asset_status = :new_status WHERE axu_id = :axu_id AND mint_addr = :mint_addr"
+	// Perform a query to update the asset_status field in the axu table
+	query_axu := "UPDATE axu SET asset_status = :asset_status WHERE axu_id = :axu_id AND mint_addr = :mint_addr"
 
-	res, err := db.NamedExec(query, su_item)
+	res_axu, err := db.NamedExec(query_axu, su_item)
 	if err != nil {
 		log.Println("Error updating asset status:", err)
 		return err
 	}
 
 	// Check to ensure that rows were actually affected by update query
-	row_aff, _ := res.RowsAffected()
-	if row_aff == 0 {
-		log.Println("Invalid AXU ID or Mint Address")
-		return errors.New("Invalid AXU ID or Mint Address")
+	_, err = res_axu.RowsAffected()
+	if err != nil {
+		log.Println("Could not update axu table - invalid AXU ID or Mint Address")
+		return err
+	}
+
+	// Perform the same query to update the asset_view_table
+	query_avt := "UPDATE asset_view_table SET asset_status = :asset_status WHERE axu_id = :axu_id AND mint_addr = :mint_addr"
+
+	res_avt, err := db.NamedExec(query_avt, su_item)
+	if err != nil {
+		log.Println("Error updating asset status:", err)
+		return err
+	}
+
+	// Check to ensure that rows were actually affected by update query
+	_, err = res_avt.RowsAffected()
+	if err != nil {
+		log.Println("Could not update asset view table - invali AXU ID or Mint Address")
+		return err
 	}
 
 	return nil
