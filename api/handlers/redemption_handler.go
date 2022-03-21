@@ -20,15 +20,20 @@ func NewRedemptionHandler(dbAccess *data_access.DbAccess) (*RedemptionHandler, e
 // This function returns a set of information about redemption for the connected wallet's AXUs
 func (h *RedemptionHandler) HandleGetRedemptionInfo(ctx *gin.Context) {
 
-	mintAddr := ctx.Query("mint")
-	assets, err := h.dbAccess.GetRedemptionAssets(mintAddr)
+	var rr_list []models.RedemptionRequest
+
+	err := ctx.ShouldBindJSON(&rr_list)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	assets, err := h.dbAccess.GetRedemptionAssets(rr_list)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	ctx.JSON(http.StatusOK, assets)
-
 	log.Print(http.StatusOK, nil)
 }
 

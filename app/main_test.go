@@ -75,3 +75,5 @@ func Test_GetFeaturedAssets(t *testing.T) {
 		t.Errorf("Expected %d, received %d", http.StatusOK, res.StatusCode)
 	}
 }
+
+// TO DO: Add test for POST request to get Redemption Assets
