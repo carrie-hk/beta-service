@@ -20,7 +20,7 @@ CREATE TABLE axu
     UNIQUE (axu_id)
 );
 
---changeset Elliot:3
+--changeset Elliot:2
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_asc_num 
 ON axu(asc_num)
@@ -220,7 +220,7 @@ CREATE TABLE asc_token
         ON DELETE CASCADE
 );
 
---changeset Elliot:14
+--changeset Elliot:13
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_wallet_pk
 ON asc_token(wallet_pk)
@@ -244,6 +244,7 @@ CREATE TABLE asset_view_table
 (
 SELECT axu.axu_id,
        asc_num,
+       time_created,
        asset_status,
        token_addr,
        mint_addr,
@@ -273,6 +274,7 @@ UNION
 
 SELECT axu.axu_id,
        asc_num,
+       time_created,
        asset_status,
        token_addr,
        mint_addr,
