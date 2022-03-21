@@ -10,6 +10,7 @@ CREATE TABLE axu
     asset_type INT NOT NULL,
     time_created TIMESTAMP NOT NULL,
     asset_status TEXT NOT NULL,
+    token_addr TEXT,
     mint_addr TEXT,
     update_addr TEXT,
     featured BOOLEAN NOT NULL,
@@ -19,7 +20,7 @@ CREATE TABLE axu
     UNIQUE (axu_id)
 );
 
---changeset Elliot:3
+--changeset Elliot:2
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_asc_num 
 ON axu(asc_num)
@@ -48,7 +49,7 @@ CREATE TABLE bttl_class
 --rollback DROP TABLE wine_class
 CREATE TABLE wine_class
 (
-    class_name TEXT NOT NULL,
+    name TEXT NOT NULL,
     age INT NOT NULL,
     desc_short TEXT,
     desc_long TEXT NOT NULL,
@@ -72,6 +73,7 @@ CREATE TABLE wine_class
     bottler TEXT NOT NULL,
     class_id INT NOT NULL,
     PRIMARY KEY (class_id),
+    UNIQUE (class_id),
     FOREIGN KEY (class_id)
         REFERENCES bttl_class(class_id)
         ON UPDATE CASCADE 
@@ -82,11 +84,11 @@ CREATE TABLE wine_class
 --rollback DROP TABLE sprt_class
 CREATE TABLE sprt_class
 (
-    class_name TEXT NOT NULL,
+    name TEXT NOT NULL,
     age INT,
     desc_short TEXT,
     desc_long TEXT NOT NULL,
-    year_distilled INT,
+    year_distilled YEAR,
     year_bottled INT,
     cask_type TEXT,
     cask_num TEXT,
@@ -100,6 +102,7 @@ CREATE TABLE sprt_class
     bottler TEXT,
     class_id INT NOT NULL,
     PRIMARY KEY (class_id),
+    UNIQUE (class_id),
     FOREIGN KEY (class_id)
         REFERENCES bttl_class(class_id)
         ON UPDATE CASCADE 
@@ -137,10 +140,11 @@ CREATE TABLE wine_bttl
 --rollback DROP TABLE winery
 CREATE TABLE winery
 (
+    id INT NOT NULL,
     name VARCHAR(50) NOT NULL,
     country TEXT NOT NULL,
     region TEXT,
-    PRIMARY KEY (name)
+    PRIMARY KEY (id)
 );
 
 --changeset Elliot:9
@@ -174,11 +178,12 @@ CREATE TABLE sprt_bttl
 --rollback DROP TABLE distillery
 CREATE TABLE distillery
 (
+    id INT NOT NULL,
     name VARCHAR(50) NOT NULL,
     country TEXT NOT NULL,
     region TEXT,
     smws TEXT,
-    PRIMARY KEY (name)
+    PRIMARY KEY (id)
 );
 
 --changeset Elliot:11
@@ -215,7 +220,7 @@ CREATE TABLE asc_token
         ON DELETE CASCADE
 );
 
---changeset Elliot:14
+--changeset Elliot:13
 --rollback DROP INDEX idx_asc_num
 CREATE INDEX idx_wallet_pk
 ON asc_token(wallet_pk)
@@ -239,14 +244,16 @@ CREATE TABLE asset_view_table
 (
 SELECT axu.axu_id,
        asc_num,
+       time_created,
        asset_status,
+       token_addr,
        mint_addr,
        update_addr,
        price,
        featured,
        html5,
        cover,
-       class_name,
+       name,
        age,
        desc_short,
        desc_long,
@@ -255,7 +262,7 @@ FROM axu
          inner join (SELECT sprt_bttl.axu_id,
                             html5,
                             cover,
-                            class_name,
+                            name,
                             age,
                             desc_short,
                             desc_long,
@@ -267,14 +274,16 @@ UNION
 
 SELECT axu.axu_id,
        asc_num,
+       time_created,
        asset_status,
+       token_addr,
        mint_addr,
        update_addr,
        price,
        featured,
        html5,
        cover,
-       class_name,
+       name,
        age,
        desc_short,
        desc_long,
@@ -283,7 +292,7 @@ from axu
          inner join (SELECT wine_bttl.axu_id,
                             html5,
                             cover,
-                            class_name,
+                            name,
                             age,
                             desc_short,
                             desc_long,
@@ -293,8 +302,4 @@ from axu
                     on axu.axu_id = B.axu_id
 );
 
---changeset Elliot:16
---rollback DROP COLUMN token_addr
-ALTER TABLE axu
-ADD COLUMN token_addr TEXT AFTER asset_status
 
