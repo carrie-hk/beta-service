@@ -9,12 +9,10 @@ import (
 
 func (db *DbAccess) CreateKYC(kyc models.KYC) error {
 
-	_, err := db.NamedExec(`INSERT INTO kyc.customers (firstName, lastName, phoneNumber, email, streetAddrA_ship, 
-		streetAddrB_ship, city_ship, state_ship, country_ship, zipcode_ship, streetAddrA_bill, 
-		streetAddrB_bill, city_bill, state_bill, country_bill, zipcode_bill, birthDay, birthMonth, birthYear, title) 
-		VALUES (:firstName, :lastName, :phoneNumber, :email, :streetAddrA_ship, 
-			:streetAddrB_ship, :city_ship, :state_ship, :country_ship, :zipcode_ship, :streetAddrA_bill, 
-			:streetAddrB_bill, :city_bill, :state_bill, :country_bill, :zipcode_bill, :birthDay, :birthMonth, :birthYear, :title )`,
+	_, err := db.NamedExec(`INSERT INTO kyc (wallet_pk, first_name, last_name, phone_num, email, ship_addr_a, 
+		ship_addr_b, ship_city, ship_state, ship_zip, dob_day, dob_month, dob_year, title) 
+		VALUES (:wallet_pk, :first_name, :last_name, :phone_num, :email, :ship_addr_a, :ship_addr_b, 
+			:ship_city, :ship_state, :ship_zip, :dob_day, :dob_month, :dob_year, :title)`,
 		kyc)
 
 	if err != nil {
