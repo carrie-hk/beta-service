@@ -52,7 +52,6 @@ func (h *AssetHandler) HandleGetFeaturedAssets(ctx *gin.Context) {
 	}
 
 	ctx.IndentedJSON(http.StatusOK, assets)
-
 	log.Print(http.StatusOK, nil)
 }
 
