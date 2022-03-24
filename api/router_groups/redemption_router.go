@@ -14,8 +14,11 @@ func NewRedemptionRouter(router *gin.RouterGroup, redemptionHandler *handlers.Re
 	// each parameter is a 32 character public key)
 	// 2) We don't want to put non-trivial data, such as an asset's mint address, in the URL
 	//
-	router.POST("/assets", redemptionHandler.HandleGetRedemptionInfo)
+	router.POST("/assets", redemptionHandler.HandleGetRedemptionAssets)
 
 	// Create router for inserting information into KYC form
-	router.POST("/kyc", redemptionHandler.HandleCreateKYC)
+	router.POST("/kyc", redemptionHandler.HandlePostKYC)
+
+	// Create router for inserting information for Solana redemption smart contract
+	router.POST("/addredemptioninfo", redemptionHandler.HandlePostRedemptionInfo)
 }

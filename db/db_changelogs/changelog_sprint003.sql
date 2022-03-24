@@ -113,3 +113,15 @@ from axu
 --rollback DROP PRIMARY KEY
 ALTER TABLE asset_view_table
 ADD PRIMARY KEY(axu_id);
+
+--changeset Elliot:10
+--rollback DROP TABLE redemption_program_info
+CREATE TABLE redemption_info
+(
+    id INT NOT NULL AUTO_INCREMENT,
+    wallet_pk TEXT NOT NULL,
+    redemption_info_accnt_addr TEXT NOT NULL,
+    baxus_escrow_addr TEXT NOT NULL,
+    mint_addr TEXT NOT NULL,
+    PRIMARY KEY (id)
+);
