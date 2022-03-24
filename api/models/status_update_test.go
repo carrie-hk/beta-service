@@ -28,3 +28,16 @@ func Test_MissingMintAddrFails(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func Test_InvalidStatusFails(t *testing.T) {
+	su := &StatusUpdate{
+		Asset_Status: "Shmeshscrow",
+		Mint_Addr:    "0x_fakemintaddr",
+	}
+
+	err := su.Validate()
+
+	if err == nil {
+		t.Fatal(err)
+	}
+}
