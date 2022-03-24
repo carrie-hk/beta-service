@@ -7,7 +7,6 @@ import (
 func Test_ValidateStatusUpdate(t *testing.T) {
 	su := &StatusUpdate{
 		Asset_Status: "Escrow",
-		AXU_ID:       1,
 		Mint_Addr:    "0x_fakemintaddr",
 	}
 
@@ -21,7 +20,6 @@ func Test_ValidateStatusUpdate(t *testing.T) {
 func Test_MissingMintAddrFails(t *testing.T) {
 	su := &StatusUpdate{
 		Asset_Status: "Escrow",
-		AXU_ID:       1,
 	}
 
 	err := su.Validate()

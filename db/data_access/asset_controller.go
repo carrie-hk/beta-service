@@ -33,7 +33,7 @@ func (db *DbAccess) GetFeaturedAssets() ([]models.AssetView, error) {
 func (db *DbAccess) UpdateAssetStatus(su_item models.StatusUpdate) error {
 
 	// Perform a query to update the asset_status field in the axu table
-	query_axu := "UPDATE axu SET asset_status = :asset_status WHERE axu_id = :axu_id AND mint_addr = :mint_addr"
+	query_axu := "UPDATE axu SET asset_status = :asset_status WHERE mint_addr = :mint_addr"
 
 	res_axu, err := db.NamedExec(query_axu, su_item)
 	if err != nil {
@@ -44,12 +44,12 @@ func (db *DbAccess) UpdateAssetStatus(su_item models.StatusUpdate) error {
 	// Check to ensure that rows were actually affected by update query
 	_, err = res_axu.RowsAffected()
 	if err != nil {
-		log.Println("Could not update axu table - invalid AXU ID or Mint Address")
+		log.Println("Could not update axu table - Mint Address")
 		return err
 	}
 
 	// Perform the same query to update the asset_view_table
-	query_avt := "UPDATE asset_view_table SET asset_status = :asset_status WHERE axu_id = :axu_id AND mint_addr = :mint_addr"
+	query_avt := "UPDATE asset_view_table SET asset_status = :asset_status WHERE mint_addr = :mint_addr"
 
 	res_avt, err := db.NamedExec(query_avt, su_item)
 	if err != nil {
