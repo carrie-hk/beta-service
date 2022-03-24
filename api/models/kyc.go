@@ -21,7 +21,6 @@ type KYC struct {
 	Dob_Day      int32  `db:"dob_day" json:"dob_day" validate:"required,gte=1,lte=31"`
 	Dob_Month    int32  `db:"dob_month" json:"dob_month" validate:"required,gte=1,lte=12"`
 	Dob_Year     int32  `db:"dob_year" json:"dob_year" validate:"required,gte=1900"`
-	Title        string `db:"title" json:"title"`
 }
 
 func (kyc *KYC) Validate() error {
