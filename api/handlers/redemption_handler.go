@@ -59,27 +59,3 @@ func (h *RedemptionHandler) HandlePostKYC(ctx *gin.Context) {
 		}
 	}
 }
-
-// This function parses the Solana redemption program information provided and creates a new Redemption Info entry
-func (h *RedemptionHandler) HandlePostRedemptionInfo(ctx *gin.Context) {
-
-	var ri_list []models.RedemptionInfo
-
-	err := ctx.ShouldBindJSON(&ri_list)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	for _, ri := range ri_list {
-		err = ri.Validate()
-		if err != nil {
-			ctx.JSON(http.StatusBadRequest, err.Error())
-		} else {
-			err = h.dbAccess.InsertRedemptionInfo(ri)
-			if err != nil {
-				ctx.JSON(http.StatusBadRequest, err.Error())
-			}
-		}
-	}
-	ctx.JSON(http.StatusOK, gin.H{"Message": "Redemption info successfully added"})
-}

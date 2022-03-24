@@ -18,7 +18,4 @@ func NewRedemptionRouter(router *gin.RouterGroup, redemptionHandler *handlers.Re
 
 	// Create router for inserting information into KYC form
 	router.POST("/kyc", redemptionHandler.HandlePostKYC)
-
-	// Create router for inserting information for Solana redemption smart contract
-	router.POST("/addredemptioninfo", redemptionHandler.HandlePostRedemptionInfo)
 }

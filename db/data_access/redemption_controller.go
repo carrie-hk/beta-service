@@ -59,17 +59,3 @@ func (db *DbAccess) InsertKYC(kyc models.KYC) error {
 	return nil
 
 }
-
-func (db *DbAccess) InsertRedemptionInfo(ri models.RedemptionInfo) error {
-
-	_, err := db.NamedExec(`INSERT INTO redemption_info (wallet_pk, redemption_info_accnt_addr, baxus_escrow_addr, mint_addr) 
-						VALUES (:wallet_pk, :redemption_info_accnt_addr, :baxus_escrow_addr, :mint_addr)`,
-		ri)
-
-	if err != nil {
-		log.Println("Error inserting redemption information:", err)
-		return err
-	}
-
-	return nil
-}
