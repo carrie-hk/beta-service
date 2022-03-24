@@ -7,35 +7,21 @@ ADD PRIMARY KEY(axu_id)
 
 --changeset Elliot:2
 ALTER TABLE sprt_class
-ADD producer INT;
+CHANGE COLUMN distillery producer TEXT;
 
 --changeset Elliot:3
-ALTER TABLE sprt_class
-ADD FOREIGN KEY (producer)
-    REFERENCES distillery(id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE;
+ALTER TABLE wine_class
+CHANGE COLUMN winery producer TEXT;
 
 --changeset Elliot:4
-ALTER TABLE wine_class
-ADD producer INT;
-
---changeset Elliot:5
-ALTER TABLE wine_class
-ADD FOREIGN KEY (producer)
-    REFERENCES winery(id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE;
-
---changeset Elliot:6
 --rollback DROP COLUMN axu.holaplex_link
 ALTER TABLE axu
 ADD holaplex_link TEXT;
 
---changeset Elliot:7
+--changeset Elliot:5
 DROP TABLE asset_view_table;
 
---changeset Elliot:8
+--changeset Elliot:6
 --rollback DROP TABLE asset_view_table
 CREATE TABLE asset_view_table
 (
@@ -109,7 +95,7 @@ from axu
                     on axu.axu_id = B.axu_id
 ); 
 
---changeset Elliot:9
+--changeset Elliot:7
 --rollback DROP PRIMARY KEY
 ALTER TABLE asset_view_table
 ADD PRIMARY KEY(axu_id);
