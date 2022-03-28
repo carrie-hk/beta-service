@@ -18,6 +18,7 @@ type KYC struct {
 	Ship_City    string `db:"ship_city" json:"ship_city" validate:"required"`
 	Ship_State   string `db:"ship_state" json:"ship_state" validate:"required"`
 	Ship_ZIP     int32  `db:"ship_zip" json:"ship_zip" validate:"required"`
+	Ship_Country string `db:"ship_country" json:"ship_country" validate:"required"`
 	Dob_Day      int32  `db:"dob_day" json:"dob_day" validate:"required,gte=1,lte=31"`
 	Dob_Month    int32  `db:"dob_month" json:"dob_month" validate:"required,gte=1,lte=12"`
 	Dob_Year     int32  `db:"dob_year" json:"dob_year" validate:"required,gte=1900"`

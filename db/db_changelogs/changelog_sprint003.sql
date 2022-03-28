@@ -100,4 +100,11 @@ from axu
 ALTER TABLE asset_view_table
 ADD PRIMARY KEY(axu_id);
 
+--changeset Elliot:8 
+--rollback DROP COLUMN country
+ALTER TABLE kyc
+ADD COLUMN ship_country TEXT AFTER ship_zip;
 
+--changeset Elliot:9
+ALTER TABLE kyc
+DROP COLUMN title

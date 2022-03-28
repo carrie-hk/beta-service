@@ -46,9 +46,9 @@ func (db *DbAccess) SelectRedemptionAssets(rr_list []models.RedemptionRequest) (
 func (db *DbAccess) InsertKYC(kyc models.KYC) error {
 
 	_, err := db.NamedExec(`INSERT INTO kyc (wallet_pk, first_name, last_name, phone_num, email, ship_addr_a, ship_addr_b, 
-											ship_city, ship_state, ship_zip, dob_day, dob_month, dob_year, title) 
+											ship_city, ship_state, ship_zip, ship_country, dob_day, dob_month, dob_year) 
 							VALUES (:wallet_pk, :first_name, :last_name, :phone_num, :email, :ship_addr_a, :ship_addr_b, 
-										:ship_city, :ship_state, :ship_zip, :dob_day, :dob_month, :dob_year, :title)`,
+										:ship_city, :ship_state, :ship_zip, :ship_country, :dob_day, :dob_month, :dob_year)`,
 		kyc)
 
 	if err != nil {
