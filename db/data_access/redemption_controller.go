@@ -7,24 +7,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func (db *DbAccess) CreateKYC(kyc models.KYC) error {
-
-	_, err := db.NamedExec(`INSERT INTO kyc (wallet_pk, first_name, last_name, phone_num, email, ship_addr_a, 
-		ship_addr_b, ship_city, ship_state, ship_zip, dob_day, dob_month, dob_year, title) 
-		VALUES (:wallet_pk, :first_name, :last_name, :phone_num, :email, :ship_addr_a, :ship_addr_b, 
-			:ship_city, :ship_state, :ship_zip, :dob_day, :dob_month, :dob_year, :title)`,
-		kyc)
-
-	if err != nil {
-		log.Println("Error inserting KYC information:", err)
-		return err
-	}
-
-	return nil
-
-}
-
-func (db *DbAccess) GetRedemptionAssets(rr_list []models.RedemptionRequest) ([]models.AssetView, error) {
+func (db *DbAccess) SelectRedemptionAssets(rr_list []models.RedemptionRequest) ([]models.AssetView, error) {
 	var aa []models.AssetView
 	var rr_string_list []string
 
@@ -58,4 +41,21 @@ func (db *DbAccess) GetRedemptionAssets(rr_list []models.RedemptionRequest) ([]m
 	}
 
 	return aa, nil
+}
+
+func (db *DbAccess) InsertKYC(kyc models.KYC) error {
+
+	_, err := db.NamedExec(`INSERT INTO kyc (wallet_pk, first_name, last_name, phone_num, email, ship_addr_a, ship_addr_b, 
+											ship_city, ship_state, ship_zip, dob_day, dob_month, dob_year, title) 
+							VALUES (:wallet_pk, :first_name, :last_name, :phone_num, :email, :ship_addr_a, :ship_addr_b, 
+										:ship_city, :ship_state, :ship_zip, :dob_day, :dob_month, :dob_year, :title)`,
+		kyc)
+
+	if err != nil {
+		log.Println("Error inserting KYC information:", err)
+		return err
+	}
+
+	return nil
+
 }
