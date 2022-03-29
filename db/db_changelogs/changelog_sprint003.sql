@@ -116,3 +116,19 @@ MODIFY COLUMN ship_zip TEXT NOT NULL;
 --changeset Elliot:11
 ALTER TABLE kyc
 MODIFY COLUMN ship_state TEXT;
+
+--changeset Elliot:12
+ALTER TABLE kyc
+DROP COLUMN dob_day;
+
+--changeset Elliot:13
+ALTER TABLE kyc
+DROP COLUMN dob_month;
+
+--changeset Elliot:14
+ALTER TABLE kyc
+DROP COLUMN dob_year;
+
+--changeset Elliot:15
+ALTER TABLE kyc
+ADD COLUMN dob_unix_ms BIGINT NOT NULL;
