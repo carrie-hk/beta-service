@@ -37,7 +37,7 @@ func Test_ValidateInternational(t *testing.T) {
 		Ship_City:    "Lisbon",
 		Ship_State:   "",
 		Ship_Country: "Portugal",
-		Ship_ZIP:     "0",
+		Ship_ZIP:     "",
 		Dob_Day:      20,
 		Dob_Month:    04,
 		Dob_Year:     1999,
