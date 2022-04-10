@@ -7,7 +7,7 @@ import (
 
 func (db *DbAccess) GetAllAssets(pageIndex int, pageSize int) ([]models.AssetView, error) {
 	var aa []models.AssetView
-	query := "SELECT * from asset_view_table WHERE `asset_status`='Listed' AND `axu_id` > ? ORDER BY 'axu_id' DESC LIMIT ?"
+	query := "SELECT * from asset_view_table WHERE `asset_status`='Listed' AND `axu_id` > ? ORDER BY 'axu_id' ASC LIMIT ?"
 
 	err := db.Select(&aa, query, pageIndex, pageSize)
 	if err != nil {
