@@ -80,6 +80,6 @@ func (h *AssetHandler) HandleUpdateAssetStatus(ctx *gin.Context) {
 		}
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"Message": "Succesfully read update info from JSON"})
+	ctx.JSON(http.StatusOK, gin.H{"Message": "Succesfully updated asset"})
 	log.Print(http.StatusOK, nil)
 }

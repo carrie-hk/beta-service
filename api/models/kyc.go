@@ -16,12 +16,10 @@ type KYC struct {
 	Ship_Addr_A  string `db:"ship_addr_a" json:"ship_addr_a" validate:"required"`
 	Ship_Addr_B  string `db:"ship_addr_b" json:"ship_addr_b"`
 	Ship_City    string `db:"ship_city" json:"ship_city" validate:"required"`
-	Ship_State   string `db:"ship_state" json:"ship_state" validate:"required"`
-	Ship_ZIP     int32  `db:"ship_zip" json:"ship_zip" validate:"required"`
-	Dob_Day      int32  `db:"dob_day" json:"dob_day" validate:"required,gte=1,lte=31"`
-	Dob_Month    int32  `db:"dob_month" json:"dob_month" validate:"required,gte=1,lte=12"`
-	Dob_Year     int32  `db:"dob_year" json:"dob_year" validate:"required,gte=1900"`
-	Title        string `db:"title" json:"title"`
+	Ship_State   string `db:"ship_state" json:"ship_state"`
+	Ship_ZIP     string `db:"ship_zip" json:"ship_zip"`
+	Ship_Country string `db:"ship_country" json:"ship_country" validate:"required"`
+	DOB_Unix_Ms  int64  `db:"dob_unix_ms" json:"dob_unix_ms" validate:"required"`
 }
 
 func (kyc *KYC) Validate() error {
@@ -35,9 +33,23 @@ func (kyc *KYC) Validate() error {
 
 func (kyc *KYC) validateAge() error {
 	TWENTY_ONE_YEARS_NS := 662709600000000000
-	birthDate := time.Date(int(kyc.Dob_Year), time.Month(kyc.Dob_Month), int(kyc.Dob_Day), 0, 0, 0, 0, time.UTC)
-	if int(time.Since(birthDate)) < TWENTY_ONE_YEARS_NS {
-		return errors.New("Error: does not minimum age requirement")
+	NINETEEN_YEARS_NS := 599594400000000000
+	EIGHTEEN_YEARS_NS := 568036799999999940
+
+	birthDate := time.UnixMilli(kyc.DOB_Unix_Ms)
+	if kyc.Ship_Country == "United States" {
+		if int(time.Since(birthDate)) < TWENTY_ONE_YEARS_NS {
+			return errors.New("Error: does not minimum age requirement")
+		}
+	} else if kyc.Ship_Country == "Canada" {
+		if int(time.Since(birthDate)) < NINETEEN_YEARS_NS {
+			return errors.New("Error: does not minimum age requirement")
+		}
+	} else {
+		if int(time.Since(birthDate)) < EIGHTEEN_YEARS_NS {
+			return errors.New("Error: does not minimum age requirement")
+		}
 	}
+
 	return nil
 }
