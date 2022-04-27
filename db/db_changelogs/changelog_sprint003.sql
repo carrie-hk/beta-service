@@ -132,3 +132,11 @@ DROP COLUMN dob_year;
 --changeset Elliot:15
 ALTER TABLE kyc
 ADD COLUMN dob_unix_ms BIGINT NOT NULL;
+
+--changeset Elliot:16
+ALTER TABLE kyc
+DROP COLUMN dob_unix_ms;
+
+--changeset Elliot:17
+ALTER TABLE kyc
+ADD COLUMN dob TEXT NOT NULL;

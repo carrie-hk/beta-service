@@ -1,9 +1,6 @@
 package models
 
 import (
-	"errors"
-	"time"
-
 	"github.com/go-playground/validator/v10"
 )
 
@@ -19,37 +16,11 @@ type KYC struct {
 	Ship_State   string `db:"ship_state" json:"ship_state"`
 	Ship_ZIP     string `db:"ship_zip" json:"ship_zip"`
 	Ship_Country string `db:"ship_country" json:"ship_country" validate:"required"`
-	DOB_Unix_Ms  int64  `db:"dob_unix_ms" json:"dob_unix_ms" validate:"required"`
+	DOB  string  `db:"dob" json:"dob" validate:"required"`
 }
 
 func (kyc *KYC) Validate() error {
-	err := kyc.validateAge()
-	if err != nil {
-		return err
-	}
 	validate := validator.New()
 	return validate.Struct(kyc)
 }
 
-func (kyc *KYC) validateAge() error {
-	TWENTY_ONE_YEARS_NS := 662709600000000000
-	NINETEEN_YEARS_NS := 599594400000000000
-	EIGHTEEN_YEARS_NS := 568036799999999940
-
-	birthDate := time.UnixMilli(kyc.DOB_Unix_Ms)
-	if kyc.Ship_Country == "United States" {
-		if int(time.Since(birthDate)) < TWENTY_ONE_YEARS_NS {
-			return errors.New("Error: does not minimum age requirement")
-		}
-	} else if kyc.Ship_Country == "Canada" {
-		if int(time.Since(birthDate)) < NINETEEN_YEARS_NS {
-			return errors.New("Error: does not minimum age requirement")
-		}
-	} else {
-		if int(time.Since(birthDate)) < EIGHTEEN_YEARS_NS {
-			return errors.New("Error: does not minimum age requirement")
-		}
-	}
-
-	return nil
-}

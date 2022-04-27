@@ -14,7 +14,7 @@ func Test_ValidateKycInfo(t *testing.T) {
 		Ship_State:   "Indiana",
 		Ship_Country: "US&A",
 		Ship_ZIP:     "46001",
-		DOB_Unix_Ms:  887925600000,
+		DOB:  "1969-04-20",
 	}
 
 	err := k.Validate()
@@ -36,7 +36,7 @@ func Test_ValidateInternational(t *testing.T) {
 		Ship_State:   "",
 		Ship_Country: "Portugal",
 		Ship_ZIP:     "",
-		DOB_Unix_Ms:  887925600000,
+		DOB:  "1969-04-20",
 	}
 
 	err := k.Validate()
@@ -58,7 +58,7 @@ func Test_MissingFirstNameFails(t *testing.T) {
 		Ship_State:   "Indiana",
 		Ship_ZIP:     "46001",
 		Ship_Country: "US&A",
-		DOB_Unix_Ms:  887925600000,
+		DOB:  "1969-04-20",
 	}
 
 	err := k.Validate()
@@ -81,7 +81,7 @@ func Test_IncorrectPhoneNumberFormatFails(t *testing.T) {
 		Ship_State:   "Indiana",
 		Ship_Country: "US&A",
 		Ship_ZIP:     "46001",
-		DOB_Unix_Ms:  887925600000,
+		DOB:  "1969-04-20",
 	}
 
 	err := k.Validate()
